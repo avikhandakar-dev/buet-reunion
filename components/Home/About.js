@@ -17,17 +17,14 @@ const About = () => {
           </p>
         </div>
         <article className="mt-8 flex relative w-full">
-          <figure className="rounded-r-md overflow-hidden absolute w-1/2 h-full right-0 top-0">
+          <figure className="rounded-r-md hidden sm:block overflow-hidden absolute w-1/2 h-full right-0 top-0">
             <Image
               src="/img/about-image-1.jpeg"
               layout="fill"
               objectFit="cover"
             />
           </figure>
-          <div
-            style={{ minWidth: "500px" }}
-            className="z-10 rounded-l-md p-12 pl-8 w-1/2 max-w-2xl flex-shrink-0 bg-gray-100 dark:bg-darkBrown"
-          >
+          <div className="z-10 min-w-0 sm:min-w-500 rounded-l-md p-12 pl-8 w-full sm:w-1/2 max-w-2xl flex-shrink-0 bg-gray-100 dark:bg-darkBrown">
             <h3 className="font-medium text-2xl mb-2">About us</h3>
             <p className="mb-4 opacity-60">
               Our goals are to strengthen and perpetuate the Bangladeshi

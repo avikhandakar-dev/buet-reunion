@@ -34,6 +34,9 @@ module.exports = {
         input: "0 2px 4px 0 rgb(0 0 0 / 6%)",
         blogCard: "0 0 0 1px rgb(0 0 0 / 10%)",
       },
+      minWidth: {
+        500: "500px",
+      },
     },
   },
   variants: {
