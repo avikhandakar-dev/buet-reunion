@@ -42,7 +42,7 @@ const RecentProjects = () => {
             Stuff We're Working On
           </h1>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 md:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 lg:grid-cols-3">
           {Projects.map((item, idx) => (
             <ProjectCard project={item} colorIndex={idx} key={idx} />
           ))}

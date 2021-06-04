@@ -25,8 +25,27 @@ const About = () => {
             />
           </figure>
           <div className="z-10 min-w-0 sm:min-w-500 rounded-l-md p-12 pl-8 w-full sm:w-1/2 max-w-2xl flex-shrink-0 bg-gray-100 dark:bg-darkBrown">
-            <h3 className="font-medium text-2xl mb-2">About us</h3>
-            <p className="mb-4 opacity-60">
+            <div className="mb-4">
+              <h3 className="font-bold text-2xl mb-2 w-max relative">
+                About us
+                <span
+                  style={{ zIndex: "-1" }}
+                  className="absolute w-full h-2 bg-gradient-3-start left-0 bottom-1"
+                />
+              </h3>
+              <p className="mb-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </p>
+              <h3 className="font-bold text-2xl mb-2 w-max relative">
+                Our goal
+                <span
+                  style={{ zIndex: "-1" }}
+                  className="absolute w-full h-2 bg-gradient-4-start left-0 bottom-1"
+                />
+              </h3>
               Our goals are to strengthen and perpetuate the Bangladeshi
               culture, tradition, heritage. We promote social, cultural
               activities and diversity. BUET 87 conducts charitable welfares as
@@ -34,7 +53,7 @@ const About = () => {
               as a platform for exchange of information and views on matters of
               interest to its members. We represent members to any local, state
               or federal authority when needed.
-            </p>
+            </div>
             <Button
               color="primary"
               href="/about"

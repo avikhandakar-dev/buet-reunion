@@ -44,19 +44,19 @@ const BlogCard = ({ post }) => {
         <p className="opacity-50 font-medium">{post.excerpt}</p>
         <div className="flex justify-between mt-3 text-sm font-medium">
           <div className="flex justify-center items-center">
-            <span className="mr-2 self-start text-md">
+            <span className="mr-2 self-center text-md">
               <AiOutlineUser />
             </span>
             <span>{post.authorName}</span>
           </div>
           <div className="flex justify-center items-center">
-            <span className="mr-2 self-start text-md">
+            <span className="mr-2 self-center text-md">
               <AiOutlineCalendar />
             </span>
             {post.datePosted}
           </div>
           <div className="flex justify-center items-center">
-            <span className="mr-2 self-start text-md">
+            <span className="mr-2 self-center text-md">
               <AiOutlineEye />
             </span>
             {post.views}

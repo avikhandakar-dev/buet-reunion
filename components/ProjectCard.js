@@ -37,8 +37,10 @@ const ProjectCard = ({ project, colorIndex }) => {
       </div>
       <div className="self-center">
         <h1
-          className={`text-2xl lg:text-3xl font-semibold capitalize transition-all duration-500 ${
-            hover ? `bg-clip-text text-transparent ${Colors[index]}` : null
+          className={`text-2xl lg:text-3xl origin-left transform uppercase font-bold opacity-60 transition-all duration-500 ${
+            hover
+              ? `bg-clip-text text-transparent opacity-100 md:text-xl lg:scale-75 ${Colors[index]}`
+              : ""
           }`}
         >
           {project.name}
@@ -50,7 +52,7 @@ const ProjectCard = ({ project, colorIndex }) => {
         >
           {project.desc}
         </div>
-        <div className="mt-10 flex-shrink-0">
+        <div className={`mt-10 flex-shrink-0`}>
           <Link href="/">
             <a className="uppercase text-xs font-semibold tracking-widest">
               Donate Here
