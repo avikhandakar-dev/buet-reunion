@@ -70,8 +70,8 @@ const RecentBlog = () => {
         </div>
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}>
           <Masonry gutter={32}>
-            {Posts.map((post) => (
-              <BlogCard post={post} />
+            {Posts.map((post, idx) => (
+              <BlogCard post={post} key={idx} />
             ))}
           </Masonry>
         </ResponsiveMasonry>

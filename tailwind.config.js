@@ -13,6 +13,7 @@ module.exports = {
       colors: {
         primary: "#5D5CFF",
         primaryDark: "#4C4ACE",
+        darkBrown: "#25282C",
         "gradient-1-start": "#f3cbab",
         "gradient-1-stop": "#feedca",
         "gradient-2-start": "#b1e5f9",
