@@ -58,7 +58,7 @@ const Posts = [
 ];
 const RecentBlog = () => {
   return (
-    <Container bgColor="bg-gradient-2 bg-no-repeat bg-center bg-cover">
+    <Container bgColor="bg-gradient-2 bg-no-repeat bg-center bg-contain">
       <div className="pb-10 md:pb-16 pt-16">
         <div className="text-center mb-8 max-w-3xl mx-auto">
           <p className="uppercase font-medium text-gray-500 dark:text-gray-300">
@@ -69,7 +69,7 @@ const RecentBlog = () => {
           </h1>
         </div>
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}>
-          <Masonry gutter="32">
+          <Masonry gutter={32}>
             {Posts.map((post, idx) => (
               <BlogCard post={post} key={idx} />
             ))}

@@ -1,12 +1,6 @@
 function Owl(props) {
   return (
-    <svg
-      {...props}
-      width={474}
-      height={446}
-      viewBox="0 0 474 446"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg {...props} viewBox="0 0 474 446" xmlns="http://www.w3.org/2000/svg">
       <g fill="none" fillRule="evenodd">
         <g transform="translate(4 8)">
           <ellipse
