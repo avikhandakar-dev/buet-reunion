@@ -2,6 +2,7 @@ import Link from "next/link";
 import ActiveLink from "./ActiveLink";
 import Button from "./Button";
 import { HiMenuAlt2 } from "react-icons/hi";
+import { AiOutlineUser } from "react-icons/ai";
 
 const Nav = () => {
   return (
@@ -63,14 +64,14 @@ const Nav = () => {
         </div>
         <div className="font-cursive text-2xl uppercase">Buet 87</div>
         <div className="font-medium flex items-center">
-          <span className="mr-5">
-            <Link href="/login">
-              <a className="transition duration-200 hover:text-primary">
-                Sign in
-              </a>
-            </Link>
-          </span>
-          <Button href="/register" title="Sign up" />
+          {/* <span className="mr-5"> */}
+          <Link href="/login">
+            <a className="transition duration-200 hover:text-primary">
+              <AiOutlineUser />
+            </a>
+          </Link>
+          {/* </span> */}
+          {/* <Button href="/register" title="Sign up" /> */}
         </div>
       </div>
     </header>
