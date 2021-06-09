@@ -18,7 +18,7 @@ const About = () => {
         </div>
         <div className="grid gap-8 row-gap-8 lg:grid-cols-3">
           <div className="text-center">
-            <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24">
+            <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24 text-white">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
@@ -72,7 +72,7 @@ const About = () => {
             </p>
           </div>
           <div className="text-center">
-            <div className="flex items-center text-9xl justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24">
+            <div className="flex items-center text-9xl justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24 text-white">
               <RiVirusFill />
             </div>
             <h6 className="mb-2 font-semibold text-xl text-white md:text-2xl lg:text-3xl leading-5">
@@ -84,7 +84,7 @@ const About = () => {
             </p>
           </div>
           <div className="text-center">
-            <div className="flex items-center text-9xl justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24">
+            <div className="flex items-center text-9xl justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24 text-white">
               <BiDonateHeart />
             </div>
             <h6 className="mb-2 font-semibold text-xl text-white md:text-2xl lg:text-3xl leading-5">
