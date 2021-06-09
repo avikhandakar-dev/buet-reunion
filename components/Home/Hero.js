@@ -29,7 +29,8 @@ const Hero = () => {
           <div className="relative">
             <span className="absolute hidden lg:block w-full h-full rounded-md -top-2 left-2 border-2 bg-primary border-primary opacity-60" />
             <div className="w-full aspect-h-3 lg:aspect-h-6 aspect-w-6 relative overflow-hidden rounded-md">
-              <Image
+              <img
+                className="object-cover"
                 src="/img/hero-image.jpeg"
                 objectFit="cover"
                 layout="fill"
