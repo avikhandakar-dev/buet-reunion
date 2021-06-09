@@ -61,30 +61,32 @@ const Posts = [
 const RecentBlog = () => {
   return (
     <Container bgColor="bg-gradient-to-l from-darkBlue to-darkSky">
-      <div className="text-center mb-8 max-w-3xl mx-auto">
-        <h1 className="mb-4 text-4xl text-white font-black md:text-6xl xl:text-7xl">
-          Recent{" "}
-          <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-yellow-400 to-yellow-200 transform rotate-0 inline-block">
-            blog
-          </span>{" "}
-          post
-        </h1>
-        <Link href="/projects">
-          <a className="text-xl text-white w-max mx-auto lg:text-2xl transition-colors duration-300 hover:text-yellow-400 flex justify-center items-center">
-            View all posts{" "}
-            <span className="">
-              <AiOutlineArrowRight />
-            </span>
-          </a>
-        </Link>
+      <div className="max-w-7xl relative">
+        <div className="text-center mb-8 max-w-3xl mx-auto">
+          <h1 className="mb-4 text-4xl text-white font-black md:text-6xl xl:text-7xl">
+            Recent{" "}
+            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-yellow-400 to-yellow-200 transform rotate-0 inline-block">
+              blog
+            </span>{" "}
+            post
+          </h1>
+          <Link href="/projects">
+            <a className="text-xl text-white w-max mx-auto lg:text-2xl transition-colors duration-300 hover:text-yellow-400 flex justify-center items-center">
+              View all posts{" "}
+              <span className="">
+                <AiOutlineArrowRight />
+              </span>
+            </a>
+          </Link>
+        </div>
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}>
+          <Masonry gutter={32}>
+            {Posts.map((post, idx) => (
+              <BlogCard post={post} key={idx} />
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
       </div>
-      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}>
-        <Masonry gutter={32}>
-          {Posts.map((post, idx) => (
-            <BlogCard post={post} key={idx} />
-          ))}
-        </Masonry>
-      </ResponsiveMasonry>
     </Container>
   );
 };

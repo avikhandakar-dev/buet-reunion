@@ -4,7 +4,7 @@ import Container from "../Container";
 
 const Hero = () => {
   return (
-    <Container bgColor="">
+    <Container>
       <div className="grid items-center justify-center lg:grid-cols-2 gap-10 lg:gap-0 pt-32 pb-16 px-4 sm:px-6">
         <div className="lg:max-w-md md:max-w-full">
           <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
@@ -29,8 +29,7 @@ const Hero = () => {
           <div className="relative">
             <span className="absolute hidden lg:block w-full h-full rounded-md -top-2 left-2 border-2 bg-primary border-primary opacity-60" />
             <div className="w-full aspect-h-3 lg:aspect-h-6 aspect-w-6 relative overflow-hidden rounded-md">
-              <img
-                className="object-cover"
+              <Image
                 src="/img/hero-image.jpeg"
                 objectFit="cover"
                 layout="fill"
