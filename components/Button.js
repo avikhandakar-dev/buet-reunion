@@ -4,7 +4,7 @@ const Button = ({ title, href, color = "primary", size = "medium" }) => {
   const padding = size == "medium" ? "py-2 px-6" : "py-3 px-6";
   const btnColor = () => {
     if (color == "primary") {
-      return "bg-primary hover:bg-primaryDark text-white";
+      return "bg-primary hover:bg-sky text-white";
     }
     if (color == "black") {
       return "bg-gray-700 hover:bg-gray-800 text-white";

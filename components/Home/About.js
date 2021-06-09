@@ -1,67 +1,101 @@
 import Image from "next/image";
 import Button from "../Button";
 import Container from "../Container";
-
+import { RiVirusFill } from "react-icons/ri";
+import { BiDonateHeart } from "react-icons/bi";
 const About = () => {
   return (
-    <Container>
-      <div className="pb-10 md:pb-16">
+    <Container bgColor="bg-gradient-to-bl from-blue to-sky">
+      <div className="pb-10 md:pb-16 max-w-5xl mx-auto">
         <div className="text-center mb-8 max-w-3xl mx-auto">
-          <p className="uppercase font-medium text-gray-500 dark:text-gray-300">
-            About Us —
-          </p>
-          <h1 className="font-bold text-3xl md:text-4xl mb-4">Who we are</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            BUET 87 Foundation is a registered non-profit organization in the
-            state of Arizona, USA
+          <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl text-white">
+            How we help
+          </h1>
+          <p className="text-xl text-white font-light">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
-        <article className="mt-8 flex relative w-full">
-          <figure className="rounded-r-md hidden sm:block overflow-hidden absolute w-1/2 h-full right-0 top-0">
-            <Image
-              src="/img/about-image-1.jpeg"
-              layout="fill"
-              objectFit="cover"
-            />
-          </figure>
-          <div className="z-10 min-w-0 sm:min-w-500 rounded-l-md p-12 pl-8 w-full sm:w-1/2 max-w-2xl flex-shrink-0 bg-gray-100 dark:bg-darkBrown">
-            <div className="mb-4">
-              <h3 className="font-bold text-2xl mb-2 w-max relative">
-                About us
-                <span
-                  style={{ zIndex: "-1" }}
-                  className="absolute w-full h-2 bg-gradient-3-start left-0 bottom-1"
-                />
-              </h3>
-              <p className="mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-              <h3 className="font-bold text-2xl mb-2 w-max relative">
-                Our goal
-                <span
-                  style={{ zIndex: "-1" }}
-                  className="absolute w-full h-2 bg-gradient-4-start left-0 bottom-1"
-                />
-              </h3>
-              Our goals are to strengthen and perpetuate the Bangladeshi
-              culture, tradition, heritage. We promote social, cultural
-              activities and diversity. BUET 87 conducts charitable welfares as
-              needed and deemed appropriate by the Board of Directors. We serve
-              as a platform for exchange of information and views on matters of
-              interest to its members. We represent members to any local, state
-              or federal authority when needed.
+        <div className="grid gap-8 row-gap-8 lg:grid-cols-3">
+          <div className="text-center">
+            <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24">
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-miterlimit="10"
+                  stroke-width="32"
+                  d="M322 416c0 35.35-20.65 64-56 64H134c-35.35 0-56-28.65-56-64m258-80c17.67 0 32 17.91 32 40h0c0 22.09-14.33 40-32 40H64c-17.67 0-32-17.91-32-40h0c0-22.09 14.33-40 32-40"
+                ></path>
+                <path
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-miterlimit="10"
+                  stroke-width="32"
+                  d="M344 336H179.31a8 8 0 00-5.65 2.34l-26.83 26.83a4 4 0 01-5.66 0l-26.83-26.83a8 8 0 00-5.65-2.34H56a24 24 0 01-24-24h0a24 24 0 0124-24h288a24 24 0 0124 24h0a24 24 0 01-24 24zM64 276v-.22c0-55 45-83.78 100-83.78h72c55 0 100 29 100 84v-.22M241 112l7.44 63.97"
+                ></path>
+                <path
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-miterlimit="10"
+                  stroke-width="32"
+                  d="M256 480h139.31a32 32 0 0031.91-29.61L463 112"
+                ></path>
+                <path
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="32"
+                  d="M368 112l16-64 47-16"
+                ></path>
+                <path
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-miterlimit="10"
+                  stroke-width="32"
+                  d="M224 112h256"
+                ></path>
+              </svg>
             </div>
-            <Button
-              color="primary"
-              href="/about"
-              title="Learn More"
-              size="medium"
-            />
+            <h6 className="mb-2 font-semibold text-xl text-white md:text-2xl lg:text-3xl leading-5">
+              Food distribution
+            </h6>
+            <p className="max-w-md mb-3 text-lg text-white sm:mx-auto">
+              Cheese on toast airedale the big cheese. Danish fontina cheesy
+              grin airedale danish
+            </p>
           </div>
-        </article>
+          <div className="text-center">
+            <div className="flex items-center text-9xl justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24">
+              <RiVirusFill />
+            </div>
+            <h6 className="mb-2 font-semibold text-xl text-white md:text-2xl lg:text-3xl leading-5">
+              COVID-19 help
+            </h6>
+            <p className="max-w-md mb-3 text-lg text-white sm:mx-auto">
+              Cheese on toast airedale the big cheese. Danish fontina cheesy
+              grin airedale danish
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center text-9xl justify-center w-16 h-16 mb-4 rounded-full  mx-auto sm:w-24 sm:h-24">
+              <BiDonateHeart />
+            </div>
+            <h6 className="mb-2 font-semibold text-xl text-white md:text-2xl lg:text-3xl leading-5">
+              Helping poor
+            </h6>
+            <p className="max-w-md mb-3 text-lg text-white sm:mx-auto">
+              Cheese on toast airedale the big cheese. Danish fontina cheesy
+              grin airedale danish
+            </p>
+          </div>
+        </div>
       </div>
     </Container>
   );

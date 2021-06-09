@@ -1,6 +1,8 @@
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import BlogCard from "../BlogCard";
 import Container from "../Container";
+import Link from "next/link";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 const Posts = [
   {
@@ -58,24 +60,31 @@ const Posts = [
 ];
 const RecentBlog = () => {
   return (
-    <Container bgColor="bg-gradient-2 bg-no-repeat bg-center bg-contain">
-      <div className="pb-10 md:pb-16 pt-16">
-        <div className="text-center mb-8 max-w-3xl mx-auto">
-          <p className="uppercase font-medium text-gray-500 dark:text-gray-300">
-            Latest News —
-          </p>
-          <h1 className="font-bold text-3xl md:text-4xl mb-4">
-            Recent blog post
-          </h1>
-        </div>
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}>
-          <Masonry gutter={32}>
-            {Posts.map((post, idx) => (
-              <BlogCard post={post} key={idx} />
-            ))}
-          </Masonry>
-        </ResponsiveMasonry>
+    <Container bgColor="bg-gradient-to-l from-darkBlue to-darkSky">
+      <div className="text-center mb-8 max-w-3xl mx-auto">
+        <h1 className="mb-4 text-4xl text-white font-black md:text-6xl xl:text-7xl">
+          Recent{" "}
+          <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-yellow-400 to-yellow-200 transform rotate-0 inline-block">
+            blog
+          </span>{" "}
+          post
+        </h1>
+        <Link href="/projects">
+          <a className="text-xl text-white w-max mx-auto lg:text-2xl transition-colors duration-300 hover:text-yellow-400 flex justify-center items-center">
+            View all posts{" "}
+            <span className="">
+              <AiOutlineArrowRight />
+            </span>
+          </a>
+        </Link>
       </div>
+      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}>
+        <Masonry gutter={32}>
+          {Posts.map((post, idx) => (
+            <BlogCard post={post} key={idx} />
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
     </Container>
   );
 };

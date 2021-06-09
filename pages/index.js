@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import About from "../components/Home/About";
+import Featured from "../components/Home/Featured";
 import Hero from "../components/Home/Hero";
 import RecentBlog from "../components/Home/RecentBlog";
 import RecentProjects from "../components/Home/RecentProjects";
@@ -9,7 +10,8 @@ const HomePage = () => {
     <Fragment>
       <Hero />
       <About />
-      <RecentProjects />
+      {/* <RecentProjects /> */}
+      <Featured />
       <RecentBlog />
     </Fragment>
   );

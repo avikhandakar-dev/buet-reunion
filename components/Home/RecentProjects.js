@@ -2,6 +2,7 @@ import Link from "next/link";
 import Container from "../Container";
 import ProjectCard from "../ProjectCard";
 import { BsChevronDoubleRight } from "react-icons/bs";
+import { AiOutlineArrowRight } from "react-icons/ai";
 const Projects = [
   {
     name: "Winter blanket distribution",
@@ -35,12 +36,20 @@ const RecentProjects = () => {
     <Container>
       <div className="pb-10 md:pb-16">
         <div className="text-center mb-8">
-          <p className="uppercase font-medium text-gray-500 dark:text-gray-300">
-            Current projects —
-          </p>
-          <h1 className="font-bold text-3xl md:text-4xl">
-            Stuff We're Working On
+          <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
+            Recent{" "}
+            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-blue to-sky">
+              project
+            </span>
           </h1>
+          <Link href="/projects">
+            <a className="text-xl w-max mx-auto lg:text-2xl transition-colors duration-300 hover:text-primary flex justify-center items-center">
+              View all projects{" "}
+              <span className="">
+                <AiOutlineArrowRight />
+              </span>
+            </a>
+          </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 lg:grid-cols-3">
           {Projects.map((item, idx) => (

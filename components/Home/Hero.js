@@ -1,40 +1,44 @@
-const { default: Button } = require("../Button");
 import Image from "next/image";
+import Button from "../Button";
 import Container from "../Container";
+
 const Hero = () => {
   return (
-    <div className="bg-gradient-1 bg-no-repeat bg-center bg-cover relative mx-auto max-w-screen-xl">
-      <div className="pt-32 md:pt-40 pb-10 md:pb-16 px-4 sm:px-6">
-        <div className="pb-12 md:pb-16 text-center max-w-3xl mx-auto">
-          <h1 className="mb-4 text-4xl font-bold md:text-6xl">
-            Stand by the humanity
+    <Container bgColor="">
+      <div className="grid items-center justify-center lg:grid-cols-2 gap-10 lg:gap-0 pt-32 pb-16 px-4 sm:px-6">
+        <div className="lg:max-w-md md:max-w-full">
+          <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
+            Stand by <br />
+            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-bl from-blue to-sky">
+              The Humanity
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            We are a group of Engineers and Architects from Bangladesh
-            University of Engineering and Technology (BUET) who started the BUET
-            classes on Aug 10, 1988 in session 1987-88.
+          <p className="text-xl text-gray-700 leading-relaxed dark:text-gray-300 mb-8">
+            The BUETian89 Foundation of North America is a non-profit,
+            non-political, non-religious, social organization that promotes
+            social and professional connection among the alumni of ex-students
+            of BUET 89 batch in North America.
           </p>
-          <div className="flex text-center items-center justify-center">
+          <div className="">
             <span className="mr-5">
               <Button href="/register" title="Become a Member" size="large" />
             </span>
-            <span>
-              <Button
-                color="black"
-                href="/about"
-                title="Learn More"
-                size="large"
-              />
-            </span>
           </div>
         </div>
-        <Container>
-          <div className="relative rounded-md overflow-hidden  flex justify-center items-center">
-            <Image src="/img/hero-image-1.jpeg" width={2048} height={1152} />
+        <div className="relative lg:px-10">
+          <div className="relative">
+            <span className="absolute hidden lg:block w-full h-full rounded-md -top-2 left-2 border-2 bg-primary border-primary opacity-60" />
+            <div className="w-full aspect-h-3 lg:aspect-h-6 aspect-w-6 relative overflow-hidden rounded-md">
+              <Image
+                src="/img/hero-image.jpeg"
+                objectFit="cover"
+                layout="fill"
+              />
+            </div>
           </div>
-        </Container>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
