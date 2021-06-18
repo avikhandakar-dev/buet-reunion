@@ -31,8 +31,11 @@ const BlogCard = ({ post }) => {
       <div className="p-4 md:p-6">
         {tags && (
           <div className="flex mb-3">
-            {tags.map((tag) => (
-              <span className="mr-2 px-3 py-1 text-xs text-yellow-800 bg-yellow-400 rounded-full">
+            {tags.map((tag, idx) => (
+              <span
+                key={idx}
+                className="mr-2 px-3 py-1 text-xs text-yellow-800 bg-yellow-400 rounded-full"
+              >
                 {tag}
               </span>
             ))}

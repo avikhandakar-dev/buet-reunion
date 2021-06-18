@@ -1,0 +1,13 @@
+{
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "headers": [
+      
+    ],
+    "redirects": [
+      {
+        "source": "/login",
+        "destination": "/accounts/login"
+      }
+    ]
+  }

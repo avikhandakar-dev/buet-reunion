@@ -49,7 +49,7 @@ const Nav = () => {
         </div>
         <div className="font-medium flex items-center">
           <span className="mr-5">
-            <Link href="/login">
+            <Link href="/accounts/login">
               <a className="transition duration-200 hover:text-primary flex justify-center items-center">
                 <span className="mr-2">
                   <MdLockOpen />

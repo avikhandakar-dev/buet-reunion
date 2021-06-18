@@ -1,20 +1,20 @@
 import { AnimatePresence } from "framer-motion";
-import { Fragment } from "react";
 import { Toaster } from "react-hot-toast";
 import DefaultLayout from "../layouts/default";
+import { AuthContextProvider } from "../lib/authContext";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps, router }) {
   const Layout = Component.layout || DefaultLayout;
   return (
-    <Fragment>
+    <AuthContextProvider>
       <AnimatePresence initial={false} exitBeforeEnter>
         <Layout key={router.route}>
           <Component {...pageProps} />
           <Toaster />
         </Layout>
       </AnimatePresence>
-    </Fragment>
+    </AuthContextProvider>
   );
 }
 
