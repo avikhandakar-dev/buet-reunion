@@ -8,6 +8,18 @@
       {
         "source": "/login",
         "destination": "/accounts/login"
+      },
+      {
+        "source": "/logout",
+        "destination": "/accounts/logout"
+      },
+      {
+        "source": "/register",
+        "destination": "/accounts/register"
+      },
+      {
+        "source": "/reset",
+        "destination": "/accounts/password/reset"
       }
     ]
   }

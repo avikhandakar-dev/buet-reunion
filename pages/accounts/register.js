@@ -7,10 +7,12 @@ import AuthContext from "../../lib/authContext";
 import Footer from "../../components/Footer";
 import AuthLayout from "../../layouts/auth";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setUser } = useContext(AuthContext);
 
@@ -56,6 +58,32 @@ const LoginPage = () => {
                   placeholder="Email"
                 />
               </div>
+              <div className="block mb-2">
+                <input
+                  onChange={(event) => {
+                    setName(event.target.value);
+                  }}
+                  value={name}
+                  required
+                  type="text"
+                  name="name"
+                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  placeholder="Full Name"
+                />
+              </div>
+              <div className="block mb-2">
+                <input
+                  onChange={(event) => {
+                    setUsername(event.target.value);
+                  }}
+                  value={username}
+                  required
+                  type="text"
+                  name="username"
+                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  placeholder="Username"
+                />
+              </div>
               <div className="block mb-4">
                 <input
                   onChange={(event) => {
@@ -79,9 +107,30 @@ const LoginPage = () => {
                     <CgSpinner />
                   </span>
                 ) : (
-                  "Log In"
+                  "Sign up"
                 )}
               </button>
+              <div className="text-center py-2 text-gray-400 text-sm">
+                By signing up, you agree to our{" "}
+                <Link href="/legal/terms">
+                  <a className="font-medium text-gray-500 dark:text-gray-300 transition-colors duration-300 hover:text-primary">
+                    Terms
+                  </a>
+                </Link>{" "}
+                ,{" "}
+                <Link href="/legal/privacy">
+                  <a className="font-medium text-gray-500 dark:text-gray-300 transition-colors duration-300 hover:text-primary">
+                    Privacy Policy
+                  </a>
+                </Link>{" "}
+                and{" "}
+                <Link href="/legal/cookies">
+                  <a className="font-medium text-gray-500 dark:text-gray-300 transition-colors duration-300 hover:text-primary">
+                    Cookies Policy
+                  </a>
+                </Link>{" "}
+                .
+              </div>
               {errorMessage ? (
                 <div className=" text-red-500 py-2 text-sm font-medium w-full text-center">
                   {errorMessage}
@@ -101,18 +150,11 @@ const LoginPage = () => {
                 <FcGoogle /> <span className="ml-2">Login with Google</span>
               </button>
             </div>
-            <div className="text-center mt-2">
-              <Link href="/accounts/password/reset">
-                <a className="text-sm text-gray-400 dark:text-gray-200 transition duration-300 hover:text-primary">
-                  Forgot password?
-                </a>
-              </Link>
-            </div>
           </div>
           <div className="text-center mt-4 flex-none">
-            Don't have an account?
-            <Link href="/accounts/register">
-              <a className="ml-1 text-primary">Sign up</a>
+            Already a member?
+            <Link href="/accounts/login">
+              <a className="ml-1 text-primary">Sign in</a>
             </Link>
           </div>
         </div>
@@ -122,5 +164,5 @@ const LoginPage = () => {
   );
 };
 
-LoginPage.layout = AuthLayout;
-export default LoginPage;
+RegisterPage.layout = AuthLayout;
+export default RegisterPage;
