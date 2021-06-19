@@ -2,8 +2,7 @@ import { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
-import { auth } from "../../lib/firebase";
-import AuthContext from "../../lib/authContext";
+import { auth, googleAuthProvider } from "../../lib/firebase";
 import Footer from "../../components/Footer";
 import AuthLayout from "../../layouts/auth";
 
@@ -12,7 +11,6 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(AuthContext);
 
   const AuthenticateUser = async (event) => {
     event.preventDefault();
@@ -22,11 +20,24 @@ const LoginPage = () => {
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
         setIsLoading(false);
-        setErrorMessage(null);
-        return setUser(result.user);
+        return setErrorMessage(null);
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
+        return setErrorMessage(error.message);
+      });
+  };
+
+  const signInWithGoogle = () => {
+    setErrorMessage(null);
+    setIsLoading(true);
+    auth
+      .signInWithPopup(googleAuthProvider)
+      .then((result) => {
+        return setIsLoading(false);
+      })
+      .catch((error) => {
         setIsLoading(false);
         return setErrorMessage(error.message);
       });
@@ -95,6 +106,7 @@ const LoginPage = () => {
             </div>
             <div>
               <button
+                onClick={() => signInWithGoogle()}
                 disabled={isLoading}
                 className="flex mx-auto font-medium justify-center text-center items-center focus:outline-none outline-none transition-colors hover:text-red-500 duration-300"
               >

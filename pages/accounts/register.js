@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
-import { auth } from "../../lib/firebase";
-import AuthContext from "../../lib/authContext";
-import Footer from "../../components/Footer";
-import AuthLayout from "../../layouts/auth";
+import debounce from "lodash.debounce";
+import AuthLayout from "layouts/auth";
+import Footer from "@components/Footer";
+import { auth, googleAuthProvider } from "@lib/firebase";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(AuthContext);
+  const [usernameIsValid, setUsernameIsValid] = useState(false);
 
   const AuthenticateUser = async (event) => {
     event.preventDefault();
@@ -29,6 +29,19 @@ const RegisterPage = () => {
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
+        return setErrorMessage(error.message);
+      });
+  };
+  const signInWithGoogle = () => {
+    setErrorMessage(null);
+    setIsLoading(true);
+    auth
+      .signInWithPopup(googleAuthProvider)
+      .then((result) => {
+        return setIsLoading(false);
+      })
+      .catch((error) => {
         setIsLoading(false);
         return setErrorMessage(error.message);
       });
@@ -144,6 +157,7 @@ const RegisterPage = () => {
             </div>
             <div>
               <button
+                onClick={() => signInWithGoogle()}
                 disabled={isLoading}
                 className="flex mx-auto font-medium justify-center text-center items-center focus:outline-none outline-none transition-colors hover:text-red-500 duration-300"
               >

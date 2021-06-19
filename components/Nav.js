@@ -3,7 +3,7 @@ import ActiveLink from "./ActiveLink";
 import Button from "./Button";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
-import { MdLockOpen } from "react-icons/md";
+import AuthIcon from "./AuthIcon";
 
 const Nav = () => {
   return (
@@ -45,16 +45,7 @@ const Nav = () => {
           </span>
         </div>
         <div className="font-medium flex items-center">
-          <span className="mr-5">
-            <Link href="/accounts/login">
-              <a className="transition duration-200 hover:text-primary flex justify-center items-center">
-                <span className="mr-2">
-                  <MdLockOpen />
-                </span>{" "}
-                Login
-              </a>
-            </Link>
-          </span>
+          <AuthIcon />
           <Button href="/donate" title="Donate" />
         </div>
       </div>
