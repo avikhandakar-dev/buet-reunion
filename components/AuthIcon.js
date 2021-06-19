@@ -8,7 +8,7 @@ const AuthIcon = () => {
   const { user, username, userdata } = useContext(AuthContext);
   return user ? (
     <span
-      style={{ padding: "2px", width: 45, height: 45 }}
+      style={{ width: 45, height: 45 }}
       className="mr-5 border-2 border-gray-200 dark:border-gray-600 relative rounded-full overflow-hidden"
     >
       <Link href={username ? `/${username}` : "/accounts"}>

@@ -1,9 +1,34 @@
+import ActiveLink from "@components/ActiveLink";
 import { AuthContext } from "@lib/authContext";
 import Image from "next/image";
 import { useContext } from "react";
+import { BsFillGrid1X2Fill, BsHeartFill } from "react-icons/bs";
+import { FaUserEdit, FaPoll } from "react-icons/fa";
 
 const ProfileHeader = () => {
   const { user, username, userdata } = useContext(AuthContext);
+  const MenuItems = [
+    {
+      name: "Posts",
+      icon: <BsFillGrid1X2Fill />,
+      url: `/${username || "accounts"}`,
+    },
+    {
+      name: "Donation",
+      icon: <BsHeartFill />,
+      url: `/${username + "/donation" || "accounts"}`,
+    },
+    {
+      name: "Poll",
+      icon: <FaPoll />,
+      url: `/${username + "/poll" || "accounts"}`,
+    },
+    {
+      name: "Profile",
+      icon: <FaUserEdit />,
+      url: "/accounts/edit",
+    },
+  ];
   return (
     <div className="mt-12">
       <div className="flex items-center flex-col">
@@ -22,18 +47,20 @@ const ProfileHeader = () => {
             </p>
             <p className="text-sm text-center text-gray-400">{user?.email}</p>
           </div>
-          {/* <div className="flex mt-3">
-            <p className="mr-8">
-              <strong>{userdata?.totalPosts || 0}</strong> Posts
-            </p>
-            <p className="mr-8">
-              <strong>${userdata?.totalDonation || 0}</strong> Donation
-            </p>
-            <p className="mr-2">
-              <strong>{userdata?.totalNotification || 0}</strong> Notification
-            </p>
-          </div> */}
         </div>
+      </div>
+      <div className="border-t border-gray-200 dark:border-gray-800 mt-10 flex justify-center">
+        {MenuItems.map((item) => (
+          <ActiveLink
+            activeClassName="text-primary border-t border-primary"
+            href={item.url}
+          >
+            <a className="uppercase mx-6 pt-4 text-gray-500 tracking-widest font-medium text-sm flex justify-center items-center">
+              <span className="mr-2">{item.icon}</span>
+              {item.name}
+            </a>
+          </ActiveLink>
+        ))}
       </div>
     </div>
   );
