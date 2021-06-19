@@ -5,4 +5,4 @@ const NewPost = () => {
 };
 
 NewPost.layout = ProfileLayout;
-export default UsersPost;
+export default NewPost;
