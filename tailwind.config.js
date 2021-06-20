@@ -19,6 +19,8 @@ module.exports = {
         darkSky: "#05f",
         violet: "#70f",
         darkBrown: "#25282C",
+        adminBgLight: "#F8F6F2",
+        adminTextDark: "#C7D4FA",
         "gradient-1-start": "#f3cbab",
         "gradient-1-stop": "#feedca",
         "gradient-2-start": "#b1e5f9",

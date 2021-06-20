@@ -11,6 +11,13 @@ const UserProfilePage = ({ user, posts }) => {
         <div className="text-center text-xl text-gray-400 font-light capitalize">
           No posts found
         </div>
+        <div className="text-center mt-5">
+          <Link href="/">
+            <a className="uppercase tracking-widest transition-colors duration-300 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white px-10 py-3 border border-black dark:border-white">
+              Create new post
+            </a>
+          </Link>
+        </div>
       </div>
     );
   }

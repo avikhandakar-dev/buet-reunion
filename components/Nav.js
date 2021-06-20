@@ -44,7 +44,7 @@ const Nav = () => {
             </ActiveLink>
           </span>
         </div>
-        <div className="font-medium flex items-center">
+        <div className="font-medium flex items-center justify-center">
           <AuthIcon />
           <Button href="/donate" title="Donate" />
         </div>

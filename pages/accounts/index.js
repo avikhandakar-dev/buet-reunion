@@ -1,17 +1,21 @@
 import LoadingScreen from "@components/LoadingScreen";
-import { AuthContext } from "@lib/authContext";
+import { GlobalContext } from "@lib/globalContext";
 import ProfileLayout from "layouts/profile";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 
 const Accounts = () => {
-  const { username } = useContext(AuthContext);
+  const { userData, userDataIsLoading } = useContext(GlobalContext);
   const router = useRouter();
   useEffect(() => {
-    if (username) {
-      router.push(`/${username}`);
+    if (!userDataIsLoading) {
+      if (userData?.username) {
+        router.push(`/${username}`);
+      } else {
+        router.push("/");
+      }
     }
-  }, [username]);
+  }, [userData]);
   return <LoadingScreen />;
 };
 

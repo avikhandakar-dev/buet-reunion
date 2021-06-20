@@ -1,27 +1,30 @@
 import ActiveLink from "@components/ActiveLink";
-import { AuthContext } from "@lib/authContext";
+import AuthContext from "@lib/authContext";
 import Image from "next/image";
 import { useContext } from "react";
 import { BsFillGrid1X2Fill, BsHeartFill } from "react-icons/bs";
 import { FaUserEdit, FaPoll } from "react-icons/fa";
+import { GlobalContext } from "@lib/globalContext";
 
 const ProfileHeader = () => {
-  const { user, username, userdata } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { userData } = useContext(GlobalContext);
+
   const MenuItems = [
     {
       name: "Posts",
       icon: <BsFillGrid1X2Fill />,
-      url: `/${username || "accounts"}`,
+      url: `/${userData?.username || "accounts"}`,
     },
     {
       name: "Donation",
       icon: <BsHeartFill />,
-      url: `/${username + "/donation" || "accounts"}`,
+      url: `/${userData?.username + "/donation" || "accounts"}`,
     },
     {
       name: "Poll",
       icon: <FaPoll />,
-      url: `/${username + "/poll" || "accounts"}`,
+      url: `/${userData?.username + "/poll" || "accounts"}`,
     },
     {
       name: "Profile",
@@ -30,7 +33,7 @@ const ProfileHeader = () => {
     },
   ];
   return (
-    <div className="mt-12">
+    <div className="mt-12 sticky -top-36 z-10">
       <div className="flex items-center flex-col">
         <div className="relative flex-shrink-0 w-28 h-28 mb-3 rounded-full overflow-hidden">
           <Image
@@ -49,14 +52,14 @@ const ProfileHeader = () => {
           </div>
         </div>
       </div>
-      <div className="border-t border-gray-200 dark:border-gray-800 mt-10 flex justify-center">
+      <div className="border-t border-gray-300 dark:border-gray-800 mt-10 flex justify-center bg-white dark:bg-black pb-4">
         {MenuItems.map((item) => (
           <ActiveLink
             activeClassName="text-primary border-t border-primary"
             href={item.url}
           >
-            <a className="uppercase mx-6 pt-4 text-gray-500 tracking-widest font-medium text-sm flex justify-center items-center">
-              <span className="mr-2">{item.icon}</span>
+            <a className="uppercase mx-4 sm:mx-6 pt-4 text-gray-500 tracking-widest font-medium text-sm flex flex-col sm:flex-row justify-center items-center">
+              <span className="sm:mr-2 mb-2 sm:mb-0">{item.icon}</span>
               {item.name}
             </a>
           </ActiveLink>
