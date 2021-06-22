@@ -5,7 +5,7 @@ import { CgSpinner } from "react-icons/cg";
 import debounce from "lodash.debounce";
 import AuthLayout from "layouts/auth";
 import Footer from "@components/Footer";
-import { auth, googleAuthProvider } from "@lib/firebase";
+import { auth, firestore, googleAuthProvider } from "@lib/firebase";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,25 +14,9 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameIsChecking, setUsernameIsChecking] = useState(false);
   const [usernameIsValid, setUsernameIsValid] = useState(false);
 
-  const AuthenticateUser = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    setErrorMessage(null);
-    await auth
-      .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        setIsLoading(false);
-        setErrorMessage(null);
-        return setUser(result.user);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-        return setErrorMessage(error.message);
-      });
-  };
   const signInWithGoogle = () => {
     setErrorMessage(null);
     setIsLoading(true);
@@ -46,6 +30,82 @@ const RegisterPage = () => {
         return setErrorMessage(error.message);
       });
   };
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setErrorMessage(null);
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(async (userCredential) => {
+        userCredential.user.updateProfile({
+          displayName: name,
+        });
+        const userDoc = firestore.doc(`users/${userCredential.user.uid}`);
+        const usernameDoc = firestore.doc(`usernames/${username}`);
+        const batch = firestore.batch();
+        batch.set(userDoc, {
+          username: username,
+          photoURL: userCredential.user.photoURL,
+          displayName: userCredential.user.displayName,
+        });
+        batch.set(usernameDoc, { uid: userCredential.user.uid });
+        await batch.commit();
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        return setErrorMessage(error.message);
+      });
+  };
+  const onChange = (event) => {
+    const val = event.target.value.toLowerCase();
+    const re = /^(?=[a-zA-Z0-9._]{3,15}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+
+    if (val.length < 3) {
+      setUsername(val);
+      setUsernameIsChecking(false);
+      setUsernameIsValid(false);
+    }
+
+    if (re.test(val)) {
+      setUsername(val);
+      setUsernameIsChecking(true);
+      setUsernameIsValid(false);
+    }
+  };
+
+  useEffect(() => {
+    checkUsername(username);
+  }, [username]);
+
+  const checkUsername = useCallback(
+    debounce(async (username) => {
+      if (username.length >= 3) {
+        const ref = firestore.doc(`usernames/${username}`);
+        const { exists } = await ref.get();
+        console.log("Firestore read executed!");
+        setUsernameIsValid(!exists);
+        setUsernameIsChecking(false);
+      }
+    }, 500),
+    []
+  );
+
+  function UsernameMessage({ username, isValid, loading }) {
+    if (loading) {
+      return <p className="text-sm mt-1">Checking...</p>;
+    } else if (isValid) {
+      return (
+        <p className="text-green-400 text-sm mt-1">{username} is available!</p>
+      );
+    } else if (username && !isValid) {
+      return (
+        <p className="text-red-500 text-sm mt-1">That username is taken!</p>
+      );
+    } else {
+      return <p></p>;
+    }
+  }
   return (
     <div className="flex mt-6 relative min-h-screen flex-col justify-between">
       <div className="flex-grow flex justify-center items-center">
@@ -57,7 +117,7 @@ const RegisterPage = () => {
                 89
               </span>
             </div>
-            <form onSubmit={(event) => AuthenticateUser(event)}>
+            <form onSubmit={onSubmit}>
               <div className="block mb-2">
                 <input
                   onChange={(event) => {
@@ -86,15 +146,18 @@ const RegisterPage = () => {
               </div>
               <div className="block mb-2">
                 <input
-                  onChange={(event) => {
-                    setUsername(event.target.value);
-                  }}
+                  onChange={onChange}
                   value={username}
                   required
                   type="text"
                   name="username"
                   className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   placeholder="Username"
+                />
+                <UsernameMessage
+                  username={username}
+                  isValid={usernameIsValid}
+                  loading={usernameIsChecking}
                 />
               </div>
               <div className="block mb-4">
@@ -111,7 +174,7 @@ const RegisterPage = () => {
                 />
               </div>
               <button
-                disabled={isLoading}
+                disabled={isLoading || !usernameIsValid}
                 type="submit"
                 className="inline-flex items-center justify-center w-full px-10 py-2 font-semibold text-white transition duration-500 ease-in-out transform bg-primary rounded hover:bg-sky focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 "
               >

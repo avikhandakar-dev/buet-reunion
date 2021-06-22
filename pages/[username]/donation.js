@@ -11,6 +11,7 @@ const UsersDonation = () => {
   useEffect(() => {
     const unsubs = async () => {
       const token = await user?.getIdToken();
+      console.log(token);
       const res = await fetch("/api/users/donation", {
         body: JSON.stringify({
           token: token,

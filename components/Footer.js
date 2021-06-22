@@ -12,6 +12,14 @@ const Footer = () => {
               </a>
             </Link>
           </div>
+
+          <div className="px-5 py-2">
+            <Link href="/donate">
+              <a className="text-base leading-6 text-gray-500 hover:text-primary">
+                Donate
+              </a>
+            </Link>
+          </div>
           <div className="px-5 py-2">
             <Link href="/about">
               <a className="text-base leading-6 text-gray-500 hover:text-primary">
@@ -20,28 +28,18 @@ const Footer = () => {
             </Link>
           </div>
           <div className="px-5 py-2">
-            <a
-              href="#"
-              className="text-base leading-6 text-gray-500 hover:text-primary"
-            >
-              Blog
-            </a>
+            <Link href="/legal/terms">
+              <a className="text-base leading-6 text-gray-500 hover:text-primary">
+                Terms
+              </a>
+            </Link>
           </div>
           <div className="px-5 py-2">
-            <a
-              href="#"
-              className="text-base leading-6 text-gray-500 hover:text-primary"
-            >
-              Projects
-            </a>
-          </div>
-          <div className="px-5 py-2">
-            <a
-              href="#"
-              className="text-base leading-6 text-gray-500 hover:text-primary"
-            >
-              Members
-            </a>
+            <Link href="/legal/privacy">
+              <a className="text-base leading-6 text-gray-500 hover:text-primary">
+                Privacy
+              </a>
+            </Link>
           </div>
           <div className="px-5 py-2">
             <a
