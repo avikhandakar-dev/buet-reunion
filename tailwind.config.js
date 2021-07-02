@@ -37,6 +37,8 @@ module.exports = {
         "gradient-5-stop": "#b1e5f9",
         "gradient-6-start": "#F7D440",
         "gradient-6-stop": "#ED1F1F",
+        "gradient-7-start": "#11cdef",
+        "gradient-7-stop": "#1171ef",
       },
       backgroundImage: (theme) => ({
         "gradient-1": "url('/img/bg/bg-1.png')",

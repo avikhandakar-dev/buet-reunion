@@ -4,6 +4,8 @@ import PulseBar from "@components/Pulse/Bar";
 import AuthContext from "@lib/authContext";
 import { useContext, useState, useEffect } from "react";
 import UsersTable from "@components/Admin/UsersTable";
+import WidgetsViewerAdmin from "@components/Admin/WidgetsViewer";
+import { GetUsersStatus } from "@lib/healper";
 
 const UsersAdmin = () => {
   const { user } = useContext(AuthContext);
@@ -32,39 +34,21 @@ const UsersAdmin = () => {
     return unsubs();
   }, []);
 
-  const isAdmin = members.filter((member) => {
-    if (member.customClaims?.admin) {
-      return member;
-    }
-  });
-  const isPremium = members.filter((member) => {
-    if (member.customClaims?.premium) {
-      return member;
-    }
-  });
-  const isMember = members.filter((member) => {
-    if (member.customClaims?.member) {
-      return member;
-    }
-  });
-  const isRegistered = members.filter((member) => {
-    if (
-      !member.customClaims?.member &&
-      !member.customClaims?.premium &&
-      !member.customClaims?.admin
-    ) {
-      return member;
-    }
-  });
+  const { isAdmin, isPremium, isMember, isRegistered } =
+    GetUsersStatus(members);
 
   return (
     <div>
-      <AdminPageTitle title={`Users - ${members.length}`} />
+      <AdminPageTitle title="Users">
+        <WidgetsViewerAdmin />
+      </AdminPageTitle>
       <div>
         {isLoading ? (
-          <PulseBar count={3} />
+          <div className="px-6 lg:px-10 -mt-24">
+            <PulseBar count={3} />
+          </div>
         ) : (
-          <>
+          <div className="px-6 lg:px-10 -mt-24">
             <div className="mb-6">
               <UsersTable users={isAdmin} category="Admin" />
             </div>
@@ -77,7 +61,7 @@ const UsersAdmin = () => {
             <div className="mb-6">
               <UsersTable users={isRegistered} category="Registered Users" />
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

@@ -70,7 +70,7 @@ body {
 }
 
 /* Scrollbar */
-* {
+/* * {
   scrollbar-width: thin;
   scrollbar-color: #f3cbab #181729;
 }
@@ -87,4 +87,4 @@ body {
   background-color: #f3cbab;  background-image: -webkit-linear-gradient(#f3cbab, #feedca);
   border-radius: 20px;
   border: 2px solid #181729;
-}
+} */

@@ -1,29 +1,33 @@
+import Avatar from "@components/Avatar";
 import Button from "@components/Button";
+import AuthContext from "@lib/authContext";
 import Link from "next/link";
+import { Fragment, useContext } from "react";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 
-const AdminPageTitle = ({ title, action }) => {
+const AdminPageTitle = ({ title, children, bgStyle }) => {
+  const { user } = useContext(AuthContext);
   return (
-    <div className="flex justify-between sticky -top-11 z-10 bg-adminBgLight dark:bg-gray-800 items-center py-4 mb-2">
-      <span className="text-3xl lg:text-5xl uppercase text-gray-600 dark:text-gray-200 font-extralight  tracking-wide">
-        <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l dark:from-yellow-400 dark:to-yellow-200 from-primary to-sky uppercase font-black text-5xl lg:text-7xl">
-          {title.charAt(0)}
-        </span>
-        {title.slice(1)}
-      </span>
-      {action && (
-        <>
-          <span className="hidden lg:block">
-            <Button title={action.title} href={action.href} />
-          </span>
-          <Link href={action.href}>
-            <a className="md:text-5xl text-4xl lg:hidden text-primary">
-              <BsFillPlusCircleFill />
-            </a>
-          </Link>
-        </>
-      )}
-    </div>
+    <Fragment>
+      <header className="absolute top-0 left-auto right-0 w-full bg-transparent">
+        <div className="h-16  px-6 lg:px-10 flex justify-between items-center">
+          <div className="text-lg text-white font-medium uppercase">
+            {title}
+          </div>
+          <div className="flex items-center">
+            <p className="mr-3 text-white">{user.displayName}</p>
+            <Avatar user={user} extraClasses="bg-white dark:bg-primary" />
+          </div>
+        </div>
+      </header>
+      <div
+        className={`py-32 px-6 lg:px-10 ${
+          bgStyle || "bg-gradient-to-r from-gradient-7-start to-gradient-7-stop"
+        }`}
+      >
+        {children}
+      </div>
+    </Fragment>
   );
 };
 
