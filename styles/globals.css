@@ -117,6 +117,9 @@ body {
 .custom-html-style{
   color: #1F2938 !important;
 }
+.custom-html-style a{
+  color: #139AFE !important;
+}
 
 @media (prefers-color-scheme: dark){
   .rc-md-editor{
@@ -140,5 +143,11 @@ body {
   }
   .custom-html-style{
     color: white !important;
+  }
+  .custom-html-style a{
+    color: orange !important;
+  }
+  .custom-html-style table th{
+    color: #1F2938;
   }
 }
