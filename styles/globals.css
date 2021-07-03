@@ -88,3 +88,57 @@ body {
   border-radius: 20px;
   border: 2px solid #181729;
 } */
+
+/* Markdown editor theme */
+.rc-md-editor{
+  border-radius: 6px;
+  border-color: #E5E7EB !important;
+  overflow: hidden;
+}
+.rc-md-navigation{
+  background: white !important;
+}
+.rc-md-navigation .button-wrap .button{
+  color: #374152 !important;
+}
+.rc-md-navigation .button-wrap .button:hover{
+  color: #139AFE !important;
+}
+.rc-md-editor .editor-container .sec-md .input{
+  outline: none !important;
+  overflow-y: auto !important;
+  border-right: 2px solid !important;
+  border-color: #E5E7EB !important;
+}
+.rc-md-editor .editor-container .sec-md .input:focus{
+  outline: none !important;
+  box-shadow: none !important;
+}
+.custom-html-style{
+  color: #1F2938 !important;
+}
+
+@media (prefers-color-scheme: dark){
+  .rc-md-editor{
+    border-color: #1F2938 !important;
+    background: #374152 !important;
+  }
+  .rc-md-navigation{
+    background: #4B5564 !important;
+    border-color: #374152 !important;
+  }
+  .rc-md-navigation .button-wrap .button{
+    color: #E5E7EB !important;
+  }
+  .rc-md-editor .editor-container .sec-md .input{
+    background: #4B5564 !important;
+    color: white !important;
+    border-color: #374152 !important;
+  }
+  .rc-md-editor .editor-container .sec-html{
+    background: #4B5564 !important;
+  }
+  .custom-html-style{
+    color: white !important;
+  }
+}
