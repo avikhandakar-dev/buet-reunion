@@ -133,6 +133,31 @@ const AdminLayout = ({ children }) => {
       </aside>
       <div className="flex-grow h-full overflow-y-auto">
         <div className="mx-auto relative">{children}</div>
+        <div className="flex justify-between px-6 lg:px-10 py-4">
+          <p>© 2021 Buetian 89</p>
+          <div className="flex">
+            <Link href="/">
+              <a className="text-gray-600 hover:text-primary dark:text-gray-400 mr-8">
+                Home
+              </a>
+            </Link>
+            <Link href="/about">
+              <a className="text-gray-600 hover:text-primary dark:text-gray-400 mr-8">
+                About
+              </a>
+            </Link>
+            <Link href="/legal/terms">
+              <a className="text-gray-600 hover:text-primary dark:text-gray-400 mr-8">
+                Terms
+              </a>
+            </Link>
+            <Link href="/contact">
+              <a className="text-gray-600 hover:text-primary dark:text-gray-400">
+                Contact
+              </a>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

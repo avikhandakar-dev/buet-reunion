@@ -6,7 +6,7 @@ const PulseBar = ({ count, cols, gap, height }) => {
           key={idx}
           className={`w-full h-${
             height || 14
-          } rounded bg-gray-300 dark:bg-gray-800 animate-pulse`}
+          } rounded bg-gray-300 dark:bg-gray-700 animate-pulse`}
         />
       ))}
     </div>

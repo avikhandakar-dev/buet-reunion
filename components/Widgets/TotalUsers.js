@@ -44,7 +44,7 @@ const TotalUsersWidget = () => {
             {members.length}
           </p>
         </div>
-        <div className="text-white w-10 h-10 text-xl flex justify-center items-center bg-red-500 rounded-full">
+        <div className="text-white w-10 h-10 text-xl flex justify-center items-center bg-yellow-500 rounded-full">
           <FaUsers />
         </div>
       </div>

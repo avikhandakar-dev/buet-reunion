@@ -45,7 +45,7 @@ const UsersAdmin = () => {
       <div>
         {isLoading ? (
           <div className="px-6 lg:px-10 -mt-24">
-            <PulseBar count={3} />
+            <PulseBar count={5} />
           </div>
         ) : (
           <div className="px-6 lg:px-10 -mt-24">
