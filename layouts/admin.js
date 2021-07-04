@@ -14,6 +14,7 @@ import NIcon from "@components/NIcon";
 import toast from "react-hot-toast";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "@lib/authContext";
+import { IoIosImages } from "react-icons/io";
 
 const Tabs = [
   // { icon: <FaHome />, title: "Dashboard", href: "/admin", color: "primary" },
@@ -40,6 +41,12 @@ const Tabs = [
     title: "Posts",
     href: "/admin/posts",
     color: "indigo-600",
+  },
+  {
+    icon: <IoIosImages />,
+    title: "Media",
+    href: "/admin/media",
+    color: "pink-600",
   },
   {
     icon: <BiCommentDetail />,
