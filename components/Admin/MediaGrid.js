@@ -1,7 +1,8 @@
-import Image from "next/image";
+import MediaGridImageView from "@components/MediaGridImageView";
 import Link from "next/link";
 import { Fragment } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const { default: Empty } = require("@components/Svg/Empty");
 
@@ -32,15 +33,7 @@ const MediaGrid = ({ media }) => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-around justify-items-stretch gap-4 relative">
             {media.map((item) => (
               <Fragment>
-                <div className="w-full relative overflow-hidden rounded-md h-auto">
-                  <Image
-                    src={item.downloadUrl}
-                    width={150}
-                    height={150}
-                    priority={true}
-                    objectFit="cover"
-                  />
-                </div>
+                <MediaGridImageView image={item} />
               </Fragment>
             ))}
           </div>

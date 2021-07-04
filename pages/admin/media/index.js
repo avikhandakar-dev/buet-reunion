@@ -6,7 +6,6 @@ import { firestore } from "@lib/firebase";
 import AdminLayout from "layouts/admin";
 import { Fragment } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { BsFillPlusCircleFill } from "react-icons/bs";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 

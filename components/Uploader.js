@@ -1,12 +1,14 @@
 import addCollection from "@lib/addCollection";
+import AuthContext from "@lib/authContext";
 import { serverTimestamp, uploadImage } from "@lib/firebase";
 import { getFileEx } from "@lib/healper";
 import { nanoid } from "nanoid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
 import { IoIosImages } from "react-icons/io";
 const Uploader = () => {
+  const { user } = useContext(AuthContext);
   const [files, setFiles] = useState([]);
   const { addDoc } = addCollection("media");
   const [progress, setProgress] = useState(0);
@@ -35,18 +37,26 @@ const Uploader = () => {
             blobUrl: URL.createObjectURL(file),
           });
           if (imageUrl) {
-            const newMedia = await addDoc({
-              filePath,
-              downloadUrl: imageUrl,
-              createdAt: serverTimestamp(),
-            });
+            const id = nanoid();
+            const newMedia = await addDoc(
+              {
+                filePath,
+                id,
+                downloadUrl: imageUrl,
+                userId: user?.uid,
+                userName: user?.displayName,
+                userEmail: user.email,
+                createdAt: serverTimestamp(),
+              },
+              id
+            );
             setUploadSuccess(true);
           } else {
             toast.error("Upload failed! Server error!");
             setUploadSuccess(false);
             break;
           }
-          setProgress(((idx + 1) / acceptedFiles.length) * 100);
+          setProgress(Math.round(((idx + 1) / acceptedFiles.length) * 100));
         }
         setProcessFinished(true);
         setIsLoading(false);

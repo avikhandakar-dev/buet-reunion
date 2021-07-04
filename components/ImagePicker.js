@@ -2,6 +2,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { IoIosImages } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { firestore } from "@lib/firebase";
+import Empty from "./Svg/Empty";
+import Link from "next/link";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import Image from "next/image";
 
 const ImagePicker = ({
   className,
@@ -13,6 +19,9 @@ const ImagePicker = ({
   openOnStart,
 }) => {
   let [isOpen, setIsOpen] = useState(openOnStart);
+  const [media = [], loading, error] = useCollectionData(
+    firestore.collection("media").orderBy("createdAt", "desc")
+  );
   function closeModal() {
     setIsOpen(false);
   }
@@ -78,10 +87,45 @@ const ImagePicker = ({
                   </a>
                 </Dialog.Title>
                 <div className="mt-2 px-6">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent
-                    your an email with all of the details of your order.
-                  </p>
+                  {media.length < 1 ? (
+                    <Fragment>
+                      <div className="py-4 px-5 bg-gray-50 dark:bg-gray-700 h-96 flex flex-col justify-center items-center">
+                        <Empty
+                          width={150}
+                          className="text-gray-600 dark:text-gray-200"
+                        />
+                        <div className="mt-3">
+                          <Link href="/admin/media/upload">
+                            <a className="flex border-2 rounded px-5 py-3 dark:border-gradient-1-start border-gradient-4-start dark:text-gradient-1-start text-gradient-4-start uppercase font-medium justify-center items-center transition-colors duration-300 hover:text-yellow-800 dark:hover:bg-gradient-1-start hover:bg-gradient-4-start">
+                              <FaCloudUploadAlt className="mr-2 text-xl" />
+                              Upload some images
+                            </a>
+                          </Link>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ) : (
+                    <div className="py-4 px-5 bg-gray-50 dark:bg-gray-700">
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-around justify-items-stretch gap-4 relative">
+                        {media.map((image) => (
+                          <Fragment>
+                            <div className="overflow-hidden relative group rounded-md">
+                              <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
+                                <Image
+                                  src={image.downloadUrl}
+                                  width={150}
+                                  height={150}
+                                  priority={true}
+                                  objectFit="cover"
+                                  layout="responsive"
+                                />
+                              </div>
+                            </div>
+                          </Fragment>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-4 px-6 py-3">
