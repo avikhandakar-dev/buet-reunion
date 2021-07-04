@@ -1,16 +1,23 @@
+import addCollection from "@lib/addCollection";
+import { serverTimestamp, uploadImage } from "@lib/firebase";
+import { getFileEx } from "@lib/healper";
+import { nanoid } from "nanoid";
 import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
+import toast from "react-hot-toast";
 import { IoIosImages } from "react-icons/io";
 const Uploader = () => {
   const [files, setFiles] = useState([]);
+  const { addDoc } = addCollection("media");
   const [progress, setProgress] = useState(0);
+  const [processFinished, setProcessFinished] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { acceptedFiles, getRootProps, open, getInputProps } = useDropzone({
     accept: "image/*",
     noClick: true,
     noKeyboard: true,
-    onDrop: (acceptedFiles) => {
-      setIsLoading(true);
+    onDrop: async (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -18,6 +25,33 @@ const Uploader = () => {
           })
         )
       );
+      if (acceptedFiles.length > 0) {
+        setIsLoading(true);
+        for (const [idx, file] of acceptedFiles.entries()) {
+          const filePath = `media/${nanoid()}.${getFileEx(file.name)}`;
+          const imageUrl = await uploadImage({
+            filePath: filePath,
+            isBlob: true,
+            blobUrl: URL.createObjectURL(file),
+          });
+          if (imageUrl) {
+            const newMedia = await addDoc({
+              filePath,
+              downloadUrl: imageUrl,
+              createdAt: serverTimestamp(),
+            });
+            setUploadSuccess(true);
+          } else {
+            toast.error("Upload failed! Server error!");
+            setUploadSuccess(false);
+            break;
+          }
+          setProgress(((idx + 1) / acceptedFiles.length) * 100);
+        }
+        setProcessFinished(true);
+        setIsLoading(false);
+        toast.success("Successfully uploaded!");
+      }
     },
   });
   const thumbs = files.map((file, idx) => (

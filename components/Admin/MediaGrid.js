@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
@@ -27,7 +28,23 @@ const MediaGrid = ({ media }) => {
           </div>
         </Fragment>
       ) : (
-        <div></div>
+        <div className="py-4 px-5 bg-gray-50 dark:bg-gray-700">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-around justify-items-stretch gap-4 relative">
+            {media.map((item) => (
+              <Fragment>
+                <div className="w-full relative overflow-hidden rounded-md h-auto">
+                  <Image
+                    src={item.downloadUrl}
+                    width={150}
+                    height={150}
+                    priority={true}
+                    objectFit="cover"
+                  />
+                </div>
+              </Fragment>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

@@ -6,6 +6,9 @@ import { firestore } from "@lib/firebase";
 import AdminLayout from "layouts/admin";
 import { Fragment } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { BsFillPlusCircleFill } from "react-icons/bs";
+import Link from "next/link";
+import { FiPlus } from "react-icons/fi";
 
 const MediaAdmin = () => {
   const [media = [], loading, error] = useCollectionData(
@@ -29,6 +32,13 @@ const MediaAdmin = () => {
           </div>
         )}
       </div>
+      {media.length > 0 && (
+        <Link href="/admin/media/upload">
+          <a className="fixed w-14 h-14 flex justify-center items-center right-8 bottom-4 text-3xl bg-primary shadow-md transition-colors duration-300 hover:bg-sky rounded-full text-white">
+            <FiPlus />
+          </a>
+        </Link>
+      )}
     </Fragment>
   );
 };
