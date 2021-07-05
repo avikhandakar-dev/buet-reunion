@@ -30,6 +30,7 @@
     "react-firebase-hooks": "^3.0.4",
     "react-hot-toast": "^2.0.0",
     "react-icons": "^4.2.0",
+    "react-image-file-resizer": "^0.4.7",
     "react-markdown-editor-lite": "^1.2.4",
     "react-responsive-masonry": "^2.1.2"
   },

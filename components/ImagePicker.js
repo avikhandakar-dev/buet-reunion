@@ -8,6 +8,7 @@ import Empty from "./Svg/Empty";
 import Link from "next/link";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import Image from "next/image";
+import { FaCheckCircle } from "react-icons/fa";
 
 const ImagePicker = ({
   className,
@@ -19,6 +20,7 @@ const ImagePicker = ({
   openOnStart,
 }) => {
   let [isOpen, setIsOpen] = useState(openOnStart);
+  const [isSelected, setIsSelected] = useState([]);
   const [media = [], loading, error] = useCollectionData(
     firestore.collection("media").orderBy("createdAt", "desc")
   );
@@ -29,6 +31,20 @@ const ImagePicker = ({
   function openModal() {
     setIsOpen(true);
   }
+
+  const toggleSelected = (image) => {
+    setIsSelected((options) => {
+      if (multiple) {
+        if (isSelected.includes(image)) {
+          return options.filter((option) => option !== image);
+        } else {
+          return [...options, image];
+        }
+      } else {
+        return [image];
+      }
+    });
+  };
   return (
     <>
       <div className="contents">
@@ -87,7 +103,7 @@ const ImagePicker = ({
                   </a>
                 </Dialog.Title>
                 <div
-                  style={{ maxHeight: "80vh" }}
+                  style={{ maxHeight: "80vh", minHeight: "500px" }}
                   className="flex flex-col justify-between"
                 >
                   <div className="px-6 overflow-y-auto">
@@ -115,8 +131,16 @@ const ImagePicker = ({
                             <Fragment>
                               <div
                                 key={image.id}
-                                className="overflow-hidden relative group rounded-md"
+                                onClick={() => toggleSelected(image)}
+                                className="overflow-hidden cursor-pointer relative group rounded-md"
                               >
+                                {isSelected.includes(image) && (
+                                  <Fragment>
+                                    <div className="text-white absolute inset-0 w-full h-full z-10 bg-black bg-opacity-30 flex justify-end p-2">
+                                      <FaCheckCircle />
+                                    </div>
+                                  </Fragment>
+                                )}
                                 <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
                                   <Image
                                     src={image.downloadUrl}
@@ -137,11 +161,14 @@ const ImagePicker = ({
                     )}
                   </div>
 
-                  <div className="px-6 py-3 flex-shrink-0 bg-gray-800 flex justify-end">
+                  <div className="px-6 py-3 flex-shrink-0 bg-gray-100 dark:bg-gray-800 flex justify-end">
                     <button
                       type="button"
                       className="inline-flex justify-center px-16 py-2 text-sm font-medium text-white bg-primary border border-transparent rounded-md hover:bg-sky focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
-                      onClick={closeModal}
+                      onClick={() => {
+                        selectedImages(isSelected);
+                        closeModal();
+                      }}
                     >
                       Open
                     </button>

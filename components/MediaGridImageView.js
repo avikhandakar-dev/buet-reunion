@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
+import { RiFileCopy2Fill } from "react-icons/ri";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const MediaGridImageView = ({ image }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +34,17 @@ const MediaGridImageView = ({ image }) => {
         >
           <IoClose />
         </button>
+        <CopyToClipboard
+          text={image.downloadUrl}
+          onCopy={() => toast.success("Copied to clipboard!")}
+        >
+          <button
+            disabled={isLoading}
+            className="text-gradient-2-start block text-3xl cursor-pointer outline-none focus:outline-none"
+          >
+            <RiFileCopy2Fill />
+          </button>
+        </CopyToClipboard>
       </div>
       <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
         <Image
@@ -41,6 +54,7 @@ const MediaGridImageView = ({ image }) => {
           priority={true}
           objectFit="cover"
           layout="responsive"
+          sizes="(max-width: 640px) 100px, (max-width: 1024px) 150px, 200px"
         />
       </div>
     </div>

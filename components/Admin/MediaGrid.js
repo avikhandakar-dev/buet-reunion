@@ -9,7 +9,7 @@ const { default: Empty } = require("@components/Svg/Empty");
 const MediaGrid = ({ media }) => {
   return (
     <div className="rounded-md shadow overflow-hidden relative">
-      <div className="py-4 px-5 bg-white dark:bg-gray-700">
+      <div className="py-4 px-5 bg-white dark:bg-gray-600">
         <p className="font-medium text-xl text-gray-700 dark:text-gray-200">
           Media
         </p>

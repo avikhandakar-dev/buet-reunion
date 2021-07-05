@@ -12,20 +12,20 @@ const mdParser = new MarkdownIt({
 });
 
 const MdEditorLite = ({ onChange }) => {
-  const handleImageUpload = (file) => {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (data) => {
-        resolve(data.target.result);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
+  //   const handleImageUpload = (file) => {
+  //     return new Promise((resolve) => {
+  //       const reader = new FileReader();
+  //       reader.onload = (data) => {
+  //         resolve(data.target.result);
+  //       };
+  //       reader.readAsDataURL(file);
+  //     });
+  //   };
   return (
     <MdEditor
       onChange={onChange}
       renderHTML={(text) => mdParser.render(text)}
-      onImageUpload={handleImageUpload}
+      //   onImageUpload={handleImageUpload}
       style={{ height: "450px", width: "100%" }}
     />
   );
