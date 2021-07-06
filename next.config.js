@@ -1,7 +1,5 @@
 module.exports = {
-  future: {
-    webpack5: true,
-  },
+  future: {},
   images: {
     domains: [
       "firebasestorage.googleapis.com",

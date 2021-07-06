@@ -1,19 +1,20 @@
 import addCollection from "@lib/addCollection";
 import AuthContext from "@lib/authContext";
 import { serverTimestamp, uploadImage } from "@lib/firebase";
-import { getFileEx } from "@lib/healper";
 import { nanoid } from "nanoid";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Fragment } from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
+import { BiError } from "react-icons/bi";
 import { IoIosImages } from "react-icons/io";
+import { MdCloudDone } from "react-icons/md";
 const Uploader = () => {
   const { user } = useContext(AuthContext);
   const [files, setFiles] = useState([]);
   const { addDoc } = addCollection("media");
   const [progress, setProgress] = useState(0);
   const [processFinished, setProcessFinished] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadError, setUploadError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { acceptedFiles, getRootProps, open, getInputProps } = useDropzone({
     accept: "image/*",
@@ -30,19 +31,42 @@ const Uploader = () => {
       if (acceptedFiles.length > 0) {
         setIsLoading(true);
         for (const [idx, file] of acceptedFiles.entries()) {
-          const filePath = `media/${nanoid()}.${getFileEx(file.name)}`;
-          const imageUrl = await uploadImage({
-            filePath: filePath,
-            isBlob: true,
-            blobUrl: URL.createObjectURL(file),
+          const {
+            oriPath,
+            oriDownloadUrl,
+            thumbPath,
+            thumbDownloadUrl,
+            loaderPath,
+            loaderDownloadUrl,
+            fileName,
+          } = await uploadImage({
+            file: file,
+            folder: "media",
+            format: "JPEG",
           });
-          if (imageUrl) {
+          if (
+            !oriPath ||
+            !oriDownloadUrl ||
+            !thumbPath ||
+            !thumbDownloadUrl ||
+            !loaderPath ||
+            !loaderDownloadUrl ||
+            !fileName
+          ) {
+            setUploadError(true);
+            break;
+          } else {
             const id = nanoid();
-            const newMedia = await addDoc(
+            const uploadMedia = await addDoc(
               {
-                filePath,
+                oriPath,
+                oriDownloadUrl,
+                thumbPath,
+                thumbDownloadUrl,
+                loaderPath,
+                loaderDownloadUrl,
                 id,
-                downloadUrl: imageUrl,
+                fileName,
                 userId: user?.uid,
                 userName: user?.displayName,
                 userEmail: user.email,
@@ -50,17 +74,23 @@ const Uploader = () => {
               },
               id
             );
-            setUploadSuccess(true);
-          } else {
-            toast.error("Upload failed! Server error!");
-            setUploadSuccess(false);
-            break;
+            if (!uploadMedia) {
+              toast.error("Upload failed! Server error!");
+              setUploadError(true);
+              break;
+            } else {
+              setUploadError(false);
+            }
           }
           setProgress(Math.round(((idx + 1) / acceptedFiles.length) * 100));
         }
         setProcessFinished(true);
         setIsLoading(false);
-        toast.success("Successfully uploaded!");
+        if (uploadError) {
+          toast.error("Upload failed!");
+        } else {
+          toast.success("Successfully uploaded!");
+        }
       }
     },
   });
@@ -71,6 +101,12 @@ const Uploader = () => {
       </div>
     </div>
   ));
+  const reset = () => {
+    setIsLoading(false);
+    setUploadError(false);
+    setProcessFinished(false);
+    setFiles([]);
+  };
   useEffect(
     () => () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -85,7 +121,7 @@ const Uploader = () => {
         </p>
       </div>
       <div className="bg-gray-50 dark:bg-gray-700 p-5">
-        {!isLoading && (
+        {!isLoading && !processFinished && (
           <div
             className="py-4 px-5 border-4 lg:border-8 border-dashed border-gray-200 dark:border-gray-600 dark:bg-gray-700 h-80 flex flex-col justify-center items-center"
             {...getRootProps()}
@@ -102,6 +138,37 @@ const Uploader = () => {
               <IoIosImages className="mr-2 text-xl" />
               Choose images to upload
             </a>
+          </div>
+        )}
+        {processFinished && (
+          <div className="py-4 px-5 dark:bg-gray-700 h-80 flex flex-col justify-center items-center">
+            {uploadError ? (
+              <Fragment>
+                <div className="text-center">
+                  <BiError className="text-7xl mx-auto text-red-500" />
+                  <h1 className="font-medium text-4xl">Failed!</h1>
+                  <button
+                    onClick={reset}
+                    className="outline-none focus:outline-none px-5 py-2 border-2 mt-2 text-gradient-4-start transition-color duration-300 font-medium hover:text-yellow-900 hover:bg-gradient-4-start border-gradient-4-start rounded"
+                  >
+                    Try again
+                  </button>
+                </div>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <div className="text-center">
+                  <MdCloudDone className="text-7xl mx-auto text-green-400" />
+                  <h1 className="font-medium text-4xl">Success!</h1>
+                  <button
+                    onClick={reset}
+                    className="outline-none focus:outline-none px-5 py-2 border-2 mt-2 text-gradient-4-start transition-color duration-300 font-medium hover:text-yellow-900 hover:bg-gradient-4-start border-gradient-4-start rounded"
+                  >
+                    Upload more
+                  </button>
+                </div>
+              </Fragment>
+            )}
           </div>
         )}
         {isLoading && (
@@ -131,8 +198,6 @@ const Uploader = () => {
       </div>
       {files.length > 0 && (
         <aside className="py-4 px-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-around justify-items-stretch gap-4 relative">
-          {console.log(files)}
-
           {thumbs}
         </aside>
       )}

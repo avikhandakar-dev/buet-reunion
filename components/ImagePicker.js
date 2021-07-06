@@ -143,7 +143,9 @@ const ImagePicker = ({
                                 )}
                                 <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
                                   <Image
-                                    src={image.downloadUrl}
+                                    placeholder="blur"
+                                    blurDataURL={image.loaderDownloadUrl}
+                                    src={image.thumbDownloadUrl}
                                     width={150}
                                     height={150}
                                     priority={true}

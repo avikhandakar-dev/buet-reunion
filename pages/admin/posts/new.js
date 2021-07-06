@@ -1,5 +1,6 @@
 import AdminPageTitle from "@components/Admin/PageTitle";
 import WidgetsViewerAdmin from "@components/Admin/WidgetsViewer";
+import NewPost from "@components/Blog/NewPost";
 import AdminLayout from "layouts/admin";
 
 const NewPostAdmin = () => {
@@ -9,7 +10,9 @@ const NewPostAdmin = () => {
         <WidgetsViewerAdmin />
       </AdminPageTitle>
       <div className="px-6 lg:px-10 -mt-24">
-        <div className="mb-6">new</div>
+        <div className="mb-6">
+          <NewPost />
+        </div>
       </div>
     </div>
   );

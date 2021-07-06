@@ -11,17 +11,16 @@ import { nanoid } from "nanoid";
 import { CgSpinner } from "react-icons/cg";
 import { useRouter } from "next/router";
 
-const NewProject = () => {
+const NewPost = () => {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [goal, setGoal] = useState("");
+  const [tags, setTags] = useState("");
   const [coverImage, setCoverImage] = useState(null);
   const [html, setHtml] = useState(null);
   const [text, setText] = useState(null);
-  const [isFeatured, setIsFeatured] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
-  const { addDoc, error } = addCollection("projects");
+  const { addDoc, error } = addCollection("posts");
   const router = useRouter();
 
   const generateSlug = () => {
@@ -38,18 +37,17 @@ const NewProject = () => {
     event.preventDefault();
     const id = nanoid();
     if (!title || !slug || !text || !html) {
-      return toast.error("Project description cannot be empty!");
+      return toast.error("Post content cannot be empty!");
     }
     setIsLoading(true);
-    const newProject = await addDoc(
+    const newPost = await addDoc(
       {
         title,
         slug,
         text,
         html,
-        goal,
+        tags,
         id,
-        featured: isFeatured,
         coverImage: coverImage,
         userId: user?.uid,
         userName: user?.displayName,
@@ -58,13 +56,13 @@ const NewProject = () => {
       },
       id
     );
-    if (!newProject) {
+    if (!newPost) {
       return toast.error("Failed! Server error!");
     } else {
-      toast.success("Project created successfully!", {
+      toast.success("Post created successfully!", {
         duration: 4000,
       });
-      router.push("/admin/projects");
+      router.push("/admin/posts");
     }
   };
   return (
@@ -85,7 +83,7 @@ const NewProject = () => {
       )}
       <div className="py-4 px-5 bg-white dark:bg-gray-700 relative">
         <p className="font-medium text-xl text-gray-700 dark:text-gray-200">
-          Add new project
+          Add new post
         </p>
       </div>
       <div
@@ -105,7 +103,7 @@ const NewProject = () => {
                 required
                 type="text"
                 className="block dark:placeholder-gray-400 rounded-md w-full border bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700 px-2 py-2"
-                placeholder="Project Title"
+                placeholder="Blog Post Title"
               />
             </div>
             <div className="block mb-2">
@@ -133,14 +131,14 @@ const NewProject = () => {
               <div className="flex justify-center items-center">
                 <input
                   onChange={(event) => {
-                    setGoal(event.target.value);
+                    setTags(event.target.value);
                   }}
-                  value={goal}
-                  name="goal"
+                  value={tags}
+                  name="tags"
                   required
-                  type="number"
+                  type="text"
                   className="block dark:placeholder-gray-400 rounded-md w-full border bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700 px-2 py-2"
-                  placeholder="Donation Goal ($)"
+                  placeholder="Tags"
                 />
 
                 <ImagePicker
@@ -177,4 +175,4 @@ const NewProject = () => {
   );
 };
 
-export default NewProject;
+export default NewPost;

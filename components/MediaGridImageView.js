@@ -15,7 +15,7 @@ const MediaGridImageView = ({ image }) => {
       .doc(image.id)
       .delete()
       .then(async () => {
-        const imageDeleted = await deleteImage(image.filePath);
+        const imageDeleted = await deleteImage(image);
         toast.success("Image deleted!");
         setIsLoading(false);
       })
@@ -26,19 +26,22 @@ const MediaGridImageView = ({ image }) => {
   };
   return (
     <div className="overflow-hidden relative group rounded-md">
-      <div className="absolute w-full h-full bg-black bg-opacity-75 inset-0 z-10 hidden group-hover:flex justify-center items-center">
+      <div className="absolute w-full h-full bg-black bg-opacity-75 inset-0 z-10 hidden group-hover:flex justify-center items-center rounded-md">
         <button
           onClick={handelDelete}
+          title="Delete image"
           disabled={isLoading}
           className="text-gradient-1-start absolute block right-2 top-2 text-xl cursor-pointer outline-none focus:outline-none"
         >
           <IoClose />
         </button>
         <CopyToClipboard
-          text={image.downloadUrl}
+          text={image.oriDownloadUrl}
           onCopy={() => toast.success("Copied to clipboard!")}
         >
           <button
+            aria-level="Copy to clipboard"
+            title="Copy to clipboard"
             disabled={isLoading}
             className="text-gradient-2-start block text-3xl cursor-pointer outline-none focus:outline-none"
           >
@@ -48,7 +51,9 @@ const MediaGridImageView = ({ image }) => {
       </div>
       <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
         <Image
-          src={image.downloadUrl}
+          placeholder="blur"
+          blurDataURL={image.loaderDownloadUrl}
+          src={image.thumbDownloadUrl}
           width={150}
           height={150}
           priority={true}
