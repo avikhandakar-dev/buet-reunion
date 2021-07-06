@@ -7,10 +7,12 @@ import Toggle from "@components/Toggle";
 import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import Image from "next/image";
+import ConfirmModal from "@components/Confirm";
 
 const ProjectsTableRow = ({ project }) => {
   const [isFeatured, setIsFeatured] = useState(project.featured || false);
   const [isLoading, setIsLoading] = useState(false);
+  const [processFinished, setProcessFinished] = useState(false);
   const toggleFeatured = () => {
     setIsLoading(true);
     if (isLoading) {
@@ -29,7 +31,26 @@ const ProjectsTableRow = ({ project }) => {
       })
       .catch((error) => {
         console.error("Error updating document: ", error);
+        setIsLoading(false);
         return toast.error("Failed!");
+      });
+  };
+  const handelDelete = () => {
+    setIsLoading(true);
+    setProcessFinished(false);
+    firestore
+      .collection("projects")
+      .doc(project.id)
+      .delete()
+      .then(() => {
+        toast.success("Project deleted!");
+        setProcessFinished(true);
+        return setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setProcessFinished(true);
+        return toast.error("Error removing project!");
       });
   };
   return (
@@ -101,12 +122,15 @@ const ProjectsTableRow = ({ project }) => {
               </a>
             </Link>
           </span>
-          <span>
-            <Link href={`/projects/${project.slug}`}>
-              <a className="text-red-500 hover:text-red-400 text-lg">
-                <IoTrashOutline />
-              </a>
-            </Link>
+          <span className="flex justify-center items-center">
+            <ConfirmModal
+              body="Do you really want to delete this project? This process cannot be undone."
+              className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
+              buttonIcon={<IoTrashOutline />}
+              action={handelDelete}
+              isLoading={isLoading}
+              processFinished={processFinished}
+            />
           </span>
         </div>
       </td>
