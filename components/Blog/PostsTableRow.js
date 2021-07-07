@@ -7,10 +7,13 @@ import Toggle from "@components/Toggle";
 import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import Image from "next/image";
+import ConfirmModal from "@components/Confirm";
 
 const PostsTableRow = ({ post }) => {
   const [isFeatured, setIsFeatured] = useState(post.featured || false);
   const [isLoading, setIsLoading] = useState(false);
+  const [processFinished, setProcessFinished] = useState(false);
+
   const toggleFeatured = () => {
     setIsLoading(true);
     if (isLoading) {
@@ -30,6 +33,24 @@ const PostsTableRow = ({ post }) => {
       .catch((error) => {
         console.error("Error updating document: ", error);
         return toast.error("Failed!");
+      });
+  };
+  const handelDelete = () => {
+    setIsLoading(true);
+    setProcessFinished(false);
+    firestore
+      .collection("posts")
+      .doc(post.id)
+      .delete()
+      .then(() => {
+        toast.success("Post deleted!");
+        setProcessFinished(true);
+        return setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setProcessFinished(true);
+        return toast.error("Error removing post!");
       });
   };
   return (
@@ -93,18 +114,21 @@ const PostsTableRow = ({ post }) => {
             </Link>
           </span>
           <span className="mr-3">
-            <Link href={`/posts/${post.slug}`}>
+            <Link href={`/admin/posts/edit/${post.id}`}>
               <a className="text-yellow-500 hover:text-yellow-400 text-lg">
                 <FiEdit />
               </a>
             </Link>
           </span>
-          <span>
-            <Link href={`/posts/${post.slug}`}>
-              <a className="text-red-500 hover:text-red-400 text-lg">
-                <IoTrashOutline />
-              </a>
-            </Link>
+          <span className="flex justify-center items-center">
+            <ConfirmModal
+              body="Do you really want to delete this post? This process cannot be undone."
+              className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
+              buttonIcon={<IoTrashOutline />}
+              action={handelDelete}
+              isLoading={isLoading}
+              processFinished={processFinished}
+            />
           </span>
         </div>
       </td>

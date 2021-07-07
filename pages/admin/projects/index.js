@@ -1,3 +1,4 @@
+import LoaderAdmin from "@components/Admin/Loader";
 import AdminPageTitle from "@components/Admin/PageTitle";
 import ProjectsTable from "@components/Admin/ProjectsTable";
 import WidgetsViewerAdmin from "@components/Admin/WidgetsViewer";
@@ -23,9 +24,7 @@ const ProjectsAdmin = () => {
       </AdminPageTitle>
       <div>
         {loading ? (
-          <div className="px-6 lg:px-10 -mt-24">
-            <PulseBar count={5} />
-          </div>
+          <LoaderAdmin title="Projects" />
         ) : (
           <div className="px-6 lg:px-10 -mt-24">
             <div className="mb-6">

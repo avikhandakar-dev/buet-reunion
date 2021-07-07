@@ -55,6 +55,7 @@ const NewProject = () => {
         userName: user?.displayName,
         userEmail: user.email,
         createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
       },
       id
     );

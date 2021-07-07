@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
+import LoaderAdmin from "@components/Admin/Loader";
 
 const PostsAdmin = () => {
   const [posts = [], loading, error] = useCollectionData(
@@ -20,9 +21,7 @@ const PostsAdmin = () => {
       </AdminPageTitle>
       <div>
         {loading ? (
-          <div className="px-6 lg:px-10 -mt-24">
-            <PulseBar count={8} cols={4} height={48} />
-          </div>
+          <LoaderAdmin title="Blog Posts" />
         ) : (
           <div className="px-6 lg:px-10 -mt-24">
             <div className="mb-6">

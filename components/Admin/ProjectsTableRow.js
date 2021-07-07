@@ -116,7 +116,7 @@ const ProjectsTableRow = ({ project }) => {
             </Link>
           </span>
           <span className="mr-3">
-            <Link href={`/projects/${project.slug}`}>
+            <Link href={`/admin/projects/edit/${project.id}`}>
               <a className="text-yellow-500 hover:text-yellow-400 text-lg">
                 <FiEdit />
               </a>

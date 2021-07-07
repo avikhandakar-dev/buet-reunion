@@ -4,24 +4,20 @@ import toast from "react-hot-toast";
 import ImagePicker from "@components/ImagePicker";
 import Image from "next/image";
 import MdEditorLite from "@components/MdEditor";
-import addCollection from "@lib/addCollection";
 import AuthContext from "@lib/authContext";
-import { serverTimestamp, uploadImage } from "@lib/firebase";
-import { nanoid } from "nanoid";
+import { firestore, serverTimestamp } from "@lib/firebase";
 import { CgSpinner } from "react-icons/cg";
-import { useRouter } from "next/router";
 
-const NewPost = () => {
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [tags, setTags] = useState("");
-  const [coverImage, setCoverImage] = useState(null);
-  const [html, setHtml] = useState(null);
-  const [text, setText] = useState(null);
+const EditProject = ({ project }) => {
+  const [title, setTitle] = useState(project.title);
+  const [slug, setSlug] = useState(project.slug);
+  const [goal, setGoal] = useState(project.goal);
+  const [coverImage, setCoverImage] = useState(project.coverImage || null);
+  const [html, setHtml] = useState(project.html);
+  const [text, setText] = useState(project.text);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const { user } = useContext(AuthContext);
-  const { addDoc, error } = addCollection("posts");
-  const router = useRouter();
 
   const generateSlug = () => {
     if (!title) {
@@ -35,36 +31,33 @@ const NewPost = () => {
   };
   const handelSubmit = async (event) => {
     event.preventDefault();
-    const id = nanoid();
     if (!title || !slug || !text || !html) {
-      return toast.error("Post content cannot be empty!");
+      return toast.error("Project description cannot be empty!");
     }
     setIsLoading(true);
-    const newPost = await addDoc(
-      {
+    setErrorMessage(null);
+    firestore
+      .collection("projects")
+      .doc(project.id)
+      .update({
         title,
         slug,
         text,
         html,
-        tags,
-        id,
+        goal,
         coverImage: coverImage,
-        userId: user?.uid,
-        userName: user?.displayName,
-        userEmail: user.email,
-        createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-      },
-      id
-    );
-    if (!newPost) {
-      return toast.error("Failed! Server error!");
-    } else {
-      toast.success("Post created successfully!", {
-        duration: 4000,
+        updatedBy: user?.uid,
+      })
+      .then(() => {
+        setIsLoading(false);
+        toast.success("Project updated!");
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setErrorMessage(error.message);
+        toast.error("Update failed!");
       });
-      router.push("/admin/posts");
-    }
   };
   return (
     <div className="rounded-md shadow overflow-hidden relative">
@@ -84,7 +77,7 @@ const NewPost = () => {
       )}
       <div className="py-4 px-5 bg-white dark:bg-gray-700 relative">
         <p className="font-medium text-xl text-gray-700 dark:text-gray-200">
-          Add new post
+          Update project
         </p>
       </div>
       <div
@@ -104,7 +97,7 @@ const NewPost = () => {
                 required
                 type="text"
                 className="block dark:placeholder-gray-400 rounded-md w-full border bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700 px-2 py-2"
-                placeholder="Blog Post Title"
+                placeholder="Project Title"
               />
             </div>
             <div className="block mb-2">
@@ -132,14 +125,14 @@ const NewPost = () => {
               <div className="flex justify-center items-center">
                 <input
                   onChange={(event) => {
-                    setTags(event.target.value);
+                    setGoal(event.target.value);
                   }}
-                  value={tags}
-                  name="tags"
+                  value={goal}
+                  name="goal"
                   required
-                  type="text"
+                  type="number"
                   className="block dark:placeholder-gray-400 rounded-md w-full border bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700 px-2 py-2"
-                  placeholder="Tags"
+                  placeholder="Donation Goal ($)"
                 />
 
                 <ImagePicker
@@ -150,7 +143,7 @@ const NewPost = () => {
                 />
               </div>
             </div>
-            <MdEditorLite onChange={handleEditorChange} />
+            <MdEditorLite onChange={handleEditorChange} value={text} />
             <button
               type="submit"
               disabled={isLoading}
@@ -161,12 +154,12 @@ const NewPost = () => {
                   <CgSpinner />
                 </span>
               ) : (
-                "Submit"
+                "Update"
               )}
             </button>
-            {error ? (
+            {errorMessage ? (
               <div className=" text-red-500 py-2 text-sm font-medium w-full text-center">
-                {error}
+                {errorMessage}
               </div>
             ) : null}
           </form>
@@ -176,4 +169,4 @@ const NewPost = () => {
   );
 };
 
-export default NewPost;
+export default EditProject;

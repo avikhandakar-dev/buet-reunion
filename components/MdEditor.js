@@ -11,7 +11,7 @@ const mdParser = new MarkdownIt({
   breaks: true,
 });
 
-const MdEditorLite = ({ onChange }) => {
+const MdEditorLite = ({ onChange, ...props }) => {
   //   const handleImageUpload = (file) => {
   //     return new Promise((resolve) => {
   //       const reader = new FileReader();
@@ -27,6 +27,7 @@ const MdEditorLite = ({ onChange }) => {
       renderHTML={(text) => mdParser.render(text)}
       //   onImageUpload={handleImageUpload}
       style={{ height: "450px", width: "100%" }}
+      {...props}
     />
   );
 };

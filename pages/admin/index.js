@@ -6,6 +6,7 @@ import { useContext, useState, useEffect } from "react";
 import UsersTable from "@components/Admin/UsersTable";
 import WidgetsViewerAdmin from "@components/Admin/WidgetsViewer";
 import { GetUsersStatus } from "@lib/healper";
+import LoaderAdmin from "@components/Admin/Loader";
 
 const UsersAdmin = () => {
   const { user } = useContext(AuthContext);
@@ -44,9 +45,7 @@ const UsersAdmin = () => {
       </AdminPageTitle>
       <div>
         {isLoading ? (
-          <div className="px-6 lg:px-10 -mt-24">
-            <PulseBar count={5} />
-          </div>
+          <LoaderAdmin title="Users" />
         ) : (
           <div className="px-6 lg:px-10 -mt-24">
             <div className="mb-6">
