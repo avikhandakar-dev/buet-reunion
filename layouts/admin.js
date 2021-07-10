@@ -115,10 +115,10 @@ const AdminLayout = ({ children }) => {
             {Tabs.map((tab) => (
               <ActiveLink
                 key={tab.title}
-                activeClassName="text-black dark:text-white bg-primaryDark dark:bg-white bg-opacity-10"
+                activeClassName="text-black dark:text-white bg-primaryDark dark:bg-white bg-opacity-10 dark:bg-opacity-10"
                 href={tab.href}
               >
-                <a className="focus:outline-none rounded-md flex items-center justify-center lg:justify-start py-2 px-4 lg:pl-8 hover:bg-primaryDark dark:hover:bg-white hover:bg-opacity-10 mr-auto mb-2">
+                <a className="focus:outline-none rounded-md flex items-center justify-center lg:justify-start py-2 px-4 lg:pl-8 hover:bg-primaryDark dark:hover:bg-white dark:hover:hover:bg-opacity-10 hover:bg-opacity-10 mr-auto mb-2">
                   <i
                     className={`text-2xl ${tab.color} dark:text-current lg:text-xl lg:mr-4 text-left`}
                   >
