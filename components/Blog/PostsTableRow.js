@@ -107,7 +107,7 @@ const PostsTableRow = ({ post }) => {
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <div className="flex justify-center items-center">
           <span className="mr-3">
-            <Link href={`/posts/${post.slug}`}>
+            <Link href={`/blog/${post.slug}`}>
               <a className="text-green-500 hover:text-green-400 text-lg">
                 <BsEyeFill />
               </a>

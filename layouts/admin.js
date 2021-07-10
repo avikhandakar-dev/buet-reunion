@@ -22,44 +22,49 @@ const Tabs = [
     icon: <FaUserFriends />,
     title: "Users",
     href: "/admin",
-    color: "primary",
+    color: "text-primary",
   },
   {
     icon: <AiOutlineFundProjectionScreen />,
     title: "Projects",
     href: "/admin/projects",
-    color: "green-500",
+    color: "text-green-500",
   },
   {
     icon: <FaRegHeart />,
     title: "Donation",
     href: "/admin/donation",
-    color: "pink-400",
+    color: "text-pink-400",
   },
   {
     icon: <BsGrid />,
     title: "Posts",
     href: "/admin/posts",
-    color: "indigo-600",
+    color: "text-indigo-600",
   },
   {
     icon: <IoIosImages />,
     title: "Media",
     href: "/admin/media",
-    color: "pink-600",
+    color: "text-pink-600",
   },
   {
     icon: <BiCommentDetail />,
     title: "Comments",
     href: "/admin/comments",
-    color: "purple-500",
+    color: "text-purple-500",
   },
-  { icon: <FaPoll />, title: "Poll", href: "/admin/poll", color: "yellow-500" },
+  {
+    icon: <FaPoll />,
+    title: "Poll",
+    href: "/admin/poll",
+    color: "text-yellow-500",
+  },
   {
     icon: <AiFillSetting />,
     title: "Settings",
     href: "/admin/settings",
-    color: "red-500",
+    color: "text-red-500",
   },
 ];
 
@@ -115,7 +120,7 @@ const AdminLayout = ({ children }) => {
               >
                 <a className="focus:outline-none rounded-md flex items-center justify-center lg:justify-start py-2 px-4 lg:pl-8 hover:bg-primaryDark dark:hover:bg-white hover:bg-opacity-10 mr-auto mb-2">
                   <i
-                    className={`text-2xl text-${tab.color} dark:text-current lg:text-xl lg:mr-4 text-left`}
+                    className={`text-2xl ${tab.color} dark:text-current lg:text-xl lg:mr-4 text-left`}
                   >
                     {tab.icon}
                   </i>

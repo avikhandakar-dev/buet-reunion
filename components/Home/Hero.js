@@ -9,7 +9,7 @@ const Hero = () => {
         <div className="lg:max-w-md md:max-w-full">
           <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
             Stand by <br />
-            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-bl from-blue to-sky">
+            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-bl from-primary to-sky">
               The Humanity
             </span>
           </h1>

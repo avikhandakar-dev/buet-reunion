@@ -8,7 +8,7 @@ const TheStory = () => {
         <div className="pr-10 lg:pr-0 mb-5 md:mb-0 flex-grow">
           <div className="md:max-w-2xl">
             <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
-              <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-blue to-sky">
+              <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-primary to-sky">
                 About
               </span>{" "}
               us

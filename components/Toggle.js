@@ -1,7 +1,6 @@
 import { Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import { CgSpinner } from "react-icons/cg";
-import { translate } from "tailwindcss/defaultTheme";
 
 const Toggle = ({ enabled, onChange, size, isLoading }) => {
   const toggleWidth = size;

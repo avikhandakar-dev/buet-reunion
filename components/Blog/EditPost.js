@@ -12,8 +12,9 @@ const EditPost = ({ post }) => {
   const [title, setTitle] = useState(post.title);
   const [slug, setSlug] = useState(post.slug);
   const [tags, setTags] = useState(post.tags);
-  const [coverImage, setCoverImage] = useState(post.coverImage || null);
+  const [coverImage, setCoverImage] = useState(null);
   const [html, setHtml] = useState(post.html);
+  const [excerpt, setExcerpt] = useState(post.excerpt);
   const [text, setText] = useState(post.text);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -42,12 +43,13 @@ const EditPost = ({ post }) => {
       .update({
         title,
         slug,
+        excerpt,
         text,
         html,
         tags,
-        coverImage: coverImage,
         updatedAt: serverTimestamp(),
         updatedBy: user?.uid,
+        ...(coverImage && { coverImage }),
       })
       .then(() => {
         setIsLoading(false);
@@ -142,6 +144,19 @@ const EditPost = ({ post }) => {
                   className="cursor-pointer focus:outline-none inline-flex justify-center items-center px-4 lg:px-16 py-2 flex-shrink-0 bg-gradient-2-start text-green-800 transition-colors duration-300 hover:bg-gradient-2-stop font-medium rounded ml-2"
                 />
               </div>
+            </div>
+            <div className="block mb-2">
+              <textarea
+                onChange={(event) => {
+                  setExcerpt(event.target.value);
+                }}
+                value={excerpt}
+                name="excerpt"
+                required
+                rows="3"
+                className="block dark:placeholder-gray-400 rounded-md w-full border bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700 px-2 py-2"
+                placeholder="Excerpt"
+              />
             </div>
             <MdEditorLite onChange={handleEditorChange} value={text} />
             <button

@@ -5,7 +5,7 @@ import { RiVirusFill } from "react-icons/ri";
 import { BiDonateHeart } from "react-icons/bi";
 const About = () => {
   return (
-    <Container bgColor="bg-gradient-to-bl from-blue to-sky">
+    <Container bgColor="bg-gradient-to-bl from-primary to-sky">
       <div className="pb-10 md:pb-16 max-w-5xl mx-auto">
         <div className="text-center mb-8 max-w-3xl mx-auto">
           <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl text-white">

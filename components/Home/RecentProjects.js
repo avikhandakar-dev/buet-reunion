@@ -38,7 +38,7 @@ const RecentProjects = () => {
         <div className="text-center mb-8">
           <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
             Recent{" "}
-            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-blue to-sky">
+            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-l from-primary to-sky">
               project
             </span>
           </h1>

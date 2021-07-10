@@ -16,6 +16,7 @@ const NewPost = () => {
   const [slug, setSlug] = useState("");
   const [tags, setTags] = useState("");
   const [coverImage, setCoverImage] = useState(null);
+  const [excerpt, setExcerpt] = useState("");
   const [html, setHtml] = useState(null);
   const [text, setText] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +45,7 @@ const NewPost = () => {
       {
         title,
         slug,
+        excerpt,
         text,
         html,
         tags,
@@ -149,6 +151,19 @@ const NewPost = () => {
                   className="cursor-pointer focus:outline-none inline-flex justify-center items-center px-4 lg:px-16 py-2 flex-shrink-0 bg-gradient-2-start text-green-800 transition-colors duration-300 hover:bg-gradient-2-stop font-medium rounded ml-2"
                 />
               </div>
+            </div>
+            <div className="block mb-2">
+              <textarea
+                onChange={(event) => {
+                  setExcerpt(event.target.value);
+                }}
+                value={excerpt}
+                name="excerpt"
+                required
+                rows="3"
+                className="block dark:placeholder-gray-400 rounded-md w-full border bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700 px-2 py-2"
+                placeholder="Excerpt"
+              />
             </div>
             <MdEditorLite onChange={handleEditorChange} />
             <button
