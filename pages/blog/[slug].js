@@ -5,9 +5,14 @@ import { Fragment } from "react";
 import { useEffect, useState } from "react";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
+import { DefaultSeo } from "next-seo";
 
 const BlogSinglePage = ({ post, mdxSource }) => {
   const [author, setAuthor] = useState([]);
+  const SEO = {
+    title: `Buetian 89 | ${post.title}`,
+    description: post.excerpt,
+  };
   useEffect(() => {
     const unsubs = async () => {
       const res = await fetch("/api/users/get", {
@@ -28,8 +33,9 @@ const BlogSinglePage = ({ post, mdxSource }) => {
   }, []);
   return (
     <Fragment>
+      <DefaultSeo {...SEO} />
       <PostHeader post={post} author={author} />
-      <PostContent mdxSource={mdxSource} />
+      <PostContent mdxSource={mdxSource} post={post} />
     </Fragment>
   );
 };
