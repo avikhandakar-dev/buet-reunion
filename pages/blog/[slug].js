@@ -4,7 +4,6 @@ import { firestore, postOrProjectToJSON } from "@lib/firebase";
 import { Fragment } from "react";
 import { useEffect, useState } from "react";
 import { serialize } from "next-mdx-remote/serialize";
-import { MDXRemote } from "next-mdx-remote";
 import { DefaultSeo } from "next-seo";
 
 const BlogSinglePage = ({ post, mdxSource }) => {
@@ -55,7 +54,6 @@ export const getServerSideProps = async ({ params }) => {
     };
   }
   const post = posts[0];
-  const source = "Some **mdx** text, with a component <Parallax />";
   const mdxSource = await serialize(post.text);
   return {
     props: { post, mdxSource },

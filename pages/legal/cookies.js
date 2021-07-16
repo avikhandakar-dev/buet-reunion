@@ -4,7 +4,7 @@ import { FaCookieBite } from "react-icons/fa";
 import Link from "next/link";
 const Cookies = () => {
   return (
-    <Container maxWidth="5xl" bgColor="mt-16">
+    <Container maxWidth="max-w-5xl" bgColor="mt-16">
       <div className="text-center mb-4">
         <div className="text-primary justify-center items-center flex text-7xl">
           <FaCookieBite />

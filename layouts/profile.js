@@ -36,7 +36,7 @@ const ProfileLayout = ({ children }) => {
   return (
     <Fragment>
       <Nav />
-      <Container maxWidth="5xl">
+      <Container maxWidth="max-w-5xl">
         <ProfileHeader />
         {children}
       </Container>
