@@ -7,7 +7,7 @@ import AuthIcon from "./AuthIcon";
 
 const Nav = () => {
   return (
-    <header className="fixed z-40 left-0 top-0 w-full h-20 bg-white dark:bg-black bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200 dark:border-gray-800">
+    <header className="fixed z-40 left-0 top-0 w-full h-20 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200 dark:border-gray-800">
       <div className="w-full hidden px-16 h-full lg:flex justify-between items-center">
         <Link href="/">
           <a className="font-cursive text-2xl uppercase">

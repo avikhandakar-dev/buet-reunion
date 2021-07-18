@@ -1,6 +1,6 @@
 const PulseBar = ({ count, cols, gap, height }) => {
   return (
-    <div className={`grid gap-${gap || 3} grid-cols-${cols || 1}`}>
+    <div className={`grid ${gap || "gap-3"} ${cols || "grid-cols-1"}`}>
       {[...Array(count || 1)].map((_, idx) => (
         <div
           key={idx}

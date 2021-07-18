@@ -2,7 +2,6 @@ import LoaderAdmin from "@components/Admin/Loader";
 import AdminPageTitle from "@components/Admin/PageTitle";
 import ProjectsTable from "@components/Admin/ProjectsTable";
 import WidgetsViewerAdmin from "@components/Admin/WidgetsViewer";
-import PulseBar from "@components/Pulse/Bar";
 import { firestore } from "@lib/firebase";
 import AdminLayout from "layouts/admin";
 import Link from "next/link";

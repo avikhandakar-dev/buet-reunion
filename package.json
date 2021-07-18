@@ -9,10 +9,13 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.2.0",
+    "@stripe/react-stripe-js": "^1.4.1",
+    "@stripe/stripe-js": "^1.16.0",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/line-clamp": "^0.2.1",
     "@tailwindcss/typography": "^0.4.1",
+    "country-state-city": "^3.0.1",
     "firebase": "^8.6.3",
     "firebase-admin": "^9.9.0",
     "framer-motion": "^4.1.17",
@@ -33,7 +36,8 @@
     "react-icons": "^4.2.0",
     "react-image-file-resizer": "^0.4.7",
     "react-markdown-editor-lite": "^1.2.4",
-    "react-responsive-masonry": "^2.1.2"
+    "react-responsive-masonry": "^2.1.2",
+    "stripe": "^8.163.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",

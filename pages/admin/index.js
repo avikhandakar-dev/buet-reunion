@@ -1,6 +1,5 @@
 import AdminPageTitle from "@components/Admin/PageTitle";
 import AdminLayout from "layouts/admin";
-import PulseBar from "@components/Pulse/Bar";
 import AuthContext from "@lib/authContext";
 import { useContext, useState, useEffect } from "react";
 import UsersTable from "@components/Admin/UsersTable";

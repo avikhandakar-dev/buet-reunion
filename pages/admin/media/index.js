@@ -1,7 +1,6 @@
 import AdminPageTitle from "@components/Admin/PageTitle";
 import MediaGrid from "@components/Admin/MediaGrid";
 import WidgetsViewerAdmin from "@components/Admin/WidgetsViewer";
-import PulseBar from "@components/Pulse/Bar";
 import { firestore } from "@lib/firebase";
 import AdminLayout from "layouts/admin";
 import { Fragment } from "react";

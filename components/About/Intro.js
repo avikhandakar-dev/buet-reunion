@@ -2,7 +2,7 @@ const { default: Image } = require("next/image");
 
 const Intro = () => {
   return (
-    <div className="relative">
+    <div className="relative mt-20">
       <span className="block z-10 absolute w-full h-full bg-black bg-opacity-60 inset-0" />
 
       <div className="absolute w-full h-full inset-0">
