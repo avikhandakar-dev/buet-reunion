@@ -48,8 +48,8 @@ const DonationAmount = ({ totalAmount }) => {
                 <span
                   className={`px-6 text-xl py-3 flex-shrink-0 border-2 rounded-l border-gray-200 dark:border-gray-700  border-r-0 ${
                     customAmount
-                      ? "text-white bg-primary border-primary"
-                      : "text-primary"
+                      ? "text-white bg-green-500 border-green-500"
+                      : "text-green-500"
                   }`}
                 >
                   $
@@ -67,7 +67,7 @@ const DonationAmount = ({ totalAmount }) => {
                     );
                   }}
                   type="text"
-                  className="flex-grow outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 font-medium rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-xl text-center text-primary bg-transparent"
+                  className="flex-grow outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 font-medium rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-xl text-center text-green-500 bg-transparent"
                 />
               </div>
             ) : (
@@ -78,8 +78,8 @@ const DonationAmount = ({ totalAmount }) => {
                 }}
                 className={`text-center border-2 cursor-pointer border-gray-200 dark:border-gray-700 text-xl font-medium rounded p-3 ${
                   selectedAmount == item.value
-                    ? "text-white bg-primary border-primary"
-                    : "text-primary"
+                    ? "text-white bg-green-500 border-green-500"
+                    : "text-green-500"
                 }`}
               >
                 <span className="text-sm align-top">$</span>
@@ -96,7 +96,7 @@ const DonationAmount = ({ totalAmount }) => {
         {!pCharge ? (
           <BiCircle className="text-xl" />
         ) : (
-          <FaCheckCircle className="text-xl text-primary" />
+          <FaCheckCircle className="text-xl text-green-500" />
         )}
         <p className="ml-2 text-gray-600 dark:text-gray-300">
           I'd like to help cover the transaction fee (2%)

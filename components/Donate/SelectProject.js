@@ -1,21 +1,29 @@
 import PulseBar from "@components/Pulse/Bar";
 import { firestore } from "@lib/firebase";
 import Image from "next/image";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { FaCheckCircle } from "react-icons/fa";
 
-const SelectProject = () => {
+const SelectProject = ({ project }) => {
   const [projects = [], loading, error] = useCollectionData(
     firestore.collection("projects").orderBy("createdAt", "desc")
   );
   const [selectedProject, setSelectedProject] = useState(null);
+  useEffect(() => {
+    const unsubs = () => {
+      project(selectedProject);
+    };
+    return unsubs();
+  }, [selectedProject]);
+
   if (loading) {
     return <PulseBar count={3} />;
   }
+
   return (
-    <div className="">
-      <h1 className="font-medium lg:text-xl uppercase mb-4 text-gray-600 dark:text-gray-300">
+    <div className="shadow-projectBar rounded-md overflow-hidden dark:bg-gray-800">
+      <h1 className="font-medium lg:text-xl uppercase bg-green-500 p-4 text-white">
         Select a Project
       </h1>
       <div className="grid gap-4">
@@ -23,12 +31,14 @@ const SelectProject = () => {
           <Fragment key={idx}>
             <div
               onClick={() => setSelectedProject(project)}
-              className={`rounded-md w-full p-4 shadow-projectBar duration-300 space-x-8 cursor-pointer flex justify-center items-center relative bg-white dark:bg-gray-800 ${
-                selectedProject == project ? "border-2 border-primary" : ""
+              className={`w-full p-4 bg-white duration-300 space-x-8 cursor-pointer flex justify-center items-center relative  dark:bg-gray-800 ${
+                selectedProject == project
+                  ? "border-2 border-green-500 bg-green-50 bg-opacity-30"
+                  : ""
               }`}
             >
               {selectedProject == project && (
-                <span className="text-2xl text-primary absolute right-4 top-4">
+                <span className="text-2xl text-green-500 absolute right-4 top-4">
                   <FaCheckCircle />
                 </span>
               )}
@@ -48,10 +58,10 @@ const SelectProject = () => {
                 )}
               </div>
               <div className="flex-1 flex-grow">
-                <p className="uppercase font-semibold text-xs text-primary">
+                <p className="uppercase font-semibold text-xs text-green-500">
                   {project.category || "Fundraising"}
                 </p>
-                <p className="uppercase font-semibold text-lg">
+                <p className="uppercase font-semibold text-lg text-gray-600 dark:text-gray-300">
                   {project.title}
                 </p>
                 <div className="relative w-full h-1 rounded-full bg-gray-200 mt-1"></div>

@@ -9,12 +9,14 @@ const BillingAddress = ({ address }) => {
   const { user } = useContext(AuthContext);
   const [name, setName] = useState(user?.displayName);
   const [email, setEmail] = useState(user?.email);
+  const [uid, setUid] = useState(user?.uid);
   const [countryList, setCountryList] = useState(Country.getAllCountries());
   const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     const unsubs = () => {
       address({
+        uid,
         name,
         email,
         country: selectedCountry,
@@ -23,6 +25,15 @@ const BillingAddress = ({ address }) => {
     };
     return unsubs();
   }, [name, email, selectedCountry, anonymous]);
+
+  useEffect(() => {
+    const unsubs = () => {
+      setEmail(user?.email);
+      setName(user?.displayName);
+      setUid(user?.uid);
+    };
+    return unsubs();
+  }, [user]);
 
   return (
     <div className="mt-8">
@@ -86,7 +97,7 @@ const BillingAddress = ({ address }) => {
         {!anonymous ? (
           <BiCircle className="text-xl" />
         ) : (
-          <FaCheckCircle className="text-xl text-primary" />
+          <FaCheckCircle className="text-xl text-green-500" />
         )}
         <p className="ml-2 text-gray-600 dark:text-gray-300">
           Donate as Anonymous
