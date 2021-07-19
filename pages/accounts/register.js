@@ -45,8 +45,6 @@ const RegisterPage = () => {
         const batch = firestore.batch();
         batch.set(userDoc, {
           username: username,
-          photoURL: userCredential.user.photoURL,
-          displayName: userCredential.user.displayName,
         });
         batch.set(usernameDoc, { uid: userCredential.user.uid });
         await batch.commit();

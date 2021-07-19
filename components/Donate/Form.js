@@ -30,6 +30,7 @@ const DonationForm = () => {
     if (response.statusCode === 500) {
       console.error(response.message);
       toast.error(response.message);
+      setIsLoading(false);
       return;
     }
     const stripe = await getStripe();
@@ -41,7 +42,6 @@ const DonationForm = () => {
   };
   return (
     <Container>
-      {user?.uid || "null"}
       <div className="max-w-7xl mx-auto">
         <div
           className="flex lg:space-x-16 space-y-16 lg:space-y-0 relative flex-col lg:flex-row"
@@ -70,7 +70,9 @@ const DonationForm = () => {
                 <button
                   disabled={isLoading}
                   onClick={STRIPE_CHECKOUT}
-                  className="cursor-pointer rounded text-4xl flex text-white justify-center items-center space-x-4 w-full px-4 py-1 bg-violet hover:bg-darkBlue duration-300"
+                  className={`cursor-pointer rounded text-4xl flex text-white justify-center items-center space-x-4 w-full px-4 py-1 bg-violet hover:bg-darkBlue duration-300 ${
+                    isLoading && "opacity-50 cursor-not-allowed saturate-0"
+                  }`}
                 >
                   <FaCcDiscover />
                   <FaCcMastercard />

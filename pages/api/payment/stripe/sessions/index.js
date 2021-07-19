@@ -9,7 +9,17 @@ export default async (req, res) => {
   if (req.method === "POST") {
     const { amount, project, address } = req.body;
     if (!amount || !project || !address) {
-      res.status(500).json({ statusCode: 500, message: "Invalid data!" });
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Invalid amount or you dont select a project!",
+      });
+    }
+    if (!address.anonymous) {
+      if (!address.name || !address.email || !address.country) {
+        return res
+          .status(500)
+          .json({ statusCode: 500, message: "Invalid address!" });
+      }
     }
     try {
       const params = {
@@ -28,7 +38,7 @@ export default async (req, res) => {
         ],
         metadata: {
           id: nanoid(),
-          projectRef: project.id,
+          projectId: project.id,
           ...address,
         },
         success_url: `${req.headers.origin}/donate/stripe/result?session_id={CHECKOUT_SESSION_ID}`,

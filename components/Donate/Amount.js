@@ -24,8 +24,14 @@ const DonationAmount = ({ totalAmount }) => {
   const [selectedAmount, setSelectedAmount] = useState(false);
   const [customAmount, setCustomAmount] = useState("");
   const [pCharge, setPCharge] = useState(false);
+  const TRANSACTION_FEE = 0.02;
   const getTotalAmount = (value) => {
-    return pCharge ? Number(value) * 0.02 + Number(value) : value;
+    return pCharge ? Number(value) * TRANSACTION_FEE + Number(value) : value;
+  };
+  const getFee = () => {
+    return (Number(selectedAmount || customAmount) * TRANSACTION_FEE).toFixed(
+      2
+    );
   };
 
   useEffect(() => {
@@ -99,7 +105,10 @@ const DonationAmount = ({ totalAmount }) => {
           <FaCheckCircle className="text-xl text-green-500" />
         )}
         <p className="ml-2 text-gray-600 dark:text-gray-300">
-          I'd like to help cover the transaction fee (2%)
+          I'd like to help cover the transaction fee{" "}
+          <span className="text-green-500 font-medium underline">
+            {getFee() > 0 && "$" + getFee()}
+          </span>
         </p>
       </div>
     </div>

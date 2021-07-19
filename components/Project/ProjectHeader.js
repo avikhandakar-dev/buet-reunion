@@ -1,4 +1,5 @@
 import Container from "@components/Container";
+import { getFundingProgress } from "@lib/healper";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -35,19 +36,26 @@ const ProjectSingleHeader = ({ project }) => {
         </Container>
       </div>
       <div className="max-w-3xl mx-auto mb-8 mt-8 px-4 sm:px-6 relative">
-        <div className="flex space-x-8 lg:space-x-16 divide-x-2">
+        <div className="flex space-x-8 lg:space-x-16 divide-x-2 dark:divide-gray-700 divide-gray-300">
           <div className="text-gray-500 text-2xl uppercase flex-shrink-0">
             <p>${project.raised || 0}</p>
             <p className="text-xs font-medium">Raised</p>
           </div>
           <div className="text-gray-500 pl-8 lg:pl-16 text-2xl uppercase flex-shrink-0">
-            <p>{project.raised || 0}</p>
+            <p>{project.createdAt._seconds * 1000 || 0}</p>
             <p className="text-xs font-medium">Days ago</p>
           </div>
           <div className="flex-grow w-full pl-8 lg:pl-16 relative flex justify-center items-center flex-col">
-            <div className="relative w-full h-1 bg-gray-300 rounded-full"></div>
+            <div className="relative w-full h-2 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div
+                className="absolute inset-0 h-full bg-primary"
+                style={{
+                  width: `${getFundingProgress(project.raised, project.goal)}%`,
+                }}
+              />
+            </div>
             <p className="text-xs font-semibold text-primary uppercase self-start mt-6">
-              0% Funded
+              {getFundingProgress(project.raised, project.goal)}% Funded
             </p>
           </div>
         </div>

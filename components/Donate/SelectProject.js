@@ -1,5 +1,6 @@
 import PulseBar from "@components/Pulse/Bar";
 import { firestore } from "@lib/firebase";
+import { getFundingProgress } from "@lib/healper";
 import Image from "next/image";
 import { Fragment, useState, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -22,7 +23,7 @@ const SelectProject = ({ project }) => {
   }
 
   return (
-    <div className="shadow-projectBar rounded-md overflow-hidden dark:bg-gray-800">
+    <div className="shadow-projectBar rounded-md overflow-hidden bg-gray-100 dark:bg-gray-900">
       <h1 className="font-medium lg:text-xl uppercase bg-green-500 p-4 text-white">
         Select a Project
       </h1>
@@ -64,7 +65,20 @@ const SelectProject = ({ project }) => {
                 <p className="uppercase font-semibold text-lg text-gray-600 dark:text-gray-300">
                   {project.title}
                 </p>
-                <div className="relative w-full h-1 rounded-full bg-gray-200 mt-1"></div>
+                <div className="relative w-full h-2 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden mt-1">
+                  <div
+                    className="absolute inset-0 h-full bg-green-500"
+                    style={{
+                      width: `${getFundingProgress(
+                        project.raised,
+                        project.goal
+                      )}%`,
+                    }}
+                  />
+                </div>
+                <p className="text-xs font-semibold text-gray-400 uppercase self-start mt-2">
+                  {getFundingProgress(project.raised, project.goal)}% Funded
+                </p>
               </div>
             </div>
           </Fragment>

@@ -101,7 +101,7 @@ const ProjectsTableRow = ({ project }) => {
         />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-        ${project.fundraise || 0}
+        ${project.raised || 0}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
         ${project.goal}
