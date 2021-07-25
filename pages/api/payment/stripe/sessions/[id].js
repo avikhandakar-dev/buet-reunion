@@ -46,7 +46,7 @@ export default async (req, res) => {
             paymentMethod: "Stripe",
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
             donorInfo: {
-              anonymous,
+              anonymous: anonymous === "true" ? true : false,
               uid,
               name,
               email,

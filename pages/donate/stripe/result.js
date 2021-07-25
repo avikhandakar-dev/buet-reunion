@@ -1,7 +1,10 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { fetchGetJSON, PrintObject } from "@lib/healper";
-import Container from "@components/Container";
+import { Fragment } from "react";
+import { CgSpinner } from "react-icons/cg";
+import ThankYou from "@components/Donate/ThankYou";
+import PaymentFailed from "@components/Donate/Failed";
 
 const ResultPage = () => {
   const router = useRouter();
@@ -14,15 +17,21 @@ const ResultPage = () => {
 
   if (error) return <div>failed to load</div>;
 
-  return (
-    <Container>
-      <div className="mt-32">
-        <h1>Checkout Payment Result</h1>
-        <h2>Status: {data?.payment_intent?.status || "loading..."}</h2>
-        <h3>CheckoutSession response:</h3>
-        <PrintObject content={data || "loading..."} />
-      </div>
-    </Container>
+  if (!data)
+    return (
+      <Fragment>
+        <div className="w-full mt-20 flex justify-center items-center h-[calc(100vh-80px)]">
+          <span className="inline-flex text-5xl animate-spin text-primary">
+            <CgSpinner />
+          </span>
+        </div>
+      </Fragment>
+    );
+
+  return data?.payment_intent?.status === "succeeded" ? (
+    <ThankYou amount={data.amount_total} />
+  ) : (
+    <PaymentFailed />
   );
 };
 

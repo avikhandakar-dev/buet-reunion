@@ -50,9 +50,9 @@ const DonationAmount = ({ totalAmount }) => {
         {Amount.map((item, idx) => (
           <Fragment key={idx}>
             {item.value == 0 ? (
-              <div className="flex justify-center items-center col-span-2">
+              <div className="grid grid-cols-3 sm:flex col-span-2">
                 <span
-                  className={`px-6 text-xl py-3 flex-shrink-0 border-2 rounded-l border-gray-200 dark:border-gray-700  border-r-0 ${
+                  className={`px-6 text-xl text-center py-3 flex-shrink-0 border-2 rounded-l border-gray-200 dark:border-gray-700  border-r-0 ${
                     customAmount
                       ? "text-white bg-green-500 border-green-500"
                       : "text-green-500"
@@ -73,7 +73,7 @@ const DonationAmount = ({ totalAmount }) => {
                     );
                   }}
                   type="text"
-                  className="flex-grow outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 font-medium rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-xl text-center text-green-500 bg-transparent"
+                  className="sm:flex-grow col-span-2 outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 font-medium rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-xl text-center text-green-500 bg-transparent"
                 />
               </div>
             ) : (

@@ -5,7 +5,7 @@ export const SEO = {
   openGraph: {
     type: "website",
     locale: "en_IE",
-    url: "http://buet-reunion.vercel.app",
+    url: "https://buet-reunion.vercel.app",
     site_name: "Buetian 89",
   },
   twitter: {

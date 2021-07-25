@@ -2,8 +2,12 @@ import Container from "@components/Container";
 import { getFundingProgress } from "@lib/healper";
 import Image from "next/image";
 import Link from "next/link";
+import date from "date-and-time";
 
 const ProjectSingleHeader = ({ project }) => {
+  const now = new Date();
+  const createdAt = new Date(project.createdAt);
+  const dateDiff = Math.ceil(date.subtract(now, createdAt).toDays());
   return (
     <div className="relative overflow-hidden mt-20">
       <div className="w-full bg-gray-300 aspect-w-16 aspect-h-8 md:aspect-h-6 dark:bg-gray-700 relative overflow-hidden h-auto">
@@ -42,7 +46,7 @@ const ProjectSingleHeader = ({ project }) => {
             <p className="text-xs font-medium">Raised</p>
           </div>
           <div className="text-gray-500 pl-8 lg:pl-16 text-2xl uppercase flex-shrink-0">
-            <p>{project.createdAt._seconds * 1000 || 0}</p>
+            <p>{dateDiff}</p>
             <p className="text-xs font-medium">Days ago</p>
           </div>
           <div className="flex-grow w-full pl-8 lg:pl-16 relative flex justify-center items-center flex-col">

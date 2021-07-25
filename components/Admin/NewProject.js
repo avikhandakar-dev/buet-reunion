@@ -19,6 +19,7 @@ const NewProject = () => {
   const [html, setHtml] = useState(null);
   const [text, setText] = useState(null);
   const [isFeatured, setIsFeatured] = useState(false);
+  const [isPublished, setIsPublished] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
   const { addDoc, error } = addCollection("projects");
@@ -50,6 +51,7 @@ const NewProject = () => {
         goal,
         id,
         featured: isFeatured,
+        published: isPublished,
         coverImage: coverImage,
         userId: user?.uid,
         userName: user?.displayName,

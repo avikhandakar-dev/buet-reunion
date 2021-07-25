@@ -80,7 +80,10 @@ const DonationForm = () => {
                 </button>
                 <a className="cursor-pointer rounded text-4xl flex text-white justify-center items-center space-x-2 w-full px-4 py-1 bg-sky hover:bg-primary duration-300">
                   <RiPaypalFill />
-                  <p className="italic font-bold text-lg">PayPal</p>
+                  <p className="italic font-bold text-lg">
+                    PayPal{" "}
+                    <span className="text-xs italic">(Comming soon)</span>
+                  </p>
                 </a>
               </div>
             </div>

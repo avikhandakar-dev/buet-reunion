@@ -8,10 +8,13 @@ import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import Image from "next/image";
 import ConfirmModal from "@components/Confirm";
+import { serverTimestampToString } from "@lib/healper";
 
 const ProjectsTableRow = ({ project }) => {
   const [isFeatured, setIsFeatured] = useState(project.featured || false);
+  const [isPublished, setIsPublished] = useState(project.published || false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPubLoading, setPubIsLoading] = useState(false);
   const [processFinished, setProcessFinished] = useState(false);
   const toggleFeatured = () => {
     setIsLoading(true);
@@ -32,6 +35,28 @@ const ProjectsTableRow = ({ project }) => {
       .catch((error) => {
         console.error("Error updating document: ", error);
         setIsLoading(false);
+        return toast.error("Failed!");
+      });
+  };
+  const togglePublished = () => {
+    setPubIsLoading(true);
+    if (isPubLoading) {
+      return toast.error("Please wait!");
+    }
+    firestore
+      .collection("projects")
+      .doc(project.id)
+      .update({
+        published: !isPublished,
+      })
+      .then(() => {
+        setPubIsLoading(false);
+        setIsPublished(!isPublished);
+        return toast.success("Success!");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+        setPubIsLoading(false);
         return toast.error("Failed!");
       });
   };
@@ -77,11 +102,15 @@ const ProjectsTableRow = ({ project }) => {
             </div>
           </div>
           <div className="ml-4">
-            <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              {project.title}
+            <div className="">
+              <Link href={`/projects/${project.slug}`}>
+                <a className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  {project.title}
+                </a>
+              </Link>
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              {/* {project.createdAt} */}
+              {serverTimestampToString(project.createdAt)}
             </div>
           </div>
         </div>
@@ -90,7 +119,9 @@ const ProjectsTableRow = ({ project }) => {
         <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">
           {project.userName}
         </div>
-        <div className="text-sm text-gray-500">{project.userEmail}</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          {project.userEmail}
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <Toggle
@@ -98,6 +129,14 @@ const ProjectsTableRow = ({ project }) => {
           onChange={toggleFeatured}
           size={60}
           isLoading={isLoading}
+        />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <Toggle
+          enabled={isPublished}
+          onChange={togglePublished}
+          size={60}
+          isLoading={isPubLoading}
         />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
