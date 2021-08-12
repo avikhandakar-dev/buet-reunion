@@ -1,7 +1,7 @@
 import { serialize } from "next-mdx-remote/serialize";
 import { DefaultSeo } from "next-seo";
 import ProjectContent from "@components/Project/Content";
-import { firestore, postOrProjectToJSON } from "@lib/firebase";
+import { firestore, firestoreToJSON } from "@lib/firebase";
 import { Fragment } from "react";
 import ProjectSingleHeader from "@components/Project/ProjectHeader";
 
@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ params }) => {
     .where("slug", "==", slug)
     .limit(1);
 
-  const projects = (await projectQuery.get()).docs.map(postOrProjectToJSON);
+  const projects = (await projectQuery.get()).docs.map(firestoreToJSON);
 
   if (!projects.length) {
     return {

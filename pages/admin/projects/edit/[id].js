@@ -1,4 +1,4 @@
-import { firestore, postOrProjectToJSON } from "@lib/firebase";
+import { firestore, firestoreToJSON } from "@lib/firebase";
 import AdminLayout from "layouts/admin";
 import EditProject from "@components/Admin/EditProject";
 import AdminPageTitle from "@components/Admin/PageTitle";
@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ params }) => {
     .where("id", "==", id)
     .limit(1);
 
-  const project = (await projectQuery.get()).docs.map(postOrProjectToJSON);
+  const project = (await projectQuery.get()).docs.map(firestoreToJSON);
 
   if (!project.length) {
     return {

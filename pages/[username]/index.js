@@ -1,5 +1,5 @@
 import Container from "@components/Container";
-import { getUserWithUsername, postOrProjectToJSON } from "@lib/firebase";
+import { getUserWithUsername, firestoreToJSON } from "@lib/firebase";
 import ProfileLayout from "layouts/profile";
 import Link from "next/link";
 
@@ -41,7 +41,7 @@ export async function getServerSideProps({ query }) {
       .collection("posts")
       .where("published", "==", true)
       .limit(5);
-    posts = (await postsQuery.get()).docs.map(postOrProjectToJSON);
+    posts = (await postsQuery.get()).docs.map(firestoreToJSON);
   }
   return {
     props: { user, posts },

@@ -1,6 +1,6 @@
 import PostContent from "@components/Blog/PostContent";
 import PostHeader from "@components/Blog/PostHeader";
-import { firestore, postOrProjectToJSON } from "@lib/firebase";
+import { firestore, firestoreToJSON } from "@lib/firebase";
 import { Fragment } from "react";
 import { useEffect, useState } from "react";
 import { serialize } from "next-mdx-remote/serialize";
@@ -46,7 +46,7 @@ export const getServerSideProps = async ({ params }) => {
     .where("slug", "==", slug)
     .limit(1);
 
-  const posts = (await postQuery.get()).docs.map(postOrProjectToJSON);
+  const posts = (await postQuery.get()).docs.map(firestoreToJSON);
 
   if (!posts.length) {
     return {

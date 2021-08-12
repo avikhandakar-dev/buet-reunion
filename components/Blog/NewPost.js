@@ -60,6 +60,7 @@ const NewPost = () => {
       id
     );
     if (!newPost) {
+      setIsLoading(false);
       return toast.error("Failed! Server error!");
     } else {
       toast.success("Post created successfully!", {

@@ -56,8 +56,8 @@ const Tabs = [
   },
   {
     icon: <FaPoll />,
-    title: "Poll",
-    href: "/admin/poll",
+    title: "Polls",
+    href: "/admin/polls",
     color: "text-yellow-500",
   },
   {

@@ -33,7 +33,7 @@ const ProjectsPage = () => {
           </div>
         </>
       )}
-      {!loading && projects.length > 1 && (
+      {!loading && projects.length >= 1 && (
         <>
           <Container>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 relative -mt-8">

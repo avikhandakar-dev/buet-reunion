@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { fetchGetJSON, PrintObject } from "@lib/healper";
+import { fetchGetJSON } from "@lib/healper";
 import { Fragment } from "react";
 import { CgSpinner } from "react-icons/cg";
 import ThankYou from "@components/Donate/ThankYou";

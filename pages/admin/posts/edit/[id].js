@@ -1,4 +1,4 @@
-import { firestore, postOrProjectToJSON } from "@lib/firebase";
+import { firestore, firestoreToJSON } from "@lib/firebase";
 import AdminLayout from "layouts/admin";
 import EditPost from "@components/Blog/EditPost";
 import AdminPageTitle from "@components/Admin/PageTitle";
@@ -21,12 +21,12 @@ const EditPostAdmin = ({ post }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const { id } = params;
-  const postQuery = await firestore
+  const postQuery = firestore
     .collection("posts")
     .where("id", "==", id)
     .limit(1);
 
-  const post = (await postQuery.get()).docs.map(postOrProjectToJSON);
+  const post = (await postQuery.get()).docs.map(firestoreToJSON);
 
   if (!post.length) {
     return {

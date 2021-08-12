@@ -24,18 +24,23 @@ const Nav = () => {
             </ActiveLink>
           </span>
           <span className="mx-4">
-            <ActiveLink activeClassName="text-primary" href="/about">
-              <a>About Us</a>
-            </ActiveLink>
-          </span>
-          <span className="mx-4">
             <ActiveLink activeClassName="text-primary" href="/projects">
               <a>Projects</a>
             </ActiveLink>
           </span>
           <span className="mx-4">
+            <ActiveLink activeClassName="text-primary" href="/polls">
+              <a>Polls</a>
+            </ActiveLink>
+          </span>
+          <span className="mx-4">
             <ActiveLink activeClassName="text-primary" href="/blog">
               <a>Blog</a>
+            </ActiveLink>
+          </span>
+          <span className="mx-4">
+            <ActiveLink activeClassName="text-primary" href="/about">
+              <a>About Us</a>
             </ActiveLink>
           </span>
           <span className="mx-4">
