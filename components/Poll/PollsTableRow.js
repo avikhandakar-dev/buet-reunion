@@ -119,14 +119,14 @@ const PollsTableRow = ({ poll }) => {
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <div className="flex justify-center items-center">
           <span className="mr-3">
-            <Link href={`/blog/${poll.slug}`}>
+            <Link href={`/poll/results/${poll.id}`}>
               <a className="text-green-500 hover:text-green-400 text-lg">
                 <RiPieChart2Fill />
               </a>
             </Link>
           </span>
           <span className="mr-3">
-            <Link href={`/admin/posts/edit/${poll.id}`}>
+            <Link href={`/admin/poll/edit/${poll.id}`}>
               <a className="text-yellow-500 hover:text-yellow-400 text-lg">
                 <FiEdit />
               </a>

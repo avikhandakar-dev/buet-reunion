@@ -28,7 +28,6 @@ const DonationForm = () => {
       address,
     });
     if (response.statusCode === 500) {
-      console.error(response.message);
       toast.error(response.message);
       setIsLoading(false);
       return;

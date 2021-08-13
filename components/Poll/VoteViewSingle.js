@@ -1,12 +1,18 @@
-import { serverTimestampToString } from "@lib/healper";
-import { MdCheckCircle, MdEmail, MdRadioButtonUnchecked } from "react-icons/md";
+import { fetchPostJSON, serverTimestampToString } from "@lib/healper";
+import { MdCheckCircle, MdRadioButtonUnchecked } from "react-icons/md";
 import { BiChevronRight } from "react-icons/bi";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import AuthContext from "@lib/authContext";
+import toast from "react-hot-toast";
+import { Spin } from "@components/Svg/Spin";
+import { useRouter } from "next/router";
 
 const VoteViewSingle = ({ poll }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const { user } = useContext(AuthContext);
   const toggleSelected = (id) => {
     setSelectedOptions((options) => {
       if (poll.allowMultiSelect) {
@@ -19,6 +25,27 @@ const VoteViewSingle = ({ poll }) => {
         return [id];
       }
     });
+  };
+  const handelSubmit = async () => {
+    if (!selectedOptions.length) {
+      return toast.error("You must select an option!");
+    }
+    setIsLoading(true);
+    const response = await fetchPostJSON("/api/poll/vote", {
+      uid: user.uid,
+      poll,
+      selectedOptions,
+    });
+    if (response.statusCode === 500) {
+      toast.error(response.message);
+      setIsLoading(false);
+      return;
+    }
+    toast.success(response.message, {
+      duration: 4000,
+    });
+    setIsLoading(false);
+    router.push("/poll/results/" + poll.id);
   };
   return (
     <div className="pt-16 lg:pt-24">
@@ -71,13 +98,13 @@ const VoteViewSingle = ({ poll }) => {
         </div>
         <div className="flex flex-col justify-between items-center md:flex-row mt-10">
           <button
-            disabled={selectedOptions.length < 1}
-            onClick={() => voteSumited()}
+            disabled={isLoading}
+            onClick={() => handelSubmit()}
             className="cursor-pointer inline-flex items-center justify-center w-full py-4 px-6 mb-3 font-medium tracking-wide transition duration-200 rounded shadow-md md:w-auto md:mb-0  focus:shadow-outline focus:outline-none bg-primary hover:bg-sky text-white"
           >
             {isLoading ? (
               <span className="inline-flex">
-                <SpinWhite />
+                <Spin />
                 Please wait
               </span>
             ) : (

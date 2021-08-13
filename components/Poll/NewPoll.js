@@ -97,6 +97,7 @@ const NewPoll = () => {
         totalVotes: 0,
         id: pollId,
         votes: createVotes(),
+        voters: [],
         userId: user?.uid,
         userName: user?.displayName,
         userEmail: user?.email,
