@@ -5,7 +5,9 @@ import { CgSpinner } from "react-icons/cg";
 import debounce from "lodash.debounce";
 import AuthLayout from "layouts/auth";
 import Footer from "@components/Footer";
+import { Country, State } from "country-state-city";
 import { auth, firestore, googleAuthProvider } from "@lib/firebase";
+import { fetchGetJSON } from "@lib/healper";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +18,11 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [usernameIsChecking, setUsernameIsChecking] = useState(false);
   const [usernameIsValid, setUsernameIsValid] = useState(false);
+  const [countryList, setCountryList] = useState(Country.getAllCountries());
+  const [stateList, setStateList] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(null);
 
   const signInWithGoogle = () => {
     setErrorMessage(null);
@@ -75,6 +82,16 @@ const RegisterPage = () => {
   useEffect(() => {
     checkUsername(username);
   }, [username]);
+
+  useEffect(async () => {
+    const geoInfo = await fetchGetJSON("/api/geo-info");
+    const countryCode = geoInfo?.country_code;
+    console.log(countryCode);
+    if (countryCode) {
+      setSelectedCountry(countryCode);
+      setStateList(State.getStatesOfCountry(countryCode));
+    }
+  }, []);
 
   const checkUsername = useCallback(
     debounce(async (username) => {
@@ -141,6 +158,68 @@ const RegisterPage = () => {
                   className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   placeholder="Full Name"
                 />
+              </div>
+              <div className="block mb-2">
+                <select
+                  className="block rounded invalid:text-gray-500 w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  required
+                  name="country"
+                  onChange={(event) => {
+                    setSelectedCountry(event.target.value);
+                    setStateList(State.getStatesOfCountry(event.target.value));
+                  }}
+                >
+                  <option disabled value="" selected={!selectedCountry}>
+                    Country
+                  </option>
+                  {countryList?.map((country) => (
+                    <option
+                      selected={country.isoCode == selectedCountry}
+                      value={country.isoCode}
+                    >
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="block mb-2">
+                <select
+                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  required
+                  name="state"
+                  onChange={(event) => {
+                    setSelectedState(event.target.value);
+                  }}
+                >
+                  <option disabled value="" selected>
+                    State/Province
+                  </option>
+                  {stateList.map(
+                    (state) =>
+                      !state.name.includes("Division") && (
+                        <option value={state.isoCode}>
+                          {state.name.replace("District", "")}
+                        </option>
+                      )
+                  )}
+                </select>
+              </div>
+              <div className="block mb-2">
+                <select
+                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  required
+                  name="class"
+                  onChange={(event) => {
+                    setSelectedClass(event.target.value);
+                  }}
+                >
+                  <option disabled value="" selected>
+                    Class Begins at BUET
+                  </option>
+                  <option value="1989">1989</option>
+                  <option value="1990">1990</option>
+                  <option value="1991">1991</option>
+                </select>
               </div>
               <div className="block mb-2">
                 <input
