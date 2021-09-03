@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
@@ -8,6 +8,7 @@ import Footer from "@components/Footer";
 import { Country, State } from "country-state-city";
 import { auth, firestore, googleAuthProvider } from "@lib/firebase";
 import { fetchGetJSON } from "@lib/healper";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,8 @@ const RegisterPage = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
+  const stateRef = useRef();
+  const restrictedName = ["admin", "api"];
 
   const signInWithGoogle = () => {
     setErrorMessage(null);
@@ -41,6 +44,20 @@ const RegisterPage = () => {
     event.preventDefault();
     setIsLoading(true);
     setErrorMessage(null);
+    if (
+      !name ||
+      !email ||
+      !selectedCountry ||
+      !selectedState ||
+      !selectedClass
+    ) {
+      setIsLoading(false);
+      return toast.error("Please provide all the information!");
+    }
+    if (!usernameIsValid) {
+      setIsLoading(false);
+      return toast.error("Invalid username!");
+    }
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(async (userCredential) => {
@@ -52,6 +69,9 @@ const RegisterPage = () => {
         const batch = firestore.batch();
         batch.set(userDoc, {
           username: username,
+          country: selectedCountry,
+          state: selectedState,
+          CBB: selectedClass,
         });
         batch.set(usernameDoc, { uid: userCredential.user.uid });
         await batch.commit();
@@ -80,15 +100,23 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    checkUsername(username);
+    if (!restrictedName.includes(username)) {
+      checkUsername(username);
+    } else {
+      setUsernameIsChecking(false);
+      setUsernameIsValid(false);
+    }
   }, [username]);
 
   useEffect(async () => {
-    const geoInfo = await fetchGetJSON("/api/geo-info");
-    const countryCode = geoInfo?.country_code;
-    console.log(countryCode);
+    // const geoInfo = await fetchGetJSON("https://extreme-ip-lookup.com/json/");
+    const geoInfo = await fetchGetJSON("https://freegeoip.app/json/");
+    const countryCode = geoInfo?.country_code || "US";
+    const regionName = geoInfo?.region_name;
+    console.log(geoInfo);
     if (countryCode) {
       setSelectedCountry(countryCode);
+      setSelectedState(regionName);
       setStateList(State.getStatesOfCountry(countryCode));
     }
   }, []);
@@ -167,6 +195,8 @@ const RegisterPage = () => {
                   onChange={(event) => {
                     setSelectedCountry(event.target.value);
                     setStateList(State.getStatesOfCountry(event.target.value));
+                    setSelectedState(null);
+                    stateRef.current.selectedIndex = 0;
                   }}
                 >
                   <option disabled value="" selected={!selectedCountry}>
@@ -186,22 +216,23 @@ const RegisterPage = () => {
                 <select
                   className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   required
+                  ref={stateRef}
                   name="state"
                   onChange={(event) => {
                     setSelectedState(event.target.value);
                   }}
                 >
-                  <option disabled value="" selected>
+                  <option disabled value="" selected={!selectedState}>
                     State/Province
                   </option>
-                  {stateList.map(
-                    (state) =>
-                      !state.name.includes("Division") && (
-                        <option value={state.isoCode}>
-                          {state.name.replace("District", "")}
-                        </option>
-                      )
-                  )}
+                  {stateList.map((state) => (
+                    <option
+                      selected={state.name == selectedState}
+                      value={state.isoCode}
+                    >
+                      {state.name.replace("District", "")}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="block mb-2">
@@ -251,7 +282,7 @@ const RegisterPage = () => {
                 />
               </div>
               <button
-                disabled={isLoading || !usernameIsValid}
+                disabled={isLoading}
                 type="submit"
                 className="inline-flex items-center justify-center w-full px-10 py-2 font-semibold text-white transition duration-500 ease-in-out transform bg-primary rounded hover:bg-sky focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 "
               >
