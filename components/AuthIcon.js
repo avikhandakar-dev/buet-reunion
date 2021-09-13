@@ -4,30 +4,46 @@ import { BsFillGrid1X2Fill, BsHeartFill } from "react-icons/bs";
 import { MdLockOpen } from "react-icons/md";
 import { FaUserEdit, FaPoll } from "react-icons/fa";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useRef, useState, useContext } from "react";
+import { Fragment, useContext, useState, useEffect } from "react";
 import { IoMdExit } from "react-icons/io";
 import AuthContext from "@lib/authContext";
 import { GlobalContext } from "@lib/globalContext";
+import { RiAdminFill } from "react-icons/ri";
 
 const AuthIcon = () => {
   const { user } = useContext(AuthContext);
   const { userData } = useContext(GlobalContext);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const unsubs = async () => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
+        if (!!idTokenResult.claims.admin) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      }
+    };
+    return unsubs();
+  }, [user]);
 
   const MenuItems = [
     {
-      name: "Posts",
+      name: "Dashboard",
       icon: <BsFillGrid1X2Fill />,
-      url: `/${userData?.username || "accounts"}`,
+      url: "/accounts",
     },
     {
-      name: "Donation",
+      name: "My Donation",
       icon: <BsHeartFill />,
-      url: `/${userData?.username + "/donation" || "accounts"}`,
+      url: "/accounts/donation",
     },
     {
       name: "Polls",
       icon: <FaPoll />,
-      url: `/${userData?.username + "/poll" || "accounts"}`,
+      url: "/accounts/poll",
     },
     {
       name: "Profile",
@@ -78,6 +94,22 @@ const AuthIcon = () => {
               )}
             </Menu.Item>
           ))}
+          {isAdmin && (
+            <Menu.Item>
+              {({ active }) => (
+                <Link href="/admin">
+                  <a
+                    className={`group flex rounded-md items-center w-full px-2 py-2 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300 hover:bg-gray-100 dark:hover:bg-gray-700`}
+                  >
+                    <span className="mr-2" aria-hidden="true">
+                      <RiAdminFill />
+                    </span>
+                    Admin Panel
+                  </a>
+                </Link>
+              )}
+            </Menu.Item>
+          )}
         </Menu.Items>
       </Transition>
     </Menu>

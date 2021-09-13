@@ -12,19 +12,19 @@ const ProfileHeader = () => {
 
   const MenuItems = [
     {
-      name: "Posts",
+      name: "Dashboard",
       icon: <BsFillGrid1X2Fill />,
-      url: `/${userData?.username || "accounts"}`,
+      url: "/accounts",
     },
     {
       name: "Donation",
       icon: <BsHeartFill />,
-      url: `/${userData?.username + "/donation" || "accounts"}`,
+      url: "/accounts/donation",
     },
     {
       name: "Poll",
       icon: <FaPoll />,
-      url: `/${userData?.username + "/poll" || "accounts"}`,
+      url: "/accounts/poll",
     },
     {
       name: "Profile",

@@ -6,7 +6,12 @@ import debounce from "lodash.debounce";
 import AuthLayout from "layouts/auth";
 import Footer from "@components/Footer";
 import { Country, State } from "country-state-city";
-import { auth, firestore, googleAuthProvider } from "@lib/firebase";
+import {
+  auth,
+  firestore,
+  googleAuthProvider,
+  serverTimestamp,
+} from "@lib/firebase";
 import { fetchGetJSON } from "@lib/healper";
 import toast from "react-hot-toast";
 
@@ -54,10 +59,10 @@ const RegisterPage = () => {
       setIsLoading(false);
       return toast.error("Please provide all the information!");
     }
-    if (!usernameIsValid) {
-      setIsLoading(false);
-      return toast.error("Invalid username!");
-    }
+    // if (!usernameIsValid) {
+    //   setIsLoading(false);
+    //   return toast.error("Invalid username!");
+    // }
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(async (userCredential) => {
@@ -65,15 +70,18 @@ const RegisterPage = () => {
           displayName: name,
         });
         const userDoc = firestore.doc(`users/${userCredential.user.uid}`);
-        const usernameDoc = firestore.doc(`usernames/${username}`);
+        // const usernameDoc = firestore.doc(`usernames/${username}`);
         const batch = firestore.batch();
         batch.set(userDoc, {
-          username: username,
+          // username: username,
+          displayName: name,
+          email: email,
           country: selectedCountry,
           state: selectedState,
           CBB: selectedClass,
+          createdAt: serverTimestamp(),
         });
-        batch.set(usernameDoc, { uid: userCredential.user.uid });
+        // batch.set(usernameDoc, { uid: userCredential.user.uid });
         await batch.commit();
         setIsLoading(false);
       })
@@ -252,7 +260,7 @@ const RegisterPage = () => {
                   <option value="1991">1991</option>
                 </select>
               </div>
-              <div className="block mb-2">
+              {/* <div className="block mb-2">
                 <input
                   onChange={onChange}
                   value={username}
@@ -267,7 +275,7 @@ const RegisterPage = () => {
                   isValid={usernameIsValid}
                   loading={usernameIsChecking}
                 />
-              </div>
+              </div> */}
               <div className="block mb-4">
                 <input
                   onChange={(event) => {

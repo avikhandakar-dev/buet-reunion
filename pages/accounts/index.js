@@ -7,16 +7,8 @@ import { useContext, useEffect } from "react";
 const Accounts = () => {
   const { userData, userDataIsLoading } = useContext(GlobalContext);
   const router = useRouter();
-  useEffect(() => {
-    if (!userDataIsLoading) {
-      if (userData?.username) {
-        router.push(`/${username}`);
-      } else {
-        router.push("/");
-      }
-    }
-  }, [userData]);
-  return <LoadingScreen />;
+
+  return <div></div>;
 };
 
 Accounts.layout = ProfileLayout;

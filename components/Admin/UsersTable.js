@@ -1,5 +1,6 @@
 import Avatar from "@components/Avatar";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import Link from "next/link";
+import { BsEyeFill } from "react-icons/bs";
 const UsersTable = ({ users, category }) => {
   return (
     <>
@@ -58,7 +59,9 @@ const UsersTable = ({ users, category }) => {
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {user.displayName}
+                                <Link href={`/admin/users/${user.uid}`}>
+                                  <a>{user.displayName}</a>
+                                </Link>
                               </div>
                               <div className="text-sm text-gray-500 dark:text-gray-400">
                                 {user.email}
@@ -83,9 +86,11 @@ const UsersTable = ({ users, category }) => {
                           {category == "Registered Users" ? "Normal" : category}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a className="text-primary hover:text-sky text-xl">
-                            <BiDotsVerticalRounded />
-                          </a>
+                          <Link href={`/admin/users/${user.uid}`}>
+                            <a className="text-primary hover:text-sky text-xl">
+                              <BsEyeFill />
+                            </a>
+                          </Link>
                         </td>
                       </tr>
                     ))}
