@@ -4,7 +4,6 @@ import { fetchGetJSON } from "@lib/healper";
 import { Country, State } from "country-state-city";
 import { useState, useEffect, useRef, useContext } from "react";
 import { CgSpinner } from "react-icons/cg";
-import { getAuth, updateProfile } from "firebase/auth";
 import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 
@@ -34,8 +33,7 @@ const UserInfoForm = ({ userData }) => {
     }
     if (name != user.displayName) {
       try {
-        const auth = getAuth();
-        await updateProfile(auth.currentUser, {
+        await user.updateProfile({
           displayName: name,
         });
       } catch (error) {

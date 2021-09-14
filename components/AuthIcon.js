@@ -31,9 +31,9 @@ const AuthIcon = () => {
 
   const MenuItems = [
     {
-      name: "Dashboard",
-      icon: <BsFillGrid1X2Fill />,
-      url: "/accounts",
+      name: "Profile",
+      icon: <FaUserEdit />,
+      url: "/accounts/edit",
     },
     {
       name: "My Donation",
@@ -44,11 +44,6 @@ const AuthIcon = () => {
       name: "Polls",
       icon: <FaPoll />,
       url: "/accounts/poll",
-    },
-    {
-      name: "Profile",
-      icon: <FaUserEdit />,
-      url: "/accounts/edit",
     },
     {
       name: "Log Out",

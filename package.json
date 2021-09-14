@@ -17,7 +17,7 @@
     "@tailwindcss/typography": "^0.4.1",
     "country-state-city": "^3.0.1",
     "date-and-time": "^1.0.1",
-    "firebase": "^8.6.3",
+    "firebase": "^8.10.0",
     "firebase-admin": "^9.9.0",
     "framer-motion": "^4.1.17",
     "lodash.debounce": "^4.0.8",
