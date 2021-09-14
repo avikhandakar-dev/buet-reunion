@@ -3,6 +3,8 @@ import Footer from "@components/Footer";
 import LoadingScreen from "@components/LoadingScreen";
 import Nav from "@components/Nav";
 import ProfileHeader from "@components/Profile/Header";
+import ProfileInfo from "@components/Profile/Info";
+import ProfileNav from "@components/Profile/Nav";
 import { auth } from "@lib/firebase";
 import { GlobalContext } from "@lib/globalContext";
 import { useRouter } from "next/router";
@@ -13,22 +15,16 @@ const ProfileLayout = ({ children }) => {
   const [user, userIsLoading] = useAuthState(auth);
   const { userData, userDataIsLoading } = useContext(GlobalContext);
   const router = useRouter();
-  useEffect(() => {
+  useEffect(async () => {
     if (!userIsLoading) {
       if (!user) {
         router.push({
           pathname: "/accounts/login",
-          query: { next: router.pathname },
+          query: { next: "/profile" },
         });
-      } else {
-        if (!userDataIsLoading) {
-          if (!userData?.username) {
-            router.push("/accounts/edit");
-          }
-        }
       }
     }
-  }, [user]);
+  }, [userIsLoading]);
 
   if (userIsLoading || userDataIsLoading) {
     return <LoadingScreen />;
@@ -36,10 +32,20 @@ const ProfileLayout = ({ children }) => {
   return (
     <Fragment>
       <Nav />
-      <Container maxWidth="max-w-5xl">
-        <ProfileHeader />
-        {children}
-      </Container>
+      <ProfileHeader userData={userData} />
+      <div className="max-w-5xl px-4 sm:px-6 relative mx-auto">
+        <div className="flex space-x-16">
+          <div className="-mt-20 max-w-sm relative flex-shrink-0 w-72">
+            <ProfileInfo userData={userData} />
+          </div>
+          <div className="flex-1 flex-grow">
+            <div className="flex justify-center">
+              <ProfileNav />
+            </div>
+            <div>{children}</div>
+          </div>
+        </div>
+      </div>
       <Footer />
     </Fragment>
   );
