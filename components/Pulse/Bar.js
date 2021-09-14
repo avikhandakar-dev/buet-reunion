@@ -4,8 +4,8 @@ const PulseBar = ({ count, cols, gap, height }) => {
       {[...Array(count || 1)].map((_, idx) => (
         <div
           key={idx}
-          className={`w-full h-${
-            height || 14
+          className={`w-full ${
+            height || "h-14"
           } rounded bg-gray-300 dark:bg-gray-700 animate-pulse`}
         />
       ))}

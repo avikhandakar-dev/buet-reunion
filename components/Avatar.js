@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const Avatar = ({ user, size = 10, textSize = "lg", extraClasses }) => {
+const Avatar = ({ user, size = 10, textSize = "text-lg", extraClasses }) => {
   return (
     <div className="inline-block rounded-full mx-1 md:mx-0">
       <div
@@ -17,7 +17,7 @@ const Avatar = ({ user, size = 10, textSize = "lg", extraClasses }) => {
           />
         ) : (
           <span className="w-full h-full flex justify-center items-center text-bold rounded-full text-gray-700 dark:text-gray-300 text-lg">
-            <p className={`font-medium uppercase text-${textSize}`}>
+            <p className={`font-medium uppercase ${textSize}`}>
               {user.displayName?.substring(0, 2)}
             </p>
           </span>

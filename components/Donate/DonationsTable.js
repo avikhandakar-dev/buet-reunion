@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import DonationsTableRow from "@components/Donate/DonationsTableRow";
-const { default: Empty } = require("@components/Svg/Empty");
+import Empty from "@components/Svg/Empty";
 
 const DonationsTable = ({ donations }) => {
   return (

@@ -8,8 +8,9 @@ module.exports = {
   darkMode: "media", // or 'media' or 'class'
   theme: {
     fontFamily: {
-      body: ["Geomanist", "sans-serif"],
+      body: ["Inter", "sans-serif"],
       cursive: ["Limelight", "cursive"],
+      serif: ["B612", "serif"],
     },
     extend: {
       typography(theme) {

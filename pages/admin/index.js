@@ -57,7 +57,7 @@ const UsersAdmin = () => {
               <UsersTable users={isMember} category="Members" />
             </div>
             <div className="mb-6">
-              <UsersTable users={isRegistered} category="Pending Users" />
+              <UsersTable users={isRegistered} category="Pending" />
             </div>
           </div>
         )}

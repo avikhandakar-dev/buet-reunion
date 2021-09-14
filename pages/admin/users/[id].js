@@ -16,9 +16,12 @@ const UserReview = () => {
   const router = useRouter();
   const { id } = router.query;
   const [userRecord, setUserRecord] = useState(null);
+  const [donations, setDonations] = useState([]);
+  const [polls, setPolls] = useState([]);
   const [userData = [], loading, error] = useDocumentData(
     firestore.collection("users").doc(id)
   );
+
   useEffect(() => {
     const unsubs = async () => {
       if (user) {
@@ -32,6 +35,26 @@ const UserReview = () => {
           return;
         }
         setUserRecord(response.data);
+
+        const getDonations = await fetchPostJSON("/api/users/get-donations", {
+          uid: id,
+          token: token,
+        });
+        if (getDonations.statusCode === 500) {
+          toast.error(getDonations.message);
+          return;
+        }
+        setDonations(getDonations.data);
+
+        const getPolls = await fetchPostJSON("/api/users/get-polls", {
+          uid: id,
+          token: token,
+        });
+        if (getPolls.statusCode === 500) {
+          toast.error(getPolls.message);
+          return;
+        }
+        setPolls(getPolls.data);
       }
     };
     return unsubs();
@@ -47,7 +70,12 @@ const UserReview = () => {
         ) : (
           <div className="px-6 lg:px-10 -mt-24">
             <div className="mb-6">
-              <UserInfo userData={userData} userRecord={userRecord} />
+              <UserInfo
+                userData={userData}
+                userRecord={userRecord}
+                donations={donations}
+                polls={polls}
+              />
             </div>
           </div>
         )}

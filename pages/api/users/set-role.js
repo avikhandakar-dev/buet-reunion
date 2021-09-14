@@ -2,8 +2,8 @@ import admin from "@lib/firebaseAdmin";
 
 export default async (req, res) => {
   if (req.method === "POST") {
-    const { token, uid } = req.body;
-    if (!uid || !token) {
+    const { token, uid, role } = req.body;
+    if (!uid || !token || !role) {
       return res.status(500).json({
         statusCode: 500,
         message: "Invalid data!",
@@ -21,16 +21,16 @@ export default async (req, res) => {
     }
     if (requestedBy.admin === true) {
       try {
-        const userRecord = await admin.auth().getUser(uid);
-        console.log(userRecord);
+        await admin.auth().setCustomUserClaims(uid, { [role]: true });
         return res.status(200).json({
           statusCode: 200,
-          data: userRecord,
+          message: "success",
         });
-      } catch (error) {
+      } catch (err) {
+        console.log(err.message);
         return res.status(500).json({
           statusCode: 500,
-          message: "User not found!",
+          message: err.message,
         });
       }
     } else {

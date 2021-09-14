@@ -87,7 +87,7 @@ const UsersTable = ({ users, category }) => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <Link href={`/admin/users/${user.uid}`}>
-                            <a className="text-primary hover:text-sky text-xl">
+                            <a className="text-green-500 hover:text-sky text-xl">
                               <BsEyeFill />
                             </a>
                           </Link>

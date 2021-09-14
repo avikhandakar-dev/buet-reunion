@@ -1,5 +1,7 @@
+import { firestoreToJSON } from "@lib/firebase";
 import admin from "@lib/firebaseAdmin";
 
+const db = admin.firestore();
 export default async (req, res) => {
   if (req.method === "POST") {
     const { token, uid } = req.body;
@@ -21,16 +23,21 @@ export default async (req, res) => {
     }
     if (requestedBy.admin === true) {
       try {
-        const userRecord = await admin.auth().getUser(uid);
-        console.log(userRecord);
+        const donationsQuery = db
+          .collection("donations")
+          .where("donorInfo.uid", "==", uid);
+        const donations = (await donationsQuery.get()).docs.map(
+          firestoreToJSON
+        );
         return res.status(200).json({
           statusCode: 200,
-          data: userRecord,
+          data: donations,
         });
-      } catch (error) {
+      } catch (err) {
+        console.log(err.message);
         return res.status(500).json({
           statusCode: 500,
-          message: "User not found!",
+          message: err.message,
         });
       }
     } else {
