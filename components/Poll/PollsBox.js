@@ -21,7 +21,7 @@ const PollsBox = ({ polls }) => {
           <div className="flex flex-wrap space-x-4 bg-gray-50 dark:bg-gray-800 p-4">
             {polls.map((poll, idx) => (
               <Fragment key={idx}>
-                <PollsBoxRow poll={poll} />
+                <PollsBoxRow poll={poll} idx={idx} />
               </Fragment>
             ))}
           </div>
