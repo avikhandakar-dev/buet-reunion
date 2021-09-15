@@ -169,10 +169,7 @@ const UserInfoForm = ({ userData }) => {
               Your state...
             </option>
             {stateList.map((state) => (
-              <option
-                selected={state.isoCode == selectedState}
-                value={state.isoCode}
-              >
+              <option selected={state.name == selectedState} value={state.name}>
                 {state.name.replace("District", "")}
               </option>
             ))}

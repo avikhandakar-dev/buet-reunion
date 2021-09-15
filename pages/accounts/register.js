@@ -236,7 +236,7 @@ const RegisterPage = () => {
                   {stateList.map((state) => (
                     <option
                       selected={state.name == selectedState}
-                      value={state.isoCode}
+                      value={state.name}
                     >
                       {state.name.replace("District", "")}
                     </option>
