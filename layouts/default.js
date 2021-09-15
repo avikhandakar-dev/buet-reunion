@@ -34,7 +34,7 @@ const DefaultLayout = ({ children }) => {
       }
     };
     return unsubs();
-  }, [userDataIsLoading]);
+  }, [userDataIsLoading, user]);
   return (
     <Fragment>
       <Nav />

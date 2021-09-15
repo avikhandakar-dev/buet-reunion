@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { CgSpinner } from "react-icons/cg";
 import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
+import ChangeProfilePicture from "./ChangeProfilePicture";
 
 const UserInfoForm = ({ userData }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -83,13 +84,14 @@ const UserInfoForm = ({ userData }) => {
       <div className="pl-6 mt-4 flex flex-col space-y-4">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-3 text-right">
-            <Avatar user={user} />
+            <Avatar
+              user={user}
+              extraClasses="border-2 border-gray-200 dark:border-gray-700"
+            />
           </div>
           <div className="col-span-9">
             <p>{user?.displayName}</p>
-            <a className="cursor-pointer font-semibold text-primary text-sm duration-300 hover:text-sky">
-              Change Profile Picture
-            </a>
+            <ChangeProfilePicture className="cursor-pointer font-semibold text-primary text-sm duration-300 hover:text-sky" />
           </div>
         </div>
         <div className="grid grid-cols-12 gap-8">

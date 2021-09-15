@@ -1,8 +1,11 @@
+import AuthContext from "@lib/authContext";
 import Image from "next/image";
+import { useContext } from "react";
 import Button from "../Button";
 import Container from "../Container";
 
 const Hero = () => {
+  const { user } = useContext(AuthContext);
   return (
     <Container>
       <div className="grid items-center justify-center lg:grid-cols-2 gap-10 lg:gap-0 pt-32 pb-16 px-4 sm:px-6">
@@ -21,7 +24,19 @@ const Hero = () => {
           </p>
           <div className="">
             <span className="mr-5">
-              <Button href="/register" title="Become a Member" size="large" />
+              {user ? (
+                <Button
+                  href="/projects"
+                  title="View Our Projects"
+                  size="large"
+                />
+              ) : (
+                <Button
+                  href="/accounts/register"
+                  title="Become a Member"
+                  size="large"
+                />
+              )}
             </span>
           </div>
         </div>
