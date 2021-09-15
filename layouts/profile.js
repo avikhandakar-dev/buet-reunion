@@ -42,7 +42,7 @@ const ProfileLayout = ({ children }) => {
             <div className="flex justify-center">
               <ProfileNav />
             </div>
-            <div>{children}</div>
+            <div className="mb-12">{children}</div>
           </div>
         </div>
       </div>
