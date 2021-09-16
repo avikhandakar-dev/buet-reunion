@@ -121,7 +121,7 @@ const ResetPassword = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer variant="small" />
     </div>
   );
 };

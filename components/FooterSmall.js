@@ -35,13 +35,6 @@ const FooterSmall = () => {
             </Link>
           </div>
           <div className="px-5 py-2">
-            <Link href="/legal/privacy">
-              <a className="text-base leading-6 text-gray-500 hover:text-primary">
-                Privacy
-              </a>
-            </Link>
-          </div>
-          <div className="px-5 py-2">
             <a
               href="#"
               className="text-base leading-6 text-gray-500 hover:text-primary"

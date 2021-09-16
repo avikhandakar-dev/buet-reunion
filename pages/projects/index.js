@@ -6,10 +6,14 @@ import { firestore } from "@lib/firebase";
 import { Fragment } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { CgSpinner } from "react-icons/cg";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 const ProjectsPage = () => {
   const [projects = [], loading, error] = useCollectionData(
-    firestore.collection("projects").orderBy("createdAt", "desc")
+    firestore
+      .collection("projects")
+      .where("published", "==", true)
+      .orderBy("createdAt", "desc")
   );
   return (
     <Fragment>
@@ -27,20 +31,21 @@ const ProjectsPage = () => {
         <>
           <div className="mb-32 px-5 flex flex-col justify-center items-center">
             <Empty width={150} className="text-gray-600 dark:text-gray-200" />
-            <div className="mt-3">
-              <p>No project found :(</p>
-            </div>
           </div>
         </>
       )}
       {!loading && projects.length >= 1 && (
         <>
-          <Container>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 relative -mt-8">
-              {projects.map((project) => (
-                <ProjectCard project={project} />
-              ))}
-            </div>
+          <Container bgColor="bg-blue-700">
+            <ResponsiveMasonry
+              columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}
+            >
+              <Masonry gutter={32}>
+                {projects.map((project) => (
+                  <ProjectCard project={project} />
+                ))}
+              </Masonry>
+            </ResponsiveMasonry>
           </Container>
         </>
       )}
