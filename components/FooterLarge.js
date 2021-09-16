@@ -16,7 +16,7 @@ const FooterLarge = () => {
     <footer className="">
       <Container bgColor="dark:bg-gradient-dark-1-start bg-gray-50">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 col-span-2 md:col-span-3 lg:col-span-1">
             <p className="font-semibold text-2xl">
               Buetian{" "}
               <span className="text-primary dark:text-yellow-500">89</span>
@@ -145,7 +145,7 @@ const FooterLarge = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-between border-t dark:border-gradient-dark-1-stop border-gray-200 pt-4 mt-16">
+        <div className="flex flex-col md:flex-row justify-between border-t dark:border-gradient-dark-1-stop border-gray-200 pt-4 mt-16">
           <p className="text-sm">
             <span className="opacity-50">
               Copyright © 2021 all rights reserved by{" "}
@@ -156,14 +156,14 @@ const FooterLarge = () => {
           </p>
           <div className="text-sm flex items-center">
             <span className="opacity-50 flex items-center">
-              Made with <BsHeartFill className="opacity-50 mx-1 text-xs" /> by
+              Made with <BsHeartFill className="opacity-50 mx-1 text-sm" /> by
             </span>{" "}
             <a
               href="https://www.alphanumericwebs.com/"
               target="_blank"
-              className="text-primary pl-1 dark:text-yellow-500 underline"
+              className="text-primary pl-1 dark:text-yellow-500 duration-300 hover:text-sky dark:hover:text-yellow-400"
             >
-              anw
+              alphanumericwebs
             </a>
           </div>
         </div>
