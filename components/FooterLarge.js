@@ -36,16 +36,18 @@ const FooterLarge = () => {
                             key={idx}
                           >
                             <div className="w-12 flex-shrink-0 h-12 relative overflow-hidden rounded">
-                              <Image
-                                placeholder="blur"
-                                blurDataURL={
-                                  project.coverImage.loaderDownloadUrl
-                                }
-                                src={project.coverImage.thumbDownloadUrl}
-                                objectFit="cover"
-                                layout="fill"
-                                sizes="(max-width: 640px) 100px, (max-width: 1024px) 150px, 200px"
-                              />
+                              {project?.coverImage && (
+                                <Image
+                                  placeholder="blur"
+                                  blurDataURL={
+                                    project?.coverImage?.loaderDownloadUrl
+                                  }
+                                  src={project?.coverImage?.thumbDownloadUrl}
+                                  objectFit="cover"
+                                  layout="fill"
+                                  sizes="(max-width: 640px) 100px, (max-width: 1024px) 150px, 200px"
+                                />
+                              )}
                             </div>
                             <div className="flex-1 flex-grow -mt-1.5">
                               <p className="opacity-50 line-clamp-2">

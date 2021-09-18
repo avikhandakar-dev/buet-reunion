@@ -29,6 +29,7 @@ const ImagePicker = ({
   }
 
   function openModal() {
+    setIsSelected([]);
     setIsOpen(true);
   }
 

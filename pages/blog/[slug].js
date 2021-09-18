@@ -16,7 +16,7 @@ const BlogSinglePage = ({ post, mdxSource }) => {
     const unsubs = async () => {
       const res = await fetch("/api/users/get", {
         body: JSON.stringify({
-          uid: post.userId,
+          uid: post.authorId,
         }),
         headers: {
           "Content-Type": "application/json",

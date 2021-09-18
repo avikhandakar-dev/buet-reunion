@@ -73,6 +73,9 @@ module.exports = {
         "gradient-6-stop": "#ED1F1F",
         "gradient-7-start": "#11cdef",
         "gradient-7-stop": "#1171ef",
+        "gradient-8-start": "#FED639",
+        "gradient-8-stop": "#FEBB00",
+
         "gradient-dark-1-start": "#342172",
         "gradient-dark-1-stop": "#4C2BA1",
       },
@@ -85,6 +88,7 @@ module.exports = {
         projectBar: "0 1px 8px 0 rgb(49 49 49 / 10%)",
         input: "0 2px 4px 0 rgb(0 0 0 / 6%)",
         blogCard: "0 0 0 1px rgb(0 0 0 / 10%)",
+        card: "rgba(0, 0, 0, 0.08) 0px 6px 8px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px",
       },
       minWidth: {
         500: "500px",

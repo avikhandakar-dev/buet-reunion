@@ -11,8 +11,10 @@ import ConfirmModal from "@components/Confirm";
 
 const PostsTableRow = ({ post }) => {
   const [isFeatured, setIsFeatured] = useState(post.featured || false);
+  const [isPublished, setIsPublished] = useState(post.published || false);
   const [isLoading, setIsLoading] = useState(false);
   const [processFinished, setProcessFinished] = useState(false);
+  const [isPubLoading, setPubIsLoading] = useState(false);
 
   const toggleFeatured = () => {
     setIsLoading(true);
@@ -32,6 +34,28 @@ const PostsTableRow = ({ post }) => {
       })
       .catch((error) => {
         console.error("Error updating document: ", error);
+        return toast.error("Failed!");
+      });
+  };
+  const togglePublished = () => {
+    setPubIsLoading(true);
+    if (isPubLoading) {
+      return toast.error("Please wait!");
+    }
+    firestore
+      .collection("posts")
+      .doc(post.id)
+      .update({
+        published: !isPublished,
+      })
+      .then(() => {
+        setPubIsLoading(false);
+        setIsPublished(!isPublished);
+        return toast.success("Success!");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+        setPubIsLoading(false);
         return toast.error("Failed!");
       });
   };
@@ -86,9 +110,9 @@ const PostsTableRow = ({ post }) => {
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-          {post.userName}
+          {post.authorName}
         </div>
-        <div className="text-sm text-gray-500">{post.userEmail}</div>
+        <div className="text-sm text-gray-500">{post.authorEmail}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <Toggle
@@ -96,6 +120,14 @@ const PostsTableRow = ({ post }) => {
           onChange={toggleFeatured}
           size={60}
           isLoading={isLoading}
+        />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <Toggle
+          enabled={isPublished}
+          onChange={togglePublished}
+          size={60}
+          isLoading={isPubLoading}
         />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">

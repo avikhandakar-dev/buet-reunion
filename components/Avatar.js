@@ -8,7 +8,7 @@ const Avatar = ({ user, size = 10, textSize = "text-lg", extraClasses }) => {
           extraClasses ? extraClasses : null
         }`}
       >
-        {user.photoURL ? (
+        {user?.photoURL ? (
           <Image
             src={user.photoURL}
             layout="fill"
@@ -18,7 +18,7 @@ const Avatar = ({ user, size = 10, textSize = "text-lg", extraClasses }) => {
         ) : (
           <span className="w-full h-full flex justify-center items-center text-bold rounded-full text-gray-700 dark:text-gray-300 text-lg">
             <p className={`font-medium uppercase ${textSize}`}>
-              {user.displayName?.substring(0, 2)}
+              {user?.displayName?.substring(0, 2)}
             </p>
           </span>
         )}

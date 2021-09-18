@@ -151,3 +151,8 @@ body {
     color: #1F2938;
   }
 }
+
+/* Fix images */
+.unset-img > div {
+  position: unset !important;
+}

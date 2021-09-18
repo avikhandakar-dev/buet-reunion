@@ -36,16 +36,14 @@ const ProjectsPage = () => {
       )}
       {!loading && projects.length >= 1 && (
         <>
-          <Container bgColor="bg-blue-700">
-            <ResponsiveMasonry
-              columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}
-            >
-              <Masonry gutter={32}>
-                {projects.map((project) => (
+          <Container bgColor="bg-gradient-to-l dark:from-darkBlue dark:to-darkSky">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 -mt-8 dark:-mt-0 auto-rows-fr">
+              {projects.map((project, idx) => (
+                <div className="lg:first:col-span-2" key={idx}>
                   <ProjectCard project={project} />
-                ))}
-              </Masonry>
-            </ResponsiveMasonry>
+                </div>
+              ))}
+            </div>
           </Container>
         </>
       )}

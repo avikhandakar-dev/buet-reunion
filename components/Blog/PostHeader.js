@@ -18,7 +18,7 @@ const PostHeader = ({ post, author }) => {
           </div>
           <div>
             <span className="italic">by</span>{" "}
-            <span className="font-bold">{post.userName}</span>
+            <span className="font-bold">{post.authorName}</span>
           </div>
         </div>
       </div>

@@ -1,64 +1,27 @@
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import BlogCard from "../BlogCard";
 import Container from "../Container";
 import Link from "next/link";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { firestore } from "@lib/firebase";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { CgSpinner } from "react-icons/cg";
 
-const Posts = [
-  {
-    title: "The quick brown fox jumped over the lazy dog.",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: "Engineering, Help",
-    authorName: "Avi Khandakar",
-    datePosted: "Jun 3, 2021",
-    imageURL: "/img/blog/1.jpeg",
-    authorProfileImageURL: "",
-    views: 766,
-  },
-  {
-    title: "The quick brown fox jumped over the lazy dog.",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: "Engineering, Help",
-    authorName: "Avi Khandakar",
-    datePosted: "Jun 3, 2021",
-    authorProfileImageURL: "",
-    views: 986,
-  },
-  {
-    title: "The quick brown fox jumped over the lazy dog.",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: "Engineering, Help",
-    authorName: "Avi Khandakar",
-    datePosted: "Jun 3, 2021",
-    imageURL: "/img/blog/2.jpeg",
-    authorProfileImageURL: "",
-    views: 8986,
-  },
-  {
-    title: "The quick brown fox jumped over the lazy dog.",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: "Engineering, Help",
-    authorName: "Avi Khandakar",
-    datePosted: "Jun 3, 2021",
-    authorProfileImageURL: "",
-    views: 120,
-  },
-  {
-    title: "The quick brown fox jumped over the lazy dog.",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: "Engineering, Help",
-    authorName: "Avi Khandakar",
-    datePosted: "Jun 3, 2021",
-    authorProfileImageURL: "",
-    views: 676,
-  },
-];
 const RecentBlog = () => {
+  const [posts = [], loading, error] = useCollectionData(
+    firestore
+      .collection("posts")
+      .where("published", "==", true)
+      .orderBy("createdAt", "desc")
+      .limit(5)
+  );
+
+  if (loading) {
+    return <></>;
+  }
+  if (!loading && posts.length < 1) {
+    return <></>;
+  }
+
   return (
     <Container bgColor="bg-gradient-to-l from-darkBlue to-darkSky">
       <div className="max-w-7xl relative">
@@ -70,7 +33,7 @@ const RecentBlog = () => {
             </span>{" "}
             post
           </h1>
-          <Link href="/projects">
+          <Link href="/blog">
             <a className="text-xl text-white w-max mx-auto lg:text-2xl transition-colors duration-300 hover:text-yellow-400 flex justify-center items-center">
               View all posts{" "}
               <span className="">
@@ -79,13 +42,13 @@ const RecentBlog = () => {
             </a>
           </Link>
         </div>
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 640: 2, 768: 3 }}>
-          <Masonry gutter={32}>
-            {Posts.map((post, idx) => (
-              <BlogCard post={post} key={idx} />
-            ))}
-          </Masonry>
-        </ResponsiveMasonry>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
+          {posts.map((post, idx) => (
+            <div className="lg:first:col-span-2" key={idx}>
+              <BlogCard post={post} />
+            </div>
+          ))}
+        </div>
       </div>
     </Container>
   );

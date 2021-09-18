@@ -1,71 +1,71 @@
-import { useState } from "react";
-import { AiOutlineUser, AiOutlineEye, AiOutlineCalendar } from "react-icons/ai";
-const { default: Image } = require("next/image");
+import { AiOutlineEye, AiOutlineCalendar } from "react-icons/ai";
+import Link from "next/link";
+import { serverTimestampToString } from "@lib/healper";
+import Image from "next/image";
 
 const BlogCard = ({ post }) => {
-  const [hover, setHover] = useState(false);
   const tags = post.tags?.split(",");
-  const noImgCss = post.imageURL ? null : "p-4  shadow-blogCard";
   return (
-    <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      className={`rounded-md shadow-blogCard bg-black bg-opacity-30 hover:bg-black hover:shadow-none border-2 border-transparent hover:border-white relative`}
-    >
-      <div
-        className={`absolute top-3 border-2 border-black rounded-md dark:border-white ${
-          !hover ? "hidden" : "block"
-        }`}
-        style={{
-          width: "calc(100% + 15px)",
-          height: "100%",
-          zIndex: "-1",
-          right: "-2px",
-        }}
-      />
-      {post.imageURL && (
-        <div className="w-full relative aspect-w-10 aspect-h-6 overflow-hidden rounded-t-md">
-          <Image src={post.imageURL} layout="fill" objectFit="cover" />
-        </div>
-      )}
-      <div className="p-4 md:p-6">
-        {tags && (
-          <div className="flex mb-3">
-            {tags.map((tag, idx) => (
-              <span
-                key={idx}
-                className="mr-2 px-3 py-1 text-xs text-yellow-800 bg-yellow-400 rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
+    <div className="rounded-2xl bg-white dark:bg-black h-full dark:bg-opacity-30 bg-opacity-70 shadow-card relative duration-200 hover:-translate-y-2 ease-in-out">
+      <Link href={`/blog/${post.slug}`}>
+        <a className="block h-full">
+          <div className="h-full flex-col flex">
+            <div className="flex-shrink-0">
+              <div className="w-full relative h-72 bg-gradient-to-br from-gradient-5-start to-gradient-5-stop dark:from-primary dark:to-primary overflow-hidden rounded-t-2xl">
+                {post.coverImage && (
+                  <Image
+                    placeholder="blur"
+                    blurDataURL={post.coverImage.loaderDownloadUrl}
+                    src={post.coverImage.oriDownloadUrl}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                )}
+              </div>
+            </div>
+            <div className="p-4 md:p-6 flex-1 flex-grow flex flex-col justify-between h-full">
+              <div>
+                {tags && (
+                  <div className="flex mb-3">
+                    {tags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="mr-2 px-3 py-1 text-xs text-yellow-800 bg-yellow-400 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <h3
+                  className={`font-semibold text-lg md:text-xl lg:text-2xl ${
+                    post.excerpt ? "line-clamp-1" : "line-clamp-3"
+                  }`}
+                >
+                  {post.title}
+                </h3>
+                <p className="font-medium text-opacity-50 text-black line-clamp-3 dark:text-white">
+                  {post.excerpt}
+                </p>
+              </div>
+              <div className="flex justify-between mt-3 text-sm font-medium">
+                <div className="flex justify-center items-center font-light">
+                  <span className="mr-2 self-center text-md">
+                    <AiOutlineCalendar />
+                  </span>
+                  {serverTimestampToString(post.createdAt)}
+                </div>
+                <div className="flex justify-center items-center font-light">
+                  <span className="mr-2 self-center text-md">
+                    <AiOutlineEye />
+                  </span>
+                  {post.views || 0}
+                </div>
+              </div>
+            </div>
           </div>
-        )}
-        <h3 className="font-semibold text-white text-lg md:text-xl lg:text-2xl">
-          {post.title}
-        </h3>
-        <p className="text-gray-200 font-medium">{post.excerpt}</p>
-        <div className="flex text-white justify-between mt-3 text-sm font-medium">
-          <div className="flex justify-center items-center">
-            <span className="mr-2 self-center text-md">
-              <AiOutlineUser />
-            </span>
-            <span>{post.authorName}</span>
-          </div>
-          <div className="flex justify-center items-center">
-            <span className="mr-2 self-center text-md">
-              <AiOutlineCalendar />
-            </span>
-            {post.datePosted}
-          </div>
-          <div className="flex justify-center items-center">
-            <span className="mr-2 self-center text-md">
-              <AiOutlineEye />
-            </span>
-            {post.views}
-          </div>
-        </div>
-      </div>
+        </a>
+      </Link>
     </div>
   );
 };
