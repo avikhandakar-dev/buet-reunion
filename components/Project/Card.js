@@ -23,14 +23,14 @@ const BlogCard = ({ project }) => {
                 )}
               </div>
             </div>
-            <div className="p-4 md:p-6 flex-1 flex-grow flex flex-col justify-between h-full">
+            <div className="px-6 py-8 md:px-8 md:py-10 flex-1 flex-grow flex flex-col justify-between h-full">
               <div>
                 {tags && (
                   <div className="flex mb-3">
                     {tags.map((tag, idx) => (
                       <span
                         key={idx}
-                        className="mr-2 px-3 py-1 text-xs text-yellow-800 bg-yellow-400 rounded-full"
+                        className="mr-2 capitalize text-yellow-500"
                       >
                         {tag}
                       </span>
@@ -39,14 +39,14 @@ const BlogCard = ({ project }) => {
                 )}
                 <h3
                   className={`font-semibold text-lg md:text-xl lg:text-2xl ${
-                    project.excerpt ? "line-clamp-1" : "line-clamp-3"
+                    project.excerpt ? "line-clamp-3" : "line-clamp-3"
                   }`}
                 >
                   {project.title}
                 </h3>
-                <p className="font-medium text-opacity-50 text-black line-clamp-3 dark:text-white">
+                {/* <p className="font-medium text-opacity-50 text-black line-clamp-3 dark:text-white">
                   {project.excerpt}
-                </p>
+                </p> */}
               </div>
               <div className="flex justify-between mt-3 text-sm font-medium">
                 <div className="flex justify-center items-center font-light">
@@ -54,12 +54,6 @@ const BlogCard = ({ project }) => {
                     <AiOutlineCalendar />
                   </span>
                   {serverTimestampToString(project.createdAt)}
-                </div>
-                <div className="flex justify-center items-center font-light">
-                  <span className="mr-2 self-center text-md">
-                    <AiOutlineEye />
-                  </span>
-                  {project.views || 0}
                 </div>
               </div>
             </div>

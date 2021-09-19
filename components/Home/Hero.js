@@ -8,7 +8,7 @@ const Hero = () => {
   const { user } = useContext(AuthContext);
   return (
     <Container>
-      <div className="grid items-center justify-center lg:grid-cols-2 gap-10 lg:gap-0 pt-32 pb-16 px-4 sm:px-6">
+      <div className="grid items-center justify-center lg:grid-cols-2 gap-10 lg:gap-0 pt-32 pb-16 sm:px-6">
         <div className="lg:max-w-md md:max-w-full">
           <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
             Stand by <br />

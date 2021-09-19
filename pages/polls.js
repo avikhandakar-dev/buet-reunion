@@ -5,10 +5,14 @@ import { CgSpinner } from "react-icons/cg";
 import Empty from "@components/Svg/Empty";
 import Container from "@components/Container";
 import PollBar from "@components/Poll/PollBar";
+import { useEffect } from "react";
 
 const PollsPage = () => {
   const [polls = [], loading, error] = useCollectionData(
-    firestore.collection("polls").orderBy("createdAt", "desc")
+    firestore
+      .collection("polls")
+      .where("public", "==", true)
+      .orderBy("createdAt", "desc")
   );
 
   return (
@@ -26,9 +30,6 @@ const PollsPage = () => {
         <>
           <div className="mb-32 px-5 flex flex-col justify-center items-center h-screen">
             <Empty width={150} className="text-gray-600 dark:text-gray-200" />
-            <div className="mt-3">
-              <p>No poll found :(</p>
-            </div>
           </div>
         </>
       )}

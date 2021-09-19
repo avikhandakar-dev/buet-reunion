@@ -14,7 +14,10 @@ const FooterLarge = () => {
   );
   return (
     <footer className="">
-      <Container bgColor="dark:bg-gradient-dark-1-start bg-gray-50">
+      <Container
+        maxWidth="max-w-5xl"
+        bgColor="dark:bg-gradient-dark-1-start bg-gray-50"
+      >
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           <div className="flex flex-col space-y-4 col-span-2 md:col-span-3 lg:col-span-1">
             <p className="font-semibold text-2xl">
@@ -69,7 +72,7 @@ const FooterLarge = () => {
           <div>
             <div className="flex flex-col space-y-4">
               <p className="font-semibold">Quick Links</p>
-              <div className="flex flex-col space-y-3 pt-2">
+              <div className="flex flex-col space-y-2 pt-2">
                 <Link href="/">
                   <a className="opacity-50 duration-300 hover:opacity-100">
                     Home
@@ -96,7 +99,7 @@ const FooterLarge = () => {
           <div>
             <div className="flex flex-col space-y-4">
               <p className="font-semibold">Legal</p>
-              <div className="flex flex-col space-y-3 pt-2">
+              <div className="flex flex-col space-y-2 pt-2">
                 <Link href="/legal/terms">
                   <a className="opacity-50 duration-300 hover:opacity-100">
                     Terms of Use
@@ -116,29 +119,24 @@ const FooterLarge = () => {
             </div>
           </div>
           <div>
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col">
               <p className="font-semibold">Get In Touch</p>
-              <div className="flex flex-col space-y-3 pt-2">
-                <p className="opacity-50">
-                  Questions or feedback? <br />
-                  We'd love to hear from you.
-                </p>
-              </div>
-              <div className="flex space-x-4 pt-8">
+
+              <div className="flex space-x-4 pt-6">
                 <a
-                  className="text-primary dark:text-yellow-500 duration-300 hover:text-sky dark:hover:text-yellow-400"
+                  className="duration-300 opacity-50 hover:opacity-100 w-8 h-8 rounded-full bg-gray-500 dark:bg-gray-700 text-white flex justify-center items-center"
                   href="#"
                 >
                   <FaFacebookF />
                 </a>
                 <a
-                  className="text-primary dark:text-yellow-500 duration-300 hover:text-sky dark:hover:text-yellow-400"
+                  className="duration-300 opacity-50 hover:opacity-100 w-8 h-8 rounded-full bg-gray-500 dark:bg-gray-700 text-white flex justify-center items-center"
                   href="#"
                 >
                   <FaTwitter />
                 </a>
                 <a
-                  className="text-primary dark:text-yellow-500 duration-300 hover:text-sky dark:hover:text-yellow-400"
+                  className="duration-300 opacity-50 hover:opacity-100 w-8 h-8 rounded-full bg-gray-500 dark:bg-gray-700 text-white flex justify-center items-center"
                   href="#"
                 >
                   <FaLinkedinIn />
@@ -152,9 +150,7 @@ const FooterLarge = () => {
             <span className="opacity-50">
               Copyright © 2021 all rights reserved by{" "}
             </span>
-            <span className="text-primary dark:text-yellow-500">
-              Buetian 89
-            </span>
+            <span className="underline">Buetian 89</span>
           </p>
           <div className="text-sm flex items-center">
             <span className="opacity-50 flex items-center">
@@ -163,7 +159,7 @@ const FooterLarge = () => {
             <a
               href="https://www.alphanumericwebs.com/"
               target="_blank"
-              className="text-primary pl-1 dark:text-yellow-500 duration-300 hover:text-sky dark:hover:text-yellow-400"
+              className="pl-1 duration-300 underline dark:hover:text-yellow-400"
             >
               alphanumericwebs
             </a>
