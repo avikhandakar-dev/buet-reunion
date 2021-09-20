@@ -90,11 +90,23 @@ const Featured = () => {
                               src={img.oriDownloadUrl}
                               layout="fill"
                               objectFit="cover"
+                              priority={true}
+                              loading="eager"
                             />
                           </motion.div>
                         )
                     )}
                   <AnimatePresence>
+                    {selectedImage && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0 }}
+                        exit={{ opacity: 0 }}
+                        key="overlay"
+                        className=" absolute inset-0 bg-white opacity-0 rounded-2xl"
+                        onClick={() => setSelectedImage(false)}
+                      />
+                    )}
                     {selectedImage && (
                       <motion.div
                         layoutId={selectedImage?.id}
@@ -124,20 +136,20 @@ const Featured = () => {
                   </p>
                 </div>
                 <div className="flex space-x-4 mb-8">
-                  <div className="w-24 h-24 lg:w-32 lg:h-32 bg-white bg-opacity-70 dark:bg-opacity-30 backdrop-blur-sm rounded-2xl shadow-card flex justify-center items-center flex-col">
-                    <p className="font-bold text-5xl text-green-500">
+                  <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-2xl shadow-card flex justify-center items-center flex-col">
+                    <p className="font-bold text-2xl sm:text-5xl text-green-500">
                       {dateDiff || 0}
                     </p>
                     <p className="text-xs font-medium uppercase">Days ago</p>
                   </div>
-                  <div className="w-24 h-24 lg:w-32 lg:h-32 bg-white bg-opacity-70 dark:bg-opacity-30 backdrop-blur-sm rounded-2xl shadow-card flex justify-center items-center flex-col">
-                    <p className="font-bold text-5xl text-green-500">
+                  <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-2xl shadow-card flex justify-center items-center flex-col">
+                    <p className="font-bold text-2xl sm:text-5xl text-green-500">
                       <span className="text-base align-top">$</span>
                       {project.raised || 0}
                     </p>
                     <p className="text-xs font-medium uppercase">Raised</p>
                   </div>
-                  <div className="w-24 h-24 lg:w-32 lg:h-32 bg-white bg-opacity-70 dark:bg-opacity-30 backdrop-blur-sm rounded-2xl shadow-card flex justify-center items-center flex-col relative overflow-hidden">
+                  <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-2xl shadow-card flex justify-center items-center flex-col relative overflow-hidden">
                     <div
                       className="absolute duration-300 ease-in-out bottom-0 left-0 w-full bg-green-500 h-full flex justify-center items-center flex-col"
                       style={{
@@ -146,7 +158,7 @@ const Featured = () => {
                         }% 0 0 0)`,
                       }}
                     >
-                      <p className="font-bold text-5xl text-white">
+                      <p className="font-bold text-2xl sm:text-5xl text-white">
                         {getFundingProgress(project.raised, project.goal)}
                         <span className="text-base align-middle">%</span>
                       </p>
@@ -154,7 +166,7 @@ const Featured = () => {
                         Funding
                       </p>
                     </div>
-                    <p className="font-bold text-5xl text-green-500">
+                    <p className="font-bold text-2xl sm:text-5xl text-green-500">
                       {getFundingProgress(project.raised, project.goal)}
                       <span className="text-base align-middle">%</span>
                     </p>
