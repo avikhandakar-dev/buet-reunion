@@ -31,8 +31,8 @@ const MediaGrid = ({ media }) => {
       ) : (
         <div className="py-4 px-5 bg-gray-50 dark:bg-gray-700">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-around justify-items-stretch gap-4 relative">
-            {media.map((item) => (
-              <Fragment>
+            {media.map((item, idx) => (
+              <Fragment key={idx}>
                 <MediaGridImageView image={item} />
               </Fragment>
             ))}

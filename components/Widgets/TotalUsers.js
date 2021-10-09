@@ -22,7 +22,6 @@ const TotalUsersWidget = () => {
       const { error, data } = await res.json();
       if (!error) {
         setMembers(data.users);
-        console.log(data.users);
       }
       setIsLoading(false);
     };

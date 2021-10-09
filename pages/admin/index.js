@@ -14,7 +14,6 @@ const UsersAdmin = () => {
   useEffect(() => {
     const unsubs = async () => {
       const token = await user?.getIdToken();
-      console.log(token);
       const res = await fetch("/api/users", {
         body: JSON.stringify({
           token: token,
@@ -27,7 +26,6 @@ const UsersAdmin = () => {
       const { error, data } = await res.json();
       if (!error) {
         setMembers(data.users);
-        console.log(data.users);
       }
       setIsLoading(false);
     };

@@ -3,11 +3,11 @@ import Link from "next/link";
 import { serverTimestampToString } from "@lib/healper";
 import Image from "next/image";
 
-const BlogCard = ({ project }) => {
+const ProjectCard = ({ project }) => {
   const tags = project.tags?.split(",");
   return (
     <div className="rounded-2xl bg-white dark:bg-black h-full dark:bg-opacity-30 bg-opacity-70 shadow-card relative duration-200 hover:-translate-y-2 ease-in-out">
-      <Link href={`/blog/${project.slug}`}>
+      <Link href={`/projects/${project.slug}`}>
         <a className="block h-full">
           <div className="h-full flex-col flex">
             <div className="flex-shrink-0">
@@ -64,4 +64,4 @@ const BlogCard = ({ project }) => {
   );
 };
 
-export default BlogCard;
+export default ProjectCard;

@@ -21,7 +21,7 @@ const ProjectSinglePage = ({ project, mdxSource }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const { slug } = params;
-  const projectQuery = await firestore
+  const projectQuery = firestore
     .collection("projects")
     .where("slug", "==", slug)
     .limit(1);

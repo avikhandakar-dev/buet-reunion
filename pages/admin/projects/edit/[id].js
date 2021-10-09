@@ -33,7 +33,6 @@ export const getServerSideProps = async ({ params }) => {
       notFound: true,
     };
   }
-  console.log(project[0]);
   return {
     props: { project: project[0] },
   };

@@ -75,9 +75,7 @@ const AdminLayout = ({ children }) => {
 
   useEffect(async () => {
     if (!userIsLoading) {
-      console.log("user loaded");
       if (!user) {
-        console.log("no user");
         router.push({
           pathname: "/accounts/login",
           query: { next: "/admin" },

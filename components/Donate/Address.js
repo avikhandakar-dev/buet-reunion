@@ -91,8 +91,10 @@ const BillingAddress = ({ address }) => {
             <option disabled value="" selected>
               None
             </option>
-            {countryList?.map((country) => (
-              <option value={country.isoCode}>{country.name}</option>
+            {countryList?.map((country, idx) => (
+              <option key={idx} value={country.isoCode}>
+                {country.name}
+              </option>
             ))}
           </select>
         </div>

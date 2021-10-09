@@ -22,7 +22,6 @@ export default async (req, res) => {
     if (requestedBy.admin === true) {
       try {
         const userRecord = await admin.auth().getUser(uid);
-        console.log(userRecord);
         return res.status(200).json({
           statusCode: 200,
           data: userRecord,
