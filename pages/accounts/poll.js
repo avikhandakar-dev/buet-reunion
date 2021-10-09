@@ -1,4 +1,4 @@
-import DonationsTable from "@components/Donate/DonationsTable";
+import PollsTable from "@components/Poll/PollsTable";
 import PulseBar from "@components/Pulse/Bar";
 import Empty from "@components/Svg/Empty";
 import AuthContext from "@lib/authContext";
@@ -6,15 +6,14 @@ import ProfileLayout from "layouts/profile";
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 
-const UsersDonation = () => {
+const UsersPoll = () => {
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
-  const [donations, setDonations] = useState(null);
+  const [polls, setPolls] = useState([]);
   useEffect(() => {
     const unsubs = async () => {
       const token = await user?.getIdToken();
-      console.log(token);
-      const res = await fetch("/api/users/get-donations", {
+      const res = await fetch("/api/users/get-polls", {
         body: JSON.stringify({
           token: token,
         }),
@@ -25,7 +24,7 @@ const UsersDonation = () => {
       });
       const { error, data } = await res.json();
       if (!error) {
-        setDonations(data);
+        setPolls(data);
       }
       setIsLoading(false);
     };
@@ -38,7 +37,7 @@ const UsersDonation = () => {
       </div>
     );
   }
-  if (!donations || donations.length < 1) {
+  if (!polls || polls.length < 1) {
     return (
       <div className="w-full text-center h-80 flex justify-center items-center flex-col">
         <Empty className="w-40" />
@@ -55,10 +54,10 @@ const UsersDonation = () => {
   }
   return (
     <div>
-      <DonationsTable noTitle transparentBody donations={donations} />
+      <PollsTable noTitle transparentBody polls={polls} />
     </div>
   );
 };
 
-UsersDonation.layout = ProfileLayout;
-export default UsersDonation;
+UsersPoll.layout = ProfileLayout;
+export default UsersPoll;

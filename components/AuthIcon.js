@@ -33,7 +33,7 @@ const AuthIcon = () => {
     {
       name: "Profile",
       icon: <FaUserEdit />,
-      url: "/accounts",
+      url: "/accounts/profile",
     },
     {
       name: "My Donation",

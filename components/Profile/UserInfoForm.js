@@ -16,6 +16,8 @@ const UserInfoForm = ({ userData }) => {
     userData.displayName || user.displayName || ""
   );
   const [bio, setBio] = useState(userData.bio || "");
+  const [phone, setPhone] = useState(userData.phone || "");
+  const [hall, setHall] = useState(userData.hall || "");
   const [countryList, setCountryList] = useState(Country.getAllCountries());
   const [stateList, setStateList] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(
@@ -29,7 +31,14 @@ const UserInfoForm = ({ userData }) => {
   const handelSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    if (!name || !selectedCountry || !selectedState || !selectedClass) {
+    if (
+      !name ||
+      !selectedCountry ||
+      !selectedState ||
+      !selectedClass ||
+      !phone ||
+      !hall
+    ) {
       return toast.error("Please fill in all the required fields!");
     }
     if (name != user.displayName) {
@@ -44,6 +53,8 @@ const UserInfoForm = ({ userData }) => {
     }
     try {
       await firestore.collection("users").doc(user?.uid).update({
+        phone,
+        hall,
         displayName: name,
         country: selectedCountry,
         state: selectedState,
@@ -78,9 +89,6 @@ const UserInfoForm = ({ userData }) => {
   }, []);
   return (
     <form onSubmit={handelSubmit}>
-      <p className="uppercase text-sm font-semibold text-blue-700 dark:text-blue-300">
-        User Information
-      </p>
       <div className="pl-6 mt-4 flex flex-col space-y-4">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-3 text-right">
@@ -95,7 +103,9 @@ const UserInfoForm = ({ userData }) => {
           </div>
         </div>
         <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">Name</div>
+          <div className="col-span-3 text-right">
+            Name<span className="text-sm align-top">*</span>
+          </div>
           <input
             onChange={(event) => {
               setName(event.target.value);
@@ -105,6 +115,22 @@ const UserInfoForm = ({ userData }) => {
             required
             type="text"
             name="name"
+            className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+          />
+        </div>
+        <div className="grid grid-cols-12 gap-8">
+          <div className="col-span-3 text-right">
+            Phone<span className="text-sm align-top">*</span>
+          </div>
+          <input
+            onChange={(event) => {
+              setPhone(event.target.value);
+              setDataChange(true);
+            }}
+            value={phone}
+            required
+            type="tel"
+            name="phone"
             className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           />
         </div>
@@ -129,7 +155,9 @@ const UserInfoForm = ({ userData }) => {
           </button>
         </div>
         <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">Country</div>
+          <div className="col-span-3 text-right">
+            Country<span className="text-sm align-top">*</span>
+          </div>
           <select
             required
             name="country"
@@ -156,7 +184,9 @@ const UserInfoForm = ({ userData }) => {
           </select>
         </div>
         <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">State/Province</div>
+          <div className="col-span-3 text-right">
+            State/Province<span className="text-sm align-top">*</span>
+          </div>
           <select
             className="block invalid:text-gray-500 col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
             required
@@ -178,7 +208,9 @@ const UserInfoForm = ({ userData }) => {
           </select>
         </div>
         <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">Session</div>
+          <div className="col-span-3 text-right">
+            Session<span className="text-sm align-top">*</span>
+          </div>
           <select
             className="block invalid:text-gray-500 col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
             required
@@ -201,6 +233,22 @@ const UserInfoForm = ({ userData }) => {
               1991
             </option>
           </select>
+        </div>
+        <div className="grid grid-cols-12 gap-8">
+          <div className="col-span-3 text-right">
+            Hall<span className="text-sm align-top">*</span>
+          </div>
+          <input
+            onChange={(event) => {
+              setHall(event.target.value);
+              setDataChange(true);
+            }}
+            value={hall}
+            required
+            type="text"
+            name="hall"
+            className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+          />
         </div>
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-3 text-right">Bio</div>

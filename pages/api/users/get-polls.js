@@ -4,8 +4,8 @@ import admin from "@lib/firebaseAdmin";
 const db = admin.firestore();
 export default async (req, res) => {
   if (req.method === "POST") {
-    const { token, uid } = req.body;
-    if (!uid || !token) {
+    const { token } = req.body;
+    if (!token) {
       return res.status(500).json({
         statusCode: 500,
         message: "Invalid data!",
@@ -23,7 +23,9 @@ export default async (req, res) => {
     }
     if (requestedBy.admin === true) {
       try {
-        const pollsQuery = db.collection("polls").where("userId", "==", uid);
+        const pollsQuery = db
+          .collection("polls")
+          .where("userId", "==", requestedBy.uid);
         const polls = (await pollsQuery.get()).docs.map(firestoreToJSON);
         return res.status(200).json({
           statusCode: 200,

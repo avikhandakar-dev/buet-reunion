@@ -31,18 +31,16 @@ const ProfileLayout = ({ children }) => {
   }
   return (
     <Fragment>
-      <Nav />
-      <ProfileHeader userData={userData} />
-      <div className="max-w-5xl px-4 sm:px-6 relative mx-auto">
-        <div className="flex space-x-16">
-          <div className="-mt-20 max-w-sm relative flex-shrink-0 w-72">
-            <ProfileInfo userData={userData} />
-          </div>
-          <div className="flex-1 flex-grow">
-            <div className="flex justify-center">
-              <ProfileNav />
+      <ProfileNav />
+      <div className="dark:bg-gradient-dark-1-start bg-gray-50">
+        <ProfileHeader userData={userData} />
+        <div className="w-full px-4 sm:px-6 relative">
+          <div className="max-w-6xl mx-auto">
+            <div className=" min-h-[600px] bg-white dark:bg-gray-800 rounded-2xl shadow-card -mt-64 px-6">
+              <ProfileInfo userData={userData} />
+
+              {children}
             </div>
-            <div className="mb-12">{children}</div>
           </div>
         </div>
       </div>

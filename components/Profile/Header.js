@@ -2,8 +2,9 @@ import Image from "next/image";
 
 const ProfileHeader = ({ userData }) => {
   return (
-    <div className="mt-20 ssticky -top-36 z-10">
-      <div className="relative w-full h-48">
+    <div className="z-0 h-[500px] w-full relative">
+      <div className="absolute inset-0 w-full h-full bg-black bg-opacity-70 z-10" />
+      <div className="relative w-full h-full">
         <Image
           placeholder="blur"
           blurDataURL={`/img/cover/${

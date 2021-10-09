@@ -22,7 +22,13 @@ const DefaultLayout = ({ children }) => {
       if (user) {
         if (!redirectToProfile) {
           if (!userDataIsLoading) {
-            if (!userData.country || !userData.state || !userData.CBB) {
+            if (
+              !userData.country ||
+              !userData.state ||
+              !userData.CBB ||
+              !userData.hall ||
+              !userData.phone
+            ) {
               toast.error("Please complete your profile!");
               router.push("/accounts");
               setRedirectToProfile(true);

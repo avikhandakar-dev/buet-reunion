@@ -5,7 +5,7 @@ const db = admin.firestore();
 export default async (req, res) => {
   if (req.method === "POST") {
     const { token, uid } = req.body;
-    if (!uid || !token) {
+    if (!token) {
       return res.status(500).json({
         statusCode: 500,
         message: "Invalid data!",
@@ -25,7 +25,7 @@ export default async (req, res) => {
       try {
         const donationsQuery = db
           .collection("donations")
-          .where("donorInfo.uid", "==", uid);
+          .where("donorInfo.uid", "==", requestedBy.uid);
         const donations = (await donationsQuery.get()).docs.map(
           firestoreToJSON
         );

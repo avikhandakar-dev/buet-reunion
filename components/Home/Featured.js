@@ -41,17 +41,14 @@ const Featured = () => {
 
   return (
     <AnimateSharedLayout>
-      <div className="w-full relative h-full">
+      <div
+        className="w-full relative h-full bg-fixed bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${project.coverImage.oriDownloadUrl})`,
+        }}
+      >
         {project.coverImage && (
-          <div className="w-full h-full absolute left-0 top-0 opacity-10">
-            <Image
-              placeholder="blur"
-              blurDataURL={project.coverImage.loaderDownloadUrl}
-              src={project.coverImage.oriDownloadUrl}
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
+          <div className="w-full h-full absolute bg-white dark:bg-black left-0 top-0 opacity-90 dark:opacity-90" />
         )}
         <Container>
           <div className="max-w-xl mx-auto lg:max-w-screen-xl">

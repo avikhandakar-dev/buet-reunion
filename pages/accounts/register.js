@@ -20,6 +20,8 @@ const RegisterPage = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [hall, setHall] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameIsChecking, setUsernameIsChecking] = useState(false);
@@ -54,7 +56,9 @@ const RegisterPage = () => {
       !email ||
       !selectedCountry ||
       !selectedState ||
-      !selectedClass
+      !selectedClass ||
+      !hall ||
+      !phone
     ) {
       setIsLoading(false);
       return toast.error("Please provide all the information!");
@@ -74,8 +78,10 @@ const RegisterPage = () => {
         const batch = firestore.batch();
         batch.set(userDoc, {
           // username: username,
+          email,
+          hall,
+          phone,
           displayName: name,
-          email: email,
           country: selectedCountry,
           state: selectedState,
           CBB: selectedClass,
@@ -196,6 +202,19 @@ const RegisterPage = () => {
                 />
               </div>
               <div className="block mb-2">
+                <input
+                  onChange={(event) => {
+                    setPhone(event.target.value);
+                  }}
+                  value={phone}
+                  required
+                  type="tel"
+                  name="phone"
+                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  placeholder="Phone Number"
+                />
+              </div>
+              <div className="block mb-2">
                 <select
                   className="block rounded invalid:text-gray-500 w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   required
@@ -260,6 +279,20 @@ const RegisterPage = () => {
                   <option value="1991">1991</option>
                 </select>
               </div>
+              <div className="block mb-2">
+                <input
+                  onChange={(event) => {
+                    setHall(event.target.value);
+                  }}
+                  value={hall}
+                  required
+                  type="text"
+                  name="hall"
+                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  placeholder="Buet Hall"
+                />
+              </div>
+
               {/* <div className="block mb-2">
                 <input
                   onChange={onChange}
@@ -352,7 +385,7 @@ const RegisterPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer variant="small" />
     </div>
   );
 };

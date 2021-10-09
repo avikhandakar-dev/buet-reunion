@@ -2,14 +2,20 @@ import { Fragment } from "react";
 import DonationsTableRow from "@components/Donate/DonationsTableRow";
 import Empty from "@components/Svg/Empty";
 
-const DonationsTable = ({ donations }) => {
+const DonationsTable = ({
+  donations,
+  noTitle = false,
+  transparentBody = false,
+}) => {
   return (
     <div className="rounded-md shadow overflow-hidden relative">
-      <div className="py-4 px-5 bg-white dark:bg-gray-700">
-        <p className="font-medium text-xl text-gray-700 dark:text-gray-200">
-          Donations
-        </p>
-      </div>
+      {!noTitle && (
+        <div className="py-4 px-5 bg-white dark:bg-gray-700">
+          <p className="font-medium text-xl text-gray-700 dark:text-gray-200">
+            Donations
+          </p>
+        </div>
+      )}
       {donations.length < 1 ? (
         <Fragment>
           <div className="py-4 px-5 bg-gray-50 dark:bg-gray-700 h-96 flex flex-col justify-center items-center">
@@ -22,7 +28,12 @@ const DonationsTable = ({ donations }) => {
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div className="overflow-hidden border-b border-gray-200 dark:border-gray-800">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                  <table
+                    className={`min-w-full divide-y divide-gray-200 dark:divide-gray-800 ${
+                      transparentBody &&
+                      "border-2 border-gray-50 dark:border-gray-600"
+                    }`}
+                  >
                     <thead className="bg-gray-50 dark:bg-gray-600">
                       <tr>
                         <th
@@ -60,7 +71,13 @@ const DonationsTable = ({ donations }) => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-800">
+                    <tbody
+                      className={`divide-y divide-gray-200 dark:divide-gray-800 ${
+                        transparentBody
+                          ? "bg-transparent"
+                          : "bg-white dark:bg-gray-700"
+                      }`}
+                    >
                       {donations.map((donation, idx) => (
                         <Fragment key={idx}>
                           <DonationsTableRow donation={donation} />
