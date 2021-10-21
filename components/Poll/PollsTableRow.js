@@ -1,24 +1,43 @@
-import { useState } from "react";
-import { BsEyeFill } from "react-icons/bs";
-import { FiEdit } from "react-icons/fi";
+import { useContext, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import Link from "next/link";
 import Toggle from "@components/Toggle";
 import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
-import Image from "next/image";
 import ConfirmModal from "@components/Confirm";
-import { serverTimestampToString, Truncate } from "@lib/healper";
-import { AiOutlinePieChart } from "react-icons/ai";
-import { RiPieChart2Fill } from "react-icons/ri";
+import { fetchPostJSON, serverTimestampToString, Truncate } from "@lib/healper";
+import { RiMailSendFill, RiPieChart2Fill } from "react-icons/ri";
+import AuthContext from "@lib/authContext";
+import { FaHourglassEnd } from "react-icons/fa";
 
 const PollsTableRow = ({ poll }) => {
   const [isPublic, setIsPublic] = useState(poll.public || false);
   const [isActive, setIsActive] = useState(poll.active || true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [activeIsLoading, setActiveIsLoading] = useState(false);
   const [processFinished, setProcessFinished] = useState(false);
+  const { user } = useContext(AuthContext);
 
+  const sendMail = async () => {
+    if (poll.access != "emails" || !poll.whiteList.length) {
+      return toast.error("Nothing to send!");
+    }
+    setIsSending(true);
+    const token = await user?.getIdToken();
+    const response = await fetchPostJSON("/api/mail/new-poll", {
+      token: token,
+      emails: poll.whiteList,
+      title: poll.questions[0].text,
+      pollId: poll.id,
+    });
+    if (response.statusCode === 200) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+    setIsSending(false);
+  };
   const togglePublic = () => {
     setIsLoading(true);
     if (isLoading) {
@@ -126,11 +145,13 @@ const PollsTableRow = ({ poll }) => {
             </Link>
           </span>
           <span className="mr-3">
-            <Link href={`/admin/poll/edit/${poll.id}`}>
-              <a className="text-yellow-500 hover:text-yellow-400 text-lg">
-                <FiEdit />
-              </a>
-            </Link>
+            <button
+              onClick={() => sendMail()}
+              disabled={isSending}
+              className="text-yellow-500 hover:text-yellow-400 text-lg"
+            >
+              {isSending ? <FaHourglassEnd /> : <RiMailSendFill />}
+            </button>
           </span>
           <span className="flex justify-center items-center">
             <ConfirmModal

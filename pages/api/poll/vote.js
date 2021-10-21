@@ -1,16 +1,27 @@
 import admin from "@lib/firebaseAdmin";
+import { verifyToken } from "@lib/jwt";
+import { getCookie } from "cookies-next";
 
 const db = admin.firestore();
 
 export default async (req, res) => {
   if (req.method === "POST") {
     const { uid, poll, selectedOptions } = req.body;
-    if (!uid || !poll || !selectedOptions?.length) {
+    const token = getCookie("token", { req, res });
+
+    if (!poll || !selectedOptions?.length) {
       return res.status(500).json({
         statusCode: 500,
         message: "Invalid data!",
       });
     }
+    if (!uid && !token) {
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Invalid user!",
+      });
+    }
+
     try {
       const pollRef = db.collection("polls").doc(poll.id);
       const aggregationRef = db.collection("aggregations").doc("polls");
@@ -21,13 +32,45 @@ export default async (req, res) => {
           message: "Poll not found!",
         });
       }
-      const userRecord = await admin.auth().getUser(uid);
+      let userRecord = null;
+      if (uid) {
+        userRecord = await admin.auth().getUser(uid);
+      } else if (token) {
+        userRecord = verifyToken(token);
+      }
+      if (!userRecord) {
+        return res.status(500).json({
+          statusCode: 500,
+          message: "Invalid user!",
+        });
+      }
+      console.log(userRecord);
+
       if (pollData.data().voters?.includes(userRecord.email)) {
         return res.status(500).json({
           statusCode: 500,
           message: "You already voted on this poll!",
         });
       }
+
+      if (pollData.data().access == "emails") {
+        if (!pollData.data().whiteList?.includes(userRecord.email)) {
+          return res.status(500).json({
+            statusCode: 500,
+            message: "You can't vote on this poll!",
+          });
+        }
+      }
+
+      if (pollData.data().access == "members") {
+        if (!userRecord.customClaims?.member) {
+          return res.status(500).json({
+            statusCode: 500,
+            message: "You can't vote on this poll!",
+          });
+        }
+      }
+
       const batch = db.batch();
       selectedOptions.forEach((option) =>
         batch.update(pollRef, {

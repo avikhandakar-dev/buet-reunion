@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { Spin } from "@components/Svg/Spin";
 import { useRouter } from "next/router";
 
-const VoteViewSingle = ({ poll }) => {
+const VoteViewMultiple = ({ poll }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -32,7 +32,7 @@ const VoteViewSingle = ({ poll }) => {
     }
     setIsLoading(true);
     const response = await fetchPostJSON("/api/poll/vote", {
-      uid: user?.uid,
+      uid: user.uid,
       poll,
       selectedOptions,
     });
@@ -56,13 +56,13 @@ const VoteViewSingle = ({ poll }) => {
         <h1 className="text-4xl flex space-x-4 flex-wrap font-semibold text-gray-700 dark:text-gray-200">
           {poll.questions?.[0].text}
         </h1>
-        <p>
+        {/* <p>
           <span className="text-gray-400 dark:text-gray-500">Asked by</span>{" "}
           {poll.userName}{" "}
           <span className="text-gray-400 dark:text-gray-500">
             on {serverTimestampToString(poll.createdAt)}
           </span>
-        </p>
+        </p> */}
       </div>
       <div className="">
         <div>
@@ -141,4 +141,4 @@ const VoteViewSingle = ({ poll }) => {
   );
 };
 
-export default VoteViewSingle;
+export default VoteViewMultiple;

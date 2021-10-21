@@ -1,9 +1,11 @@
 import Container from "@components/Container";
 import LoadingScreen from "@components/LoadingScreen";
+import VoteViewMultiple from "@components/Poll/VoteViewMultiple";
 import VoteViewSingle from "@components/Poll/VoteViewSingle";
 import AuthContext from "@lib/authContext";
 import { auth, firestore, firestoreToJSON } from "@lib/firebase";
 import { useDocumentDataSSR } from "@lib/useDocumentDataSSR";
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -14,11 +16,11 @@ const PollViewPage = ({ poll }) => {
   const [user, userIsLoading] = useAuthState(auth);
   const router = useRouter();
   const [pollRT] = useDocumentDataSSR(pollRef, { startWith: poll });
-
+  const token = getCookie("token");
   useEffect(() => {
     const unsubs = () => {
       if (!userIsLoading) {
-        if (!user) {
+        if (!user && !token) {
           toast.error("Please login to vote!", {
             duration: 4000,
           });
@@ -29,13 +31,17 @@ const PollViewPage = ({ poll }) => {
     return unsubs();
   }, [userIsLoading]);
 
-  if (!user) {
+  if (!user && !token) {
     return <LoadingScreen />;
   }
   return (
     <>
       <Container maxWidth="max-w-3xl">
-        {pollRT?.questions.length > 1 ? "" : <VoteViewSingle poll={pollRT} />}
+        {pollRT?.questions.length > 1 ? (
+          <VoteViewMultiple poll={pollRT} />
+        ) : (
+          <VoteViewSingle poll={pollRT} />
+        )}
       </Container>
     </>
   );

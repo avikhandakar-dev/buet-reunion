@@ -1,6 +1,7 @@
 import { Spin } from "@components/Svg/Spin";
 import AuthContext from "@lib/authContext";
 import firebase, { firestore, serverTimestamp } from "@lib/firebase";
+import { fetchPostJSON } from "@lib/healper";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import { Fragment, useContext, useState } from "react";
@@ -16,9 +17,10 @@ const NewPoll = () => {
   const [pollQuestions, setPollQuestions] = useState(defaultQuestion);
   const [pollOptions, setPollOptions] = useState([]);
   const [category, setCategory] = useState("general");
+  const [whiteList, setWhiteList] = useState("");
   const [visibility, setVisibility] = useState("private");
   const [isLoading, setIsLoading] = useState(false);
-  const [access, setAccess] = useState("registered");
+  const [access, setAccess] = useState("members");
 
   const addQuestion = () => {
     setPollQuestions((questions) => {
@@ -79,6 +81,24 @@ const NewPoll = () => {
     pollOptions.map((option) => (votes[option.id] = 0));
     return votes;
   };
+  const createEmailList = () => {
+    return whiteList.replace(/\s/g, "").split(",");
+  };
+
+  const sendMail = async (pollId) => {
+    const token = await user?.getIdToken();
+    const response = await fetchPostJSON("/api/mail/new-poll", {
+      token: token,
+      emails: createEmailList(),
+      title: pollQuestions[0].text,
+      pollId,
+    });
+    if (response.statusCode === 200) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -98,16 +118,23 @@ const NewPoll = () => {
         id: pollId,
         votes: createVotes(),
         voters: [],
+        access: access,
         userId: user?.uid,
         userName: user?.displayName,
         userEmail: user?.email,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
+        ...(access == "emails" && {
+          whiteList: whiteList.replace(/\s/g, "").split(","),
+        }),
       });
       batch.update(aggregationRef, {
         total: firebase.firestore.FieldValue.increment(1),
       });
       await batch.commit();
+      if (access == "emails") {
+        await sendMail(pollId);
+      }
       toast.success("Poll created successfully!", {
         duration: 4000,
       });
@@ -286,6 +313,40 @@ const NewPoll = () => {
                       <option value="public">Public</option>
                     </select>
                   </div>
+                  <div className="mt-3 rounded">
+                    <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
+                      Who can vote
+                    </p>
+                    <select
+                      onChange={(event) => setAccess(event.target.value)}
+                      className="w-full focus:outline-none bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700"
+                      name="pollVisibility"
+                      required={true}
+                    >
+                      <option value="members" selected>
+                        Only Members
+                      </option>
+                      <option value="emails">By Email</option>
+                    </select>
+                  </div>
+
+                  {access == "emails" && (
+                    <div className="mt-3 rounded">
+                      <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
+                        Emails
+                      </p>
+                      <textarea
+                        onChange={(event) => setWhiteList(event.target.value)}
+                        value={whiteList}
+                        className="w-full dark:placeholder-gray-400 focus:outline-none bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700"
+                        name="emails"
+                        rows="5"
+                        placeholder="Separate email with commas"
+                        required={true}
+                      />
+                    </div>
+                  )}
+
                   <div className="mt-3">
                     <button
                       disabled={isLoading}
