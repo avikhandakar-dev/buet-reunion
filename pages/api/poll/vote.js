@@ -44,7 +44,13 @@ export default async (req, res) => {
           message: "Invalid user!",
         });
       }
-      console.log(userRecord);
+
+      if (!pollData.data().active) {
+        return res.status(500).json({
+          statusCode: 500,
+          message: "Sorry voting is closed!",
+        });
+      }
 
       if (pollData.data().voters?.includes(userRecord.email)) {
         return res.status(500).json({

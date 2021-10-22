@@ -41,7 +41,7 @@ const BlogSinglePage = ({ post, mdxSource }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const { slug } = params;
-  const postQuery = await firestore
+  const postQuery = firestore
     .collection("posts")
     .where("slug", "==", slug)
     .limit(1);

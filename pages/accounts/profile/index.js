@@ -34,8 +34,11 @@ const Accounts = () => {
             </div>
           )}
 
-          <div className="flex justify-center items-center">
-            <p>{``}</p>
+          <div className="flex justify-center items-center space-x-8 text-gray-700 dark:text-gray-400 flex-wrap">
+            <p>{`Phone : ${userData.phone || "Unknown"}`}</p>
+            <p>{`Department : ${userData.department || "Unknown"}`}</p>
+            <p>{`Hall : ${userData.hall || "Unknown"}`}</p>
+            <p>{`CBB : ${userData.CBB || "Unknown"}`}</p>
           </div>
         </div>
       </div>

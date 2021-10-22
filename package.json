@@ -22,7 +22,6 @@
     "firebase": "^8.10.0",
     "firebase-admin": "^9.9.0",
     "framer-motion": "^4.1.17",
-    "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "lodash.debounce": "^4.0.8",
     "lodash.kebabcase": "^4.1.1",

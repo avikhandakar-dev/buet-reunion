@@ -31,7 +31,7 @@ const PollViewPage = ({ poll }) => {
     return unsubs();
   }, [userIsLoading]);
 
-  if (!user && !token) {
+  if (userIsLoading) {
     return <LoadingScreen />;
   }
   return (

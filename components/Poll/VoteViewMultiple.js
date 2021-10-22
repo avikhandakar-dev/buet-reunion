@@ -48,54 +48,62 @@ const VoteViewMultiple = ({ poll }) => {
     router.push("/poll/results/" + poll.id);
   };
   return (
-    <div className="pt-16 lg:pt-24">
+    <div className="pt-16 lg:pt-24 w-full">
       <div className="flex flex-col space-y-2 mb-8">
         <div className="uppercase w-max text-xs font-medium rounded-md px-2 py-1 bg-green-300 text-green-900">
           {poll.category}
         </div>
-        <h1 className="text-4xl flex space-x-4 flex-wrap font-semibold text-gray-700 dark:text-gray-200">
-          {poll.questions?.[0].text}
-        </h1>
-        {/* <p>
+        {poll.questions.map((question) => (
+          <div>
+            <h1 className="text-4xl mb-4 flex space-x-4 flex-wrap font-semibold text-gray-700 dark:text-gray-200">
+              {question.text}
+            </h1>
+            {/* <p>
           <span className="text-gray-400 dark:text-gray-500">Asked by</span>{" "}
           {poll.userName}{" "}
           <span className="text-gray-400 dark:text-gray-500">
             on {serverTimestampToString(poll.createdAt)}
           </span>
         </p> */}
+
+            <div>
+              {poll.allowMultiSelect && (
+                <p className="font-semibold text-muted mb-5 text-sm">
+                  You can choose multiple options
+                </p>
+              )}
+              {poll.options.map(
+                (option) =>
+                  option.questionId == question.id && (
+                    <div
+                      onClick={() => toggleSelected(option.id)}
+                      className={`w-full cursor-pointer transform transition-all rounded p-5 shadow-menu mb-6 bg-white dark:bg-gray-800 ${
+                        selectedOptions.includes(option.id)
+                          ? "border-2 border-primary"
+                          : "hover:shadow-xl hover:scale-105"
+                      }`}
+                      key={option.id}
+                    >
+                      <p className="font-semibold text-2xl inline-flex justify-center items-center">
+                        <span className="mr-3">
+                          {selectedOptions.includes(option.id) ? (
+                            <i className="text-primary">
+                              <MdCheckCircle />
+                            </i>
+                          ) : (
+                            <MdRadioButtonUnchecked />
+                          )}
+                        </span>{" "}
+                        {option.text}
+                      </p>
+                    </div>
+                  )
+              )}
+            </div>
+          </div>
+        ))}
       </div>
       <div className="">
-        <div>
-          {poll.allowMultiSelect && (
-            <p className="font-semibold text-muted mb-5 text-sm">
-              You can choose multiple options
-            </p>
-          )}
-          {poll.options.map((option) => (
-            <div
-              onClick={() => toggleSelected(option.id)}
-              className={`w-full cursor-pointer transform transition-all rounded p-5 shadow-menu mb-6 bg-white dark:bg-gray-800 ${
-                selectedOptions.includes(option.id)
-                  ? "border-2 border-primary"
-                  : "hover:shadow-xl hover:scale-105"
-              }`}
-              key={option.id}
-            >
-              <p className="font-semibold text-2xl inline-flex justify-center items-center">
-                <span className="mr-3">
-                  {selectedOptions.includes(option.id) ? (
-                    <i className="text-primary">
-                      <MdCheckCircle />
-                    </i>
-                  ) : (
-                    <MdRadioButtonUnchecked />
-                  )}
-                </span>{" "}
-                {option.text}
-              </p>
-            </div>
-          ))}
-        </div>
         <div className="flex flex-col justify-between items-center md:flex-row mt-10">
           <button
             disabled={isLoading}

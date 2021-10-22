@@ -22,6 +22,7 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [hall, setHall] = useState("");
+  const [department, setDepartment] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameIsChecking, setUsernameIsChecking] = useState(false);
@@ -58,6 +59,7 @@ const RegisterPage = () => {
       !selectedState ||
       !selectedClass ||
       !hall ||
+      !department ||
       !phone
     ) {
       setIsLoading(false);
@@ -80,6 +82,7 @@ const RegisterPage = () => {
           // username: username,
           email,
           hall,
+          department,
           phone,
           displayName: name,
           country: selectedCountry,
@@ -278,6 +281,19 @@ const RegisterPage = () => {
                   <option value="1990">1990</option>
                   <option value="1991">1991</option>
                 </select>
+              </div>
+              <div className="block mb-2">
+                <input
+                  onChange={(event) => {
+                    setDepartment(event.target.value);
+                  }}
+                  value={department}
+                  required
+                  type="text"
+                  name="department"
+                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  placeholder="Buet Department"
+                />
               </div>
               <div className="block mb-2">
                 <input

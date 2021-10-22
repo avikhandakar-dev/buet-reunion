@@ -18,6 +18,7 @@ const UserInfoForm = ({ userData }) => {
   const [bio, setBio] = useState(userData.bio || "");
   const [phone, setPhone] = useState(userData.phone || "");
   const [hall, setHall] = useState(userData.hall || "");
+  const [department, setDepartment] = useState(userData.department || "");
   const [countryList, setCountryList] = useState(Country.getAllCountries());
   const [stateList, setStateList] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(
@@ -55,6 +56,7 @@ const UserInfoForm = ({ userData }) => {
       await firestore.collection("users").doc(user?.uid).update({
         phone,
         hall,
+        department,
         displayName: name,
         country: selectedCountry,
         state: selectedState,
@@ -233,6 +235,22 @@ const UserInfoForm = ({ userData }) => {
               1991
             </option>
           </select>
+        </div>
+        <div className="grid grid-cols-12 gap-8">
+          <div className="col-span-3 text-right">
+            Department<span className="text-sm align-top">*</span>
+          </div>
+          <input
+            onChange={(event) => {
+              setDepartment(event.target.value);
+              setDataChange(true);
+            }}
+            value={department}
+            required
+            type="text"
+            name="department"
+            className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+          />
         </div>
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-3 text-right">
