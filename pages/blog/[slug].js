@@ -3,7 +3,6 @@ import PostHeader from "@components/Blog/PostHeader";
 import { firestore, firestoreToJSON } from "@lib/firebase";
 import { Fragment } from "react";
 import { useEffect, useState } from "react";
-import { serialize } from "next-mdx-remote/serialize";
 import { DefaultSeo } from "next-seo";
 
 const BlogSinglePage = ({ post, mdxSource }) => {
@@ -54,7 +53,7 @@ export const getServerSideProps = async ({ params }) => {
     };
   }
   const post = posts[0];
-  const mdxSource = await serialize(post.text);
+  const mdxSource = post.text;
   return {
     props: { post, mdxSource },
   };

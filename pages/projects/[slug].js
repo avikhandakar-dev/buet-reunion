@@ -1,11 +1,10 @@
-import { serialize } from "next-mdx-remote/serialize";
 import { DefaultSeo } from "next-seo";
 import ProjectContent from "@components/Project/Content";
 import { firestore, firestoreToJSON } from "@lib/firebase";
 import { Fragment } from "react";
 import ProjectSingleHeader from "@components/Project/ProjectHeader";
 
-const ProjectSinglePage = ({ project, mdxSource }) => {
+const ProjectSinglePage = ({ project }) => {
   const SEO = {
     title: `Buetian 89 | ${project.title}`,
     description: project.excerpt,
@@ -14,7 +13,7 @@ const ProjectSinglePage = ({ project, mdxSource }) => {
     <Fragment>
       <DefaultSeo {...SEO} />
       <ProjectSingleHeader project={project} />
-      <ProjectContent mdxSource={mdxSource} project={project} />
+      <ProjectContent project={project} />
     </Fragment>
   );
 };
@@ -34,9 +33,8 @@ export const getServerSideProps = async ({ params }) => {
     };
   }
   const project = projects[0];
-  const mdxSource = await serialize(project.text);
   return {
-    props: { project, mdxSource },
+    props: { project },
   };
 };
 export default ProjectSinglePage;
