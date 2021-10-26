@@ -13,7 +13,6 @@ export default async (req, res) => {
     if (user.admin === true) {
       try {
         const allUsers = await admin.auth().listUsers();
-        console.log(allUsers);
         return res.status(200).json({ data: allUsers });
       } catch (error) {
         return res.status(500).json({ error: "Server error!" });

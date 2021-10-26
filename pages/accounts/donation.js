@@ -13,7 +13,6 @@ const UsersDonation = () => {
   useEffect(() => {
     const unsubs = async () => {
       const token = await user?.getIdToken();
-      console.log(token);
       const res = await fetch("/api/users/get-donations", {
         body: JSON.stringify({
           token: token,

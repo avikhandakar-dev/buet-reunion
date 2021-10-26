@@ -6,6 +6,7 @@ import Empty from "@components/Svg/Empty";
 import Container from "@components/Container";
 import PollBar from "@components/Poll/PollBar";
 import { useEffect } from "react";
+import LoadingScreen from "@components/LoadingScreen";
 
 const PollsPage = () => {
   const [polls = [], loading, error] = useCollectionData(
@@ -14,6 +15,8 @@ const PollsPage = () => {
       .where("public", "==", true)
       .orderBy("createdAt", "desc")
   );
+
+  return <LoadingScreen />;
 
   return (
     <Fragment>

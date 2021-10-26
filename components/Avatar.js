@@ -1,10 +1,15 @@
 import Image from "next/image";
 
-const Avatar = ({ user, size = 10, textSize = "text-lg", extraClasses }) => {
+const Avatar = ({
+  user,
+  size = "w-10 h-10",
+  textSize = "text-lg",
+  extraClasses,
+}) => {
   return (
     <div className="inline-block rounded-full mx-1 md:mx-0">
       <div
-        className={`relative w-${size} h-${size} rounded-full overflow-hidden ${
+        className={`relative ${size} rounded-full overflow-hidden ${
           extraClasses ? extraClasses : null
         }`}
       >

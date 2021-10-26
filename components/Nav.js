@@ -10,11 +10,16 @@ const Nav = () => {
     <header className="fixed z-40 left-0 top-0 w-full h-20 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200 dark:border-gray-800">
       <div className="w-full hidden px-16 h-full lg:flex justify-between items-center">
         <Link href="/">
-          <a className="font-cursive text-2xl uppercase">
-            BUETian{" "}
-            <span className="bg-primary rounded px-2 py-1 pb-0 text-white inline-block">
-              89
+          <a className="font-cursive text-2xl uppercase flex items-center space-x-2">
+            <span className="block dark:hidden">
+              <img src="/logo_wot.svg" width={50} />
             </span>
+            <span className="hidden dark:block">
+              <img src="/logo_wot_white.svg" width={50} />
+            </span>
+            <p className="mt-[6px]">
+              Buetian <span className="text-primary">89</span> NA
+            </p>
           </a>
         </Link>
         <div className="flex font-medium">
@@ -26,11 +31,6 @@ const Nav = () => {
           <span className="mx-4">
             <ActiveLink activeClassName="text-primary" href="/projects">
               <a>Projects</a>
-            </ActiveLink>
-          </span>
-          <span className="mx-4">
-            <ActiveLink activeClassName="text-primary" href="/polls">
-              <a>Polls</a>
             </ActiveLink>
           </span>
           <span className="mx-4">

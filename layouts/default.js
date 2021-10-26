@@ -30,7 +30,7 @@ const DefaultLayout = ({ children }) => {
               !userData.phone
             ) {
               toast.error("Please complete your profile!");
-              router.push("/accounts/edit");
+              router.push("/accounts/profile/edit");
               setRedirectToProfile(true);
             } else {
               setRedirectToProfile(true);

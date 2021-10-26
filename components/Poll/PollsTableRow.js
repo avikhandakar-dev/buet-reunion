@@ -12,7 +12,7 @@ import { FaHourglassEnd } from "react-icons/fa";
 
 const PollsTableRow = ({ poll }) => {
   const [isPublic, setIsPublic] = useState(poll.public || false);
-  const [isActive, setIsActive] = useState(poll.active || true);
+  const [isActive, setIsActive] = useState(poll.active || false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [activeIsLoading, setActiveIsLoading] = useState(false);
@@ -20,14 +20,27 @@ const PollsTableRow = ({ poll }) => {
   const { user } = useContext(AuthContext);
 
   const sendMail = async () => {
-    if (poll.access != "emails" || !poll.whiteList.length) {
+    if (poll.access == "emails" && !poll.whiteList?.length) {
       return toast.error("Nothing to send!");
     }
     setIsSending(true);
     const token = await user?.getIdToken();
+    let emailsList = [];
+    if (poll.access == "emails") {
+      emailsList = poll.whiteList;
+    } else {
+      const getEmailRes = await fetchPostJSON("/api/users/get-members-email", {
+        token: token,
+      });
+      if (getEmailRes.statusCode === 200) {
+        emailsList = getEmailRes.emails;
+      } else {
+        toast.error(getEmailRes.message);
+      }
+    }
     const response = await fetchPostJSON("/api/mail/new-poll", {
       token: token,
-      emails: poll.whiteList,
+      emails: emailsList,
       title: poll.questions[0].text,
       pollId: poll.id,
     });
@@ -133,18 +146,18 @@ const PollsTableRow = ({ poll }) => {
         />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-        {poll.totalVotes || 0}
+        {poll.voters?.length || 0}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <div className="flex justify-center items-center">
-          <span className="mr-3">
+          <span title="Show result" className="mr-3">
             <Link href={`/poll/results/${poll.id}`}>
               <a className="text-green-500 hover:text-green-400 text-lg">
                 <RiPieChart2Fill />
               </a>
             </Link>
           </span>
-          <span className="mr-3">
+          <span title="Send email" className="mr-3">
             <button
               onClick={() => sendMail()}
               disabled={isSending}
@@ -153,7 +166,10 @@ const PollsTableRow = ({ poll }) => {
               {isSending ? <FaHourglassEnd /> : <RiMailSendFill />}
             </button>
           </span>
-          <span className="flex justify-center items-center">
+          <span
+            title="Delete poll"
+            className="flex justify-center items-center"
+          >
             <ConfirmModal
               body="Do you really want to delete this post? This process cannot be undone."
               className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"

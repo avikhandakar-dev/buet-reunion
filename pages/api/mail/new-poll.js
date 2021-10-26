@@ -8,7 +8,7 @@ export default async (req, res) => {
     if (!token || !emails || !pollId || !title) {
       return res.status(500).json({
         statusCode: 500,
-        message: "Invalid data!",
+        message: "Can't send email. Invalid data!",
       });
     }
     let requestedBy = null;
@@ -36,8 +36,13 @@ export default async (req, res) => {
         to: email,
         from: "Buetian 89 <buetian89@gmail.com>",
         subject: `${title} - vote now at buetian89na.org`,
-        text: "Fresh donuts are out of the oven. Get them while they’re hot!",
-        html: `<a href="${process.env.BASE_URL}/poll/vote/${token}">Vote Now</a>`,
+        html: `
+        <h1>${title}</h1> 
+        <p>Please vote by clicking the following link.</p> 
+        <div style="margin-bottom: 20px">
+          <a style="padding:6px 16px; background:lightseagreen; color:white; border-radius: 4px; text-decoration: none; font-weight: 600" href="${process.env.BASE_URL}/poll/vote/${token}">Vote Now</a>
+        </div>
+        `,
       });
     });
 

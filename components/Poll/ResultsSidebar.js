@@ -24,21 +24,9 @@ const ResultsSidebar = ({ poll }) => {
       )}
 
       <div className="rounded my-3 bg-gray-50 dark:bg-gray-800 p-5 w-full">
-        <div className="border-gray-200 dark:border-gray-600 border-b-2  mb-5 pb-3">
-          <p className="text-muted font-semibold">Votes</p>
-          <h1 className="font-semibold text-5xl">{poll.totalVotes}</h1>
-        </div>
-        <div className="flex items-center space-x-4">
-          <p className="text-muted font-semibold">Share : </p>
-          <a className="text-blue-500">
-            <FaTwitter />
-          </a>
-          <a className="text-blue-800">
-            <FaFacebookF />
-          </a>
-          <a className="text-green-500">
-            <FaWhatsapp />
-          </a>
+        <div className="mb-5 pb-3">
+          <p className="text-muted font-semibold">Voters</p>
+          <h1 className="font-semibold text-5xl">{poll.voters?.length || 0}</h1>
         </div>
       </div>
     </Fragment>

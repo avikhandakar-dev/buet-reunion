@@ -39,7 +39,14 @@ const BlogPage = () => {
           <Container bgColor="bg-gradient-to-l dark:from-darkBlue dark:to-darkSky">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 -mt-8 dark:-mt-0 auto-rows-fr">
               {posts.map((post, idx) => (
-                <div className="lg:first:col-span-2" key={idx}>
+                <div
+                  className={`${
+                    posts.length > 1
+                      ? "lg:first:col-span-2"
+                      : "lg:first:col-span-3"
+                  }`}
+                  key={idx}
+                >
                   <BlogCard post={post} />
                 </div>
               ))}

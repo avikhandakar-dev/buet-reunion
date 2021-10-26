@@ -25,17 +25,21 @@ const ProfileCard = ({ userRecord, userData }) => {
     if (!userRecord) {
       return false;
     }
+    let roles = [];
+    console.log(userRecord.customClaims);
     if (userRecord.customClaims?.admin) {
-      return "admin";
-    } else if (userRecord.customClaims?.member) {
-      return "member";
-    } else if (userRecord.customClaims?.premium) {
-      return "premium";
-    } else if (isSuccess) {
-      return "member";
-    } else {
-      return false;
+      roles.push("admin");
     }
+    if (userRecord.customClaims?.member) {
+      roles.push("member");
+    }
+    if (userRecord.customClaims?.premium) {
+      roles.push("premium");
+    }
+    if (isSuccess) {
+      return "member";
+    }
+    return roles.join(", ");
   };
   const acceptRequest = async () => {
     setIsLoading(true);
@@ -81,11 +85,11 @@ const ProfileCard = ({ userRecord, userData }) => {
             sizes="(max-width: 640px) 100px, (max-width: 1024px) 350px, 500px"
           />
         </div>
-        <div>
-          <div className="flex justify-center items-center -translate-y-1/2">
+        <div className="relative">
+          <div className="mx-auto w-max -translate-y-1/2">
             <Avatar
               user={userRecord}
-              size={28}
+              size="w-28 h-28"
               textSize="text-3xl text-white"
               extraClasses="bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 dark:bg-green-600 border-4 border-gray-100 dark:border-gray-200"
             />
@@ -145,8 +149,7 @@ const ProfileCard = ({ userRecord, userData }) => {
             </div>
           </div>
         </div>
-        {userRecord.customClaims?.admin ||
-        userRecord.customClaims?.member ||
+        {userRecord.customClaims?.member ||
         userRecord.customClaims?.premium ||
         isSuccess ? (
           <div className="w-full bg-gradient-to-r text-white from-yellow-500 via-red-500 to-pink-500 h-1" />

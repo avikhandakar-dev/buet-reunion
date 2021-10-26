@@ -28,17 +28,7 @@ const PollResults = () => {
           const pollData = await pollRef.get();
           setPoll(pollData.data());
           setIsLoading(false);
-        }
-      } else {
-        const response = await fetchPostJSON("/api/poll/results", {
-          pollId: id,
-          uid: user?.uid || null,
-        });
-        if (response.statusCode === 200) {
-          setPoll(response.poll);
-          setIsLoading(false);
         } else {
-          toast.error(response.message, { duration: 4000 });
           setIsLoading(false);
         }
       }
@@ -75,20 +65,4 @@ const PollResults = () => {
     );
   }
 };
-
-// export const getServerSideProps = async ({ params }) => {
-//   const { id } = params;
-//   const pollRef = firestore.collection("polls").doc(id);
-//   const poll = await pollRef.get();
-
-//   if (!poll.exists) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-//   const serializeJSON = firestoreToJSON(poll);
-//   return {
-//     props: { poll: serializeJSON },
-//   };
-// };
 export default PollResults;

@@ -21,7 +21,11 @@ export default async (req, res) => {
     }
     if (requestedBy.admin === true) {
       try {
-        await admin.auth().setCustomUserClaims(uid, { [role]: true });
+        const userRecord = await admin.auth().getUser(uid);
+        await admin.auth().setCustomUserClaims(uid, {
+          [role]: true,
+          ...userRecord.customClaims,
+        });
         return res.status(200).json({
           statusCode: 200,
           message: "success",

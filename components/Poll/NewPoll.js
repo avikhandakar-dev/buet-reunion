@@ -1,10 +1,11 @@
 import { Spin } from "@components/Svg/Spin";
+import Toggle from "@components/Toggle";
 import AuthContext from "@lib/authContext";
 import firebase, { firestore, serverTimestamp } from "@lib/firebase";
 import { fetchPostJSON } from "@lib/healper";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
-import { Fragment, useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { RiDeleteBin5Line, RiQuestionFill } from "react-icons/ri";
@@ -15,17 +16,69 @@ const NewPoll = () => {
   const { user } = useContext(AuthContext);
   const router = useRouter();
   const [pollQuestions, setPollQuestions] = useState(defaultQuestion);
+  const [allowMultiSelect, setAllowMultiSelect] = useState(false);
+  const [choicesLimit, setChoicesLimit] = useState(2);
   const [pollOptions, setPollOptions] = useState([]);
   const [category, setCategory] = useState("general");
   const [whiteList, setWhiteList] = useState("");
   const [visibility, setVisibility] = useState("private");
   const [isLoading, setIsLoading] = useState(false);
   const [access, setAccess] = useState("members");
+  const [textFile, setTextFile] = useState(null);
+  const [fileError, setFileError] = useState(null);
 
   const addQuestion = () => {
     setPollQuestions((questions) => {
       return [...questions, { id: nanoid(), text: "" }];
     });
+  };
+  const readFile = async (file) => {
+    if (file) {
+      const data = await new Response(file).text();
+      return data;
+    } else {
+      return null;
+    }
+  };
+  const handelFileChange = (event) => {
+    const fileTypes = ["text/plain"];
+    const selectedFile = event.target.files[0];
+    if (selectedFile && fileTypes.includes(selectedFile.type)) {
+      setTextFile(selectedFile);
+      setFileError(null);
+    } else {
+      setTextFile(null);
+      setFileError("Invalid file!");
+    }
+  };
+
+  useEffect(() => {
+    const unsubs = async () => {
+      if (!textFile) {
+        return;
+      }
+      const textData = await readFile(textFile);
+      if (textData) {
+        const textLines = textData.split("\n");
+        setWhiteList(textLines.join(", "));
+        setTextFile(null);
+      }
+    };
+    return unsubs();
+  }, [textFile]);
+
+  const choicesRange = (
+    min = 2,
+    max = pollOptions.length >= 2 ? pollOptions.length : 2
+  ) => {
+    if (min > max) {
+      return [];
+    }
+    if (max === undefined) {
+      max = min;
+      min = 1;
+    }
+    return [...Array(max - min + 1).keys()].map((x) => x + min);
   };
   const removeQuestion = (id) => {
     setPollQuestions((questions) => {
@@ -87,9 +140,20 @@ const NewPoll = () => {
 
   const sendMail = async (pollId) => {
     const token = await user?.getIdToken();
+    let emailsList = [];
+    if (access == "emails") {
+      emailsList = createEmailList();
+    } else {
+      const getEmailRes = await fetchPostJSON("/api/users/get-members-email", {
+        token: token,
+      });
+      if (getEmailRes.statusCode === 200) {
+        toast.success(getEmailRes.message);
+      }
+    }
     const response = await fetchPostJSON("/api/mail/new-poll", {
       token: token,
-      emails: createEmailList(),
+      emails: emailsList,
       title: pollQuestions[0].text,
       pollId,
     });
@@ -118,7 +182,8 @@ const NewPoll = () => {
         id: pollId,
         votes: createVotes(),
         voters: [],
-        access: access,
+        access,
+        allowMultiSelect,
         userId: user?.uid,
         userName: user?.displayName,
         userEmail: user?.email,
@@ -127,14 +192,15 @@ const NewPoll = () => {
         ...(access == "emails" && {
           whiteList: whiteList.replace(/\s/g, "").split(","),
         }),
+        ...(allowMultiSelect && {
+          choicesLimit: Number(choicesLimit) || 2,
+        }),
       });
       batch.update(aggregationRef, {
         total: firebase.firestore.FieldValue.increment(1),
       });
       await batch.commit();
-      if (access == "emails") {
-        await sendMail(pollId);
-      }
+      await sendMail(pollId);
       toast.success("Poll created successfully!", {
         duration: 4000,
       });
@@ -246,7 +312,7 @@ const NewPoll = () => {
                   Settings
                 </div>
                 <div className="bg-green-50 dark:bg-gray-800 p-4">
-                  <button
+                  {/* <button
                     onClick={() => addQuestion()}
                     type="button"
                     className="flex items-center justify-center px-6 py-2 font-medium text-yellow-500 border-yellow-500 border-2 rounded-full transition duration-500 ease-in-out transform hover:bg-yellow-100 dark:hover:bg-gray-600 focus:outline-none"
@@ -255,7 +321,7 @@ const NewPoll = () => {
                     <span className="text-yellow-600 text-xs pl-2">
                       <FaPlus />
                     </span>
-                  </button>
+                  </button> */}
                   <div className="mt-3 rounded">
                     <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
                       Poll category
@@ -344,6 +410,51 @@ const NewPoll = () => {
                         placeholder="Separate email with commas"
                         required={true}
                       />
+                      {fileError && (
+                        <div className="text-red-500 text-sm">{fileError}</div>
+                      )}
+                      <label className="text-sm cursor-pointer underline text-yellow-400 font-semibold">
+                        Import from text file
+                        <input
+                          onChange={(event) => handelFileChange(event)}
+                          type="file"
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  )}
+
+                  <div className="mt-3">
+                    <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
+                      Allow multiple choices
+                    </p>
+                    <Toggle
+                      enabled={allowMultiSelect}
+                      onChange={() => {
+                        setAllowMultiSelect(!allowMultiSelect);
+                      }}
+                      size={60}
+                    />
+                  </div>
+                  {allowMultiSelect && (
+                    <div className="mt-3">
+                      <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
+                        Limit
+                      </p>
+                      <select
+                        onChange={(event) =>
+                          setChoicesLimit(event.target.value)
+                        }
+                        className="w-full focus:outline-none bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700"
+                        name="pollVisibility"
+                        required={true}
+                      >
+                        {choicesRange().map((item) => (
+                          <option value={item} selected={item == 2}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   )}
 

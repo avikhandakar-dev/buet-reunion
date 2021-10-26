@@ -77,20 +77,41 @@ export default async (req, res) => {
         }
       }
 
+      if (pollData.data().allowMultiSelect) {
+        if (selectedOptions.length > pollData.data().choicesLimit) {
+          return res.status(500).json({
+            statusCode: 500,
+            message: "Something went wrong!",
+          });
+        }
+      } else {
+        if (selectedOptions.length > 1) {
+          return res.status(500).json({
+            statusCode: 500,
+            message: "Something went wrong!",
+          });
+        }
+      }
+
       const batch = db.batch();
       selectedOptions.forEach((option) =>
         batch.update(pollRef, {
           [`votes.${option}`]: admin.firestore.FieldValue.increment(1),
           totalVotes: admin.firestore.FieldValue.increment(1),
-          voters: admin.firestore.FieldValue.arrayUnion(userRecord.email),
         })
       );
+      batch.update(pollRef, {
+        voters: admin.firestore.FieldValue.arrayUnion(userRecord.email),
+      });
       batch.update(aggregationRef, {
         totalVotes: admin.firestore.FieldValue.increment(1),
       });
 
       await batch.commit();
-      res.status(200).json({ message: "Thanks for your vote!" });
+      return res.status(200).json({
+        statusCode: 200,
+        message: "Thanks for your vote!",
+      });
     } catch (error) {
       return res.status(500).json({
         statusCode: 500,

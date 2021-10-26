@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useContext } from "react";
 import Button from "../Button";
 import Container from "../Container";
+import Link from "next/link";
+import { BiChevronRight } from "react-icons/bi";
 
 const Hero = () => {
   const { user } = useContext(AuthContext);
@@ -31,11 +33,15 @@ const Hero = () => {
                   size="large"
                 />
               ) : (
-                <Button
-                  href="/accounts/register"
-                  title="Become a Member"
-                  size="large"
-                />
+                <div className="flex items-center space-x-4">
+                  <Button href="/projects" title="Our Projects" size="large" />
+                  <Link href="/accounts/register">
+                    <a className="inline-flex items-center font-semibold transition-colors duration-200 text-primary hover:text-sky">
+                      Become a Member{" "}
+                      <BiChevronRight className="text-2xl mt-1" />
+                    </a>
+                  </Link>
+                </div>
               )}
             </span>
           </div>
