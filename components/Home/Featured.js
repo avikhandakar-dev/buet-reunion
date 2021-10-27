@@ -5,8 +5,15 @@ import { firestore } from "@lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import FeaturedProjectSlide from "@components/Project/FeaturedProjectSlide";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Pagination } from "swiper";
 import "swiper/css";
+import "swiper/css/pagination";
 
+SwiperCore.use([Pagination]);
+
+const pagination = {
+  clickable: true,
+};
 const Featured = () => {
   const [projects = [], loading, error] = useCollectionData(
     firestore
@@ -14,7 +21,6 @@ const Featured = () => {
       .where("published", "==", true)
       .where("featured", "==", true)
       .orderBy("createdAt", "desc")
-      .limit(1)
   );
 
   if (loading) {
@@ -24,13 +30,8 @@ const Featured = () => {
     return <></>;
   }
 
-  const project = projects[0];
-
   return (
     <div className="w-full relative h-full">
-      {project.coverImage && (
-        <div className="w-full h-full absolute bg-white dark:bg-black left-0 top-0 opacity-90 dark:opacity-90" />
-      )}
       <Container>
         <div className="max-w-xl mx-auto lg:max-w-screen-xl">
           <div className="text-center mb-16">
@@ -49,7 +50,20 @@ const Featured = () => {
               </a>
             </Link>
           </div>
-          <FeaturedProjectSlide project={project} />
+          <Swiper
+            loop={true}
+            slidesPerView={1}
+            pagination={pagination}
+            grabCursor={true}
+            onSlideChange={() => console.log("slide change")}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            {projects.map((project) => (
+              <SwiperSlide>
+                <FeaturedProjectSlide project={project} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </Container>
     </div>

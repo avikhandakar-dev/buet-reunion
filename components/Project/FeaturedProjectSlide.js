@@ -10,7 +10,7 @@ const FeaturedProjectSlide = ({ project }) => {
   const dateDiff = Math.ceil(date.subtract(now, createdAt).toDays());
 
   return (
-    <div className="grid gap-10 lg:gap-20 lg:grid-cols-2 sm:px-6">
+    <div className="grid gap-10 lg:gap-20 lg:grid-cols-2 sm:px-6 mb-16">
       <div className="flex items-center justify-center lg:pl-8">
         <div className="w-full px-4 lg:px-0 relative">
           <span className="absolute hidden lg:block w-full h-full rounded-md top-2 -left-2 border-2 bg-green-400 border-green-400 opacity-60" />
@@ -27,7 +27,7 @@ const FeaturedProjectSlide = ({ project }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center md:pr-8 xl:pr-0 lg:max-w-lg">
+      <div className="flex flex-col justify-center pl-4 lg:pl-0 md:pr-8 xl:pr-0 lg:max-w-lg">
         <div className="max-w-xl mb-6">
           <h2 className="max-w-lg mb-6 font-sans text-3xl font-bold sm:text-4xl sm:leading-none">
             {project.title}
