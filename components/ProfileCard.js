@@ -3,11 +3,15 @@ import { Fragment, useState, useContext } from "react";
 import Avatar from "./Avatar";
 import PulseBar from "./Pulse/Bar";
 import { Country } from "country-state-city";
-import { GoQuote } from "react-icons/go";
+import { VscSymbolClass } from "react-icons/vsc";
 import { fetchPostJSON, timestampToString } from "@lib/healper";
 import { CgSpinner } from "react-icons/cg";
 import AuthContext from "@lib/authContext";
 import toast from "react-hot-toast";
+import { FiMapPin, FiSmartphone } from "react-icons/fi";
+import { AiTwotoneCalendar } from "react-icons/ai";
+import { BsBuilding } from "react-icons/bs";
+import { GoQuote } from "react-icons/go";
 
 const ProfileCard = ({ userRecord, userData }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +73,7 @@ const ProfileCard = ({ userRecord, userData }) => {
   }
   return (
     <Fragment>
-      <div className="xl:max-w-sm relative rounded-md bg-white dark:bg-gray-800 shadow-md overflow-hidden">
+      <div className="w-full relative rounded-md bg-white dark:bg-gray-800 shadow-md overflow-hidden">
         <div className="relative w-full h-32">
           <Image
             placeholder="blur"
@@ -104,27 +108,50 @@ const ProfileCard = ({ userRecord, userData }) => {
                 {getUserRole() && `(${getUserRole()})`}
               </p>
             </div>
-
-            <figure className="mt-4 py-8 pl-12 relative text-xl">
-              <div className="absolute top-0 left-0 text-4xl text-yellow-400">
-                <GoQuote />
+            <div className="sm:px-4 flex flex-col mt-4 w-full space-y-2">
+              <div className="flex items-center space-x-2 py-4 bg-gray-100 dark:bg-gray-700 px-8 rounded-md">
+                <FiMapPin />
+                <p className="font-medium">
+                  {userData.state || "Unknown"},{" "}
+                  {getCountryName(userData.country)}
+                </p>
               </div>
-              <blockquote className="italic font-serif text-gray-900 dark:text-gray-200">
-                Hi, I am <span>{userRecord.displayName}. </span> I live in{" "}
-                <span className="text-yellow-500 dark:text-yellow-400">
-                  {userData.state || "Unknown"}
-                </span>
-                , <span>{getCountryName(userData.country)}.</span> My class
-                begins at BUET in{" "}
-                <span className="text-yellow-500 dark:text-yellow-400">
-                  {userData.CBB || "Unknown"}
-                </span>
-                .
-              </blockquote>
-              <figcaption className="text-sm mt-4 text-gray-600 dark:text-gray-400">
-                -{timestampToString(userRecord.metadata.creationTime)}
-              </figcaption>
-            </figure>
+              <div className="flex items-center space-x-2 py-4 bg-gray-100 dark:bg-gray-700 px-8 rounded-md">
+                <FiSmartphone />
+                <p className="font-medium">{userData.phone || "Unknown"}</p>
+              </div>
+              <div className="flex items-center space-x-2 py-4 bg-gray-100 dark:bg-gray-700 px-8 rounded-md">
+                <AiTwotoneCalendar />
+                <p className="font-medium">
+                  Class begins : {userData.CBB || "Unknown"}
+                </p>
+              </div>
+              <div className="flex items-center space-x-2 py-4 bg-gray-100 dark:bg-gray-700 px-8 rounded-md">
+                <VscSymbolClass />
+                <p className="font-medium">
+                  Department : {userData.department || "Unknown"}
+                </p>
+              </div>
+              <div className="flex items-center space-x-2 py-4 bg-gray-100 dark:bg-gray-700 px-8 rounded-md">
+                <BsBuilding />
+                <p className="font-medium">
+                  Hall : {userData.hall || "Unknown"}
+                </p>
+              </div>
+              {userData.bio && (
+                <figure className="py-8 pl-12 relative text-xl">
+                  <div className="absolute top-0 left-0 text-4xl text-yellow-400">
+                    <GoQuote />
+                  </div>
+                  <blockquote className="italic font-serif text-gray-900 dark:text-gray-200">
+                    {userData.bio}
+                  </blockquote>
+                  <figcaption className="text-sm mt-4 text-gray-600 dark:text-gray-400">
+                    -{userRecord.displayName}
+                  </figcaption>
+                </figure>
+              )}
+            </div>
           </div>
           <div className="border-t border-gray-300 dark:border-gray-700 mt-2">
             <div className="flex justify-between items-center divide-x divide-gray-300 dark:divide-gray-700">
@@ -136,9 +163,9 @@ const ProfileCard = ({ userRecord, userData }) => {
               </div>
               <div className="text-center leading-tight px-4 py-2 flex-1 ">
                 <p className="font-semibold text-gray-700 dark:text-gray-300">
-                  {userData.totalPolls || 0}
+                  {timestampToString(userRecord.metadata.creationTime)}
                 </p>
-                <p className="text-sm text-gray-400">Polls</p>
+                <p className="text-sm text-gray-400">Join Date</p>
               </div>
               <div className="text-center leading-tight px-4 py-2 flex-1 ">
                 <p className="font-semibold text-gray-700 dark:text-gray-300">

@@ -101,11 +101,16 @@ const AdminLayout = ({ children }) => {
         <div>
           <div className="flex justify-center flex-col items-center mb-8">
             <Link href="/">
-              <a className="font-cursive text-2xl uppercase">
-                <span className="lg:inline-block hidden">BUETian</span>{" "}
-                <span className="bg-primary rounded px-2 py-1 pb-0 text-white inline-block">
-                  89
+              <a className="font-cursive text-xl uppercase flex flex-col items-center">
+                <span className="block dark:hidden">
+                  <img src="/logo_wot.svg" width={50} />
                 </span>
+                <span className="hidden dark:block">
+                  <img src="/logo_wot_white.svg" width={50} />
+                </span>
+                <p className="mt-[6px] hidden lg:block">
+                  Buetian <span className="text-primary">89</span> NA
+                </p>
               </a>
             </Link>
           </div>
