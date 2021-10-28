@@ -171,12 +171,19 @@ const RegisterPage = () => {
       <div className="flex-grow flex justify-center items-center">
         <div className="w-full max-w-sm ">
           <div className="px-8 py-10 bg-gray-50 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 rounded">
-            <div className="font-cursive mb-8 text-2xl uppercase text-center">
-              BUETian{" "}
-              <span className="bg-primary rounded px-2 py-1 pb-0 text-white inline-block">
-                89
-              </span>
-            </div>
+            <Link href="/">
+              <a className="font-cursive text-2xl uppercase flex flex-col items-center mb-8">
+                <span className="block dark:hidden">
+                  <img src="/logo_wot.svg" width={50} />
+                </span>
+                <span className="hidden dark:block">
+                  <img src="/logo_wot_white.svg" width={50} />
+                </span>
+                <p className="mt-[6px]">
+                  Buetian <span className="text-primary">89</span> NA
+                </p>
+              </a>
+            </Link>
             <form onSubmit={onSubmit}>
               <div className="block mb-2">
                 <input
