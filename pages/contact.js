@@ -76,8 +76,8 @@ const Contact = () => {
           </form>
 
           <div className="lg:border-l-2 border-gray-200 dark:border-gray-700 lg:pl-16">
-            <h3 className="font-semibold text-gray-600 dark:text-gray-300 text-2xl lg:text-3xl mb-3 uppercase">
-              Contact Info
+            <h3 className="font-semibold text-gray-600 dark:text-gray-300 text-2xl lg:text-3xl mb-3">
+              Address
             </h3>
             <p className="text-xl dark:text-gray-400 text-gray-600">
               Send a message and we will get back
@@ -87,7 +87,7 @@ const Contact = () => {
               <span className="text-2xl text-primary mr-4">
                 <RiMapPinFill />
               </span>
-              <span>P.O Box 2751Santa Clara, CA 95055</span>
+              <span>P.O Box 2751 Santa Clara, CA 95055</span>
             </div>
             {/* <div className="flex mb-3 items-center">
               <span className="text-2xl text-primary mr-4">

@@ -2,10 +2,12 @@ import Link from "next/link";
 import ActiveLink from "./ActiveLink";
 import Button from "./Button";
 import { HiMenuAlt2 } from "react-icons/hi";
-import { AiOutlineUser } from "react-icons/ai";
 import AuthIcon from "./AuthIcon";
+import { useContext } from "react";
+import { GlobalContext } from "@lib/globalContext";
 
 const Nav = () => {
+  const { setShowMobileNav } = useContext(GlobalContext);
   return (
     <header className="fixed z-40 left-0 top-0 w-full h-20 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200 dark:border-gray-800">
       <div className="w-full hidden px-16 h-full lg:flex justify-between items-center">
@@ -57,18 +59,24 @@ const Nav = () => {
       {/* Mobile nav */}
       <div className="w-full flex px-8 sm:px-16 h-full lg:hidden justify-between items-center">
         <div>
-          <HiMenuAlt2 />
+          <button
+            onClick={() => {
+              setShowMobileNav(true);
+            }}
+            className="duration-200 hover:text-primary"
+          >
+            <HiMenuAlt2 />
+          </button>
         </div>
-        <div className="font-cursive text-2xl uppercase">BUETIAN 89</div>
-        <div className="font-medium flex items-center">
-          {/* <span className="mr-5"> */}
-          <Link href="/login">
-            <a className="transition duration-200 hover:text-primary">
-              <AiOutlineUser />
+        <div className="font-cursive text-2xl uppercase">
+          <Link href="/">
+            <a>
+              BUETIAN <span className="text-primary">89</span> NA
             </a>
           </Link>
-          {/* </span> */}
-          {/* <Button href="/register" title="Sign up" /> */}
+        </div>
+        <div className="font-medium flex items-center">
+          <AuthIcon mobile={true} />
         </div>
       </div>
     </header>

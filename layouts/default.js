@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import { useRouter } from "next/router";
+import MobileNav from "@components/MobileNav";
 
 const DefaultLayout = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -44,6 +45,7 @@ const DefaultLayout = ({ children }) => {
   return (
     <Fragment>
       <Nav />
+      <MobileNav />
       {children}
       <Footer />
     </Fragment>

@@ -7,12 +7,11 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useContext, useState, useEffect } from "react";
 import { IoMdExit } from "react-icons/io";
 import AuthContext from "@lib/authContext";
-import { GlobalContext } from "@lib/globalContext";
 import { RiAdminFill } from "react-icons/ri";
+import { AiOutlineUser } from "react-icons/ai";
 
-const AuthIcon = () => {
+const AuthIcon = ({ mobile = false }) => {
   const { user } = useContext(AuthContext);
-  const { userData } = useContext(GlobalContext);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -48,7 +47,11 @@ const AuthIcon = () => {
   ];
   return user ? (
     <Menu as="div" className="relative inline-block text-left mt-1">
-      <Menu.Button className="mr-5 border-2 outline-none focus:outline-none border-gray-200 dark:border-gray-600 relative rounded-full overflow-hidden w-11 h-11">
+      <Menu.Button
+        className={`${
+          !mobile && "mr-5"
+        } border-2 outline-none focus:outline-none border-gray-200 dark:border-gray-600 relative rounded-full overflow-hidden w-11 h-11`}
+      >
         <a>
           <Image
             src={user.photoURL || "/img/avatar.svg"}
@@ -104,15 +107,23 @@ const AuthIcon = () => {
       </Transition>
     </Menu>
   ) : (
-    <span className="mr-5">
-      <Link href="/accounts/login">
-        <a className="transition duration-200 hover:text-primary flex justify-center items-center">
-          <span className="mr-2">
-            <MdLockOpen />
-          </span>{" "}
-          Login
-        </a>
-      </Link>
+    <span className={`${!mobile && "mr-5"}`}>
+      {mobile ? (
+        <Link href="/accounts/login">
+          <a className="duration-200 hover:text-primary">
+            <AiOutlineUser />
+          </a>
+        </Link>
+      ) : (
+        <Link href="/accounts/login">
+          <a className="transition duration-200 hover:text-primary flex justify-center items-center">
+            <span className="mr-2">
+              <MdLockOpen />
+            </span>{" "}
+            Login
+          </a>
+        </Link>
+      )}
     </span>
   );
 };
