@@ -10,7 +10,11 @@ import { BsHeartFill } from "react-icons/bs";
 
 const FooterLarge = () => {
   const [projects = [], loading, error] = useCollectionData(
-    firestore.collection("projects").orderBy("createdAt", "desc").limit(2)
+    firestore
+      .collection("projects")
+      .where("published", "==", true)
+      .orderBy("createdAt", "desc")
+      .limit(2)
   );
   return (
     <footer className="">

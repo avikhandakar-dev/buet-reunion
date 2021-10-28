@@ -41,11 +41,6 @@ const AuthIcon = () => {
       url: "/accounts/donation",
     },
     {
-      name: "Polls",
-      icon: <FaPoll />,
-      url: "/accounts/poll",
-    },
-    {
       name: "Log Out",
       icon: <IoMdExit />,
       url: "/accounts/logout",

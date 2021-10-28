@@ -1,6 +1,7 @@
 import { BsHeartFill } from "react-icons/bs";
 import { FaUserEdit, FaPoll } from "react-icons/fa";
 import ActiveLink from "@components/ActiveLink";
+import Link from "next/link";
 
 const ProfileNav = () => {
   const MenuItems = [
@@ -14,16 +15,20 @@ const ProfileNav = () => {
       icon: <BsHeartFill />,
       url: "/accounts/donation",
     },
-    {
-      name: "Poll",
-      icon: <FaPoll />,
-      url: "/accounts/poll",
-    },
   ];
   return (
     <div className=" absolute z-30 w-full">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <p className="text-white">Logo</p>
+        <Link href="/">
+          <a className="font-cursive text-xl uppercase flex items-center space-x-2 text-white">
+            <span className="">
+              <img src="/logo_wot_white.svg" width={40} />
+            </span>
+            <p className="mt-[6px]">
+              Buetian <span className="text-primary">89</span> NA
+            </p>
+          </a>
+        </Link>
         <div className="flex">
           {MenuItems.map((item) => (
             <ActiveLink activeClassName="!text-yellow-500" href={item.url}>

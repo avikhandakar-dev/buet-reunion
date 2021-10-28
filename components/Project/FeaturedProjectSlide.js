@@ -37,20 +37,20 @@ const FeaturedProjectSlide = ({ project }) => {
           </p>
         </div>
         <div className="flex space-x-4 mb-8">
-          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-2xl shadow-card flex justify-center items-center flex-col">
-            <p className="font-bold text-2xl sm:text-5xl text-green-500">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-md shadow-card flex justify-center items-center flex-col">
+            <p className="font-bold text-xl md:text-2xl  text-green-500">
               {dateDiff || 0}
             </p>
             <p className="text-xs font-medium uppercase">Days ago</p>
           </div>
-          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-2xl shadow-card flex justify-center items-center flex-col">
-            <p className="font-bold text-2xl sm:text-5xl text-green-500">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-md shadow-card flex justify-center items-center flex-col">
+            <p className="font-bold text-xl md:text-2xl  text-green-500">
               <span className="text-base align-top">$</span>
               {project.raised || 0}
             </p>
             <p className="text-xs font-medium uppercase">Raised</p>
           </div>
-          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-2xl shadow-card flex justify-center items-center flex-col relative overflow-hidden">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white dark:bg-gray-700 rounded-md shadow-card flex justify-center items-center flex-col relative overflow-hidden">
             <div
               className="absolute duration-300 ease-in-out bottom-0 left-0 w-full bg-green-500 h-full flex justify-center items-center flex-col"
               style={{
@@ -59,7 +59,7 @@ const FeaturedProjectSlide = ({ project }) => {
                 }% 0 0 0)`,
               }}
             >
-              <p className="font-bold text-2xl sm:text-5xl text-white">
+              <p className="font-bold text-xl md:text-2xl  text-white">
                 {getFundingProgress(project.raised, project.goal)}
                 <span className="text-base align-middle">%</span>
               </p>
@@ -67,7 +67,7 @@ const FeaturedProjectSlide = ({ project }) => {
                 Funding
               </p>
             </div>
-            <p className="font-bold text-2xl sm:text-5xl text-green-500">
+            <p className="font-bold text-xl md:text-2xl  text-green-500">
               {getFundingProgress(project.raised, project.goal)}
               <span className="text-base align-middle">%</span>
             </p>

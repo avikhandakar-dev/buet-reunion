@@ -6,7 +6,7 @@ const db = admin.firestore();
 
 export default async (req, res) => {
   if (req.method === "POST") {
-    const { uid, poll, selectedOptions } = req.body;
+    const { poll, selectedOptions } = req.body;
     const token = getCookie("token", { req, res });
 
     if (!poll || !selectedOptions?.length) {
@@ -15,7 +15,7 @@ export default async (req, res) => {
         message: "Invalid data!",
       });
     }
-    if (!uid && !token) {
+    if (!token) {
       return res.status(500).json({
         statusCode: 500,
         message: "Invalid user!",
@@ -32,16 +32,13 @@ export default async (req, res) => {
           message: "Poll not found!",
         });
       }
-      let userRecord = null;
-      if (uid) {
-        userRecord = await admin.auth().getUser(uid);
-      } else if (token) {
-        userRecord = verifyToken(token);
-      }
+
+      const userRecord = verifyToken(token);
+
       if (!userRecord) {
         return res.status(500).json({
           statusCode: 500,
-          message: "Invalid user!",
+          message: "Invalid token!",
         });
       }
 
@@ -49,6 +46,13 @@ export default async (req, res) => {
         return res.status(500).json({
           statusCode: 500,
           message: "Sorry voting is closed!",
+        });
+      }
+
+      if (!pollData.data().id == userRecord.pollId) {
+        return res.status(500).json({
+          statusCode: 500,
+          message: "Invalid token!",
         });
       }
 
@@ -61,15 +65,6 @@ export default async (req, res) => {
 
       if (pollData.data().access == "emails") {
         if (!pollData.data().whiteList?.includes(userRecord.email)) {
-          return res.status(500).json({
-            statusCode: 500,
-            message: "You can't vote on this poll!",
-          });
-        }
-      }
-
-      if (pollData.data().access == "members") {
-        if (!userRecord.customClaims?.member) {
           return res.status(500).json({
             statusCode: 500,
             message: "You can't vote on this poll!",

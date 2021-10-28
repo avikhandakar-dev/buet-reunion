@@ -5,11 +5,11 @@ import { firestore } from "@lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import FeaturedProjectSlide from "@components/Project/FeaturedProjectSlide";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Pagination } from "swiper";
+import SwiperCore, { Pagination, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 
-SwiperCore.use([Pagination]);
+SwiperCore.use([Pagination, Autoplay]);
 
 const pagination = {
   clickable: true,
@@ -51,6 +51,10 @@ const Featured = () => {
             </Link>
           </div>
           <Swiper
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: true,
+            }}
             loop={true}
             slidesPerView={1}
             pagination={pagination}

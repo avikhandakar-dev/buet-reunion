@@ -148,7 +148,7 @@ const NewPoll = () => {
         token: token,
       });
       if (getEmailRes.statusCode === 200) {
-        toast.success(getEmailRes.message);
+        emailsList = getEmailRes.emails;
       }
     }
     const response = await fetchPostJSON("/api/mail/new-poll", {
