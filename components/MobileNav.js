@@ -33,7 +33,7 @@ const MobileNav = () => {
           leaveTo="-translate-x-full"
           as={Fragment}
         >
-          <div className="left-0 absolute top-0 h-full w-96 bg-white dark:bg-gray-800 dark:bg-opacity-70 bg-opacity-70 backdrop-filter backdrop-blur-xl backdrop-saturate-150 shadow-md">
+          <div className="left-0 absolute top-0 h-full w-full sm:w-96 bg-white dark:bg-gray-800 dark:bg-opacity-70 bg-opacity-70 backdrop-filter backdrop-blur-xl backdrop-saturate-150 shadow-md">
             <div className=" absolute right-2 top-2 z-50">
               <a
                 onClick={() => setShowMobileNav(false)}
@@ -56,32 +56,44 @@ const MobileNav = () => {
               >
                 <span className="text-2xl uppercase font-black">
                   <ActiveLink activeClassName="text-primary" href="/">
-                    <a className="duration-300 hover:text-primary">Home</a>
+                    <a className="duration-300 hover:text-primary w-full block">
+                      Home
+                    </a>
                   </ActiveLink>
                 </span>
                 <span className="text-2xl uppercase font-black">
                   <ActiveLink activeClassName="text-primary" href="/projects">
-                    <a className="duration-300 hover:text-primary">Projects</a>
+                    <a className="duration-300 hover:text-primary w-full block">
+                      Projects
+                    </a>
                   </ActiveLink>
                 </span>
                 <span className="text-2xl uppercase font-black">
                   <ActiveLink activeClassName="text-primary" href="/donate">
-                    <a className="duration-300 hover:text-primary">Donate</a>
+                    <a className="duration-300 hover:text-primary w-full block">
+                      Donate
+                    </a>
                   </ActiveLink>
                 </span>
                 <span className="text-2xl uppercase font-black">
                   <ActiveLink activeClassName="text-primary" href="/blog">
-                    <a className="duration-300 hover:text-primary">Blog</a>
+                    <a className="duration-300 hover:text-primary w-full block">
+                      Blog
+                    </a>
                   </ActiveLink>
                 </span>
                 <span className="text-2xl uppercase font-black">
                   <ActiveLink activeClassName="text-primary" href="/about">
-                    <a className="duration-300 hover:text-primary">About Us</a>
+                    <a className="duration-300 hover:text-primary w-full block">
+                      About Us
+                    </a>
                   </ActiveLink>
                 </span>
                 <span className="text-2xl uppercase font-black">
                   <ActiveLink activeClassName="text-primary" href="/contact">
-                    <a className="duration-300 hover:text-primary">Contact</a>
+                    <a className="duration-300 hover:text-primary w-full block">
+                      Contact
+                    </a>
                   </ActiveLink>
                 </span>
               </div>
