@@ -13,7 +13,9 @@ export default async (req, res) => {
       to: email,
       from: "Buetian 89 <buetian89@gmail.com>",
       subject: "Thank you for your donation",
-      text: "and easy to do anywhere, even with Node.js",
+      html: `
+        <p>Thank you for your donation.</p>
+      `,
       attachments: [
         {
           content: attachment.replace(
