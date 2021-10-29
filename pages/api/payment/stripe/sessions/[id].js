@@ -16,12 +16,14 @@ export default async (req, res) => {
       const checkout_session = await stripe.checkout.sessions.retrieve(id, {
         expand: ["payment_intent"],
       });
+      console.log("dddddd", checkout_session);
 
       if (checkout_session.payment_intent?.status === "succeeded") {
         const sessionId = checkout_session.id;
         const donationId = checkout_session.metadata.id;
         const amount = (Number(checkout_session.amount_total) / 100).toFixed(2);
         const projectId = checkout_session.metadata.projectId;
+        const projectTitle = checkout_session.metadata.projectTitle;
         const anonymous = checkout_session.metadata.anonymous;
         let uid = null;
         let name = null;
@@ -32,6 +34,8 @@ export default async (req, res) => {
           name = checkout_session.metadata.name;
           email = checkout_session.metadata.email;
           country = checkout_session.metadata.country;
+        } else {
+          email = checkout_session.customer_details?.email;
         }
 
         const donationRef = db.collection("donations").doc(donationId);
@@ -40,11 +44,16 @@ export default async (req, res) => {
         if (!donationData.exists) {
           const batch = db.batch();
           batch.set(donationRef, {
+            id: donationId,
             amount: Number(amount),
             projectId,
             sessionId,
             paymentMethod: "Stripe",
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            projectInfo: {
+              projectId,
+              projectTitle,
+            },
             donorInfo: {
               anonymous: anonymous === "true" ? true : false,
               uid,

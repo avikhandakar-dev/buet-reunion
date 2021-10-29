@@ -11,7 +11,7 @@ const BillingAddress = ({ address }) => {
   const [email, setEmail] = useState(user?.email);
   const [uid, setUid] = useState(user?.uid);
   const [countryList, setCountryList] = useState(Country.getAllCountries());
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState("US");
 
   useEffect(() => {
     const unsubs = () => {
@@ -88,11 +88,15 @@ const BillingAddress = ({ address }) => {
               setSelectedCountry(event.target.value);
             }}
           >
-            <option disabled value="" selected>
+            <option disabled value="" selected={!selectedCountry}>
               None
             </option>
             {countryList?.map((country, idx) => (
-              <option key={idx} value={country.isoCode}>
+              <option
+                key={idx}
+                value={country.isoCode}
+                selected={country.isoCode == selectedCountry}
+              >
                 {country.name}
               </option>
             ))}

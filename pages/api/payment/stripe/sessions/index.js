@@ -37,8 +37,9 @@ export default async (req, res) => {
           },
         ],
         metadata: {
-          id: nanoid(),
+          id: nanoid(8),
           projectId: project.id,
+          projectTitle: project.title,
           ...address,
         },
         success_url: `${req.headers.origin}/donate/stripe/result?session_id={CHECKOUT_SESSION_ID}`,
@@ -47,7 +48,7 @@ export default async (req, res) => {
       const checkoutSession = await stripe.checkout.sessions.create(params);
       res.status(200).json(checkoutSession);
     } catch (err) {
-      res.status(500).json({ statusCode: 500, message: err.message });
+      return res.status(500).json({ statusCode: 500, message: err.message });
     }
   } else {
     res.setHeader("Allow", "POST");

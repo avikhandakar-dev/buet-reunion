@@ -1,0 +1,47 @@
+import sgMail from "@lib/sendgrid";
+
+export default async (req, res) => {
+  if (req.method === "POST") {
+    const { attachment, email } = req.body;
+    if (!attachment || !email) {
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Can't send email. Invalid data!",
+      });
+    }
+    const msg = {
+      to: email,
+      from: "Buetian 89 <buetian89@gmail.com>",
+      subject: "Thank you for your donation",
+      text: "and easy to do anywhere, even with Node.js",
+      attachments: [
+        {
+          content: attachment.replace(
+            "data:application/octet-stream;base64,",
+            ""
+          ),
+          filename: "Receipt.pdf",
+          type: "application/pdf",
+          disposition: "attachment",
+        },
+      ],
+    };
+
+    try {
+      await sgMail.send(msg);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "Send mail successfully!",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        statusCode: 500,
+        message: error.message,
+      });
+    }
+  } else {
+    res.setHeader("Allow", "POST");
+    res.status(405).end("Method Not Allowed");
+  }
+};
