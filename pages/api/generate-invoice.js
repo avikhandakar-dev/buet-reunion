@@ -1,15 +1,12 @@
 import handlers from "handlebars";
 import { InvoiceTemplate } from "template/Invoice";
 
-let chrome = {};
+const chrome = require("chrome-aws-lambda");
 let puppeteer;
 
 if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  // running on the Vercel platform.
-  chrome = require("chrome-aws-lambda");
   puppeteer = require("puppeteer-core");
 } else {
-  // running locally.
   puppeteer = require("puppeteer");
 }
 
@@ -46,7 +43,6 @@ export default async (req, res) => {
         headless: true,
         ignoreHTTPSErrors: true,
       });
-
       const page = await browser.newPage();
       await page.setContent(html, { waitUntil: "networkidle0" });
       const pdf = await page.pdf({ format: "A4" });
