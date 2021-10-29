@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import handlers from "handlebars";
-import { InvoiceTemplate } from "template/invoice";
+import { InvoiceTemplate } from "template/Invoice";
 
 export default async (req, res) => {
   if (req.method === "POST") {
@@ -36,6 +36,7 @@ export default async (req, res) => {
       res.statusCode = 200;
       res.send(pdf);
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         statusCode: 500,
         message: "Something went wrong!",
