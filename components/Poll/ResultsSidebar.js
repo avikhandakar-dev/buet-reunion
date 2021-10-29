@@ -4,6 +4,7 @@ import { FaFacebookF, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@lib/firebase";
 import LoadingScreen from "@components/LoadingScreen";
+import { Colors } from "./PollsBoxRow";
 const ResultsSidebar = ({ poll }) => {
   const [user, userIsLoading] = useAuthState(auth);
   if (userIsLoading) {
@@ -28,6 +29,17 @@ const ResultsSidebar = ({ poll }) => {
           <p className="text-muted font-semibold">Voters</p>
           <h1 className="font-semibold text-5xl">{poll.voters?.length || 0}</h1>
         </div>
+      </div>
+      <div>
+        {poll.voters?.sort().map((voter, idx) => (
+          <p
+            className={`px-3 py-1 rounded-full bg-purple-600 text-xs font-semibold mr-2 mb-2 inline-block ${
+              Colors[idx % Colors.length]
+            }`}
+          >
+            {voter}
+          </p>
+        ))}
       </div>
     </Fragment>
   );
