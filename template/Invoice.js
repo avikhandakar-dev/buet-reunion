@@ -1,3 +1,4 @@
+export const InvoiceTemplete = `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -230,7 +231,7 @@
         </td>
 
         <td>
-          ${{amount}}
+          \${{ amount }}
         </td>
       </tr>
 
@@ -238,7 +239,7 @@
         <td></td>
 
         <td>
-          Total: ${{amount}}
+          Total: \${{ amount }}
         </td>
       </tr>
     </table>
@@ -246,3 +247,4 @@
 </body>
 
 </html>
+`;

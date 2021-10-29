@@ -1,6 +1,6 @@
-import fs from "fs";
 import puppeteer from "puppeteer";
 import handlers from "handlebars";
+import { InvoiceTemplete } from "template/invoice";
 
 export default async (req, res) => {
   if (req.method === "POST") {
@@ -18,8 +18,7 @@ export default async (req, res) => {
     const paymentMethod = donation.paymentMethod || "-";
     const projectTitle = donation.projectInfo?.projectTitle || "-";
     try {
-      const file = fs.readFileSync("./template/invoice.html", "utf8");
-      const template = handlers.compile(`${file}`);
+      const template = handlers.compile(InvoiceTemplete);
       const html = template({
         id,
         donorName,
