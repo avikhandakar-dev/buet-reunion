@@ -1,14 +1,7 @@
 import handlers from "handlebars";
 import { InvoiceTemplate } from "template/Invoice";
 
-const chrome = require("chrome-aws-lambda");
-let puppeteer;
-
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  puppeteer = require("puppeteer-core");
-} else {
-  puppeteer = require("puppeteer");
-}
+const playwright = require("playwright-aws-lambda");
 
 export default async (req, res) => {
   if (req.method === "POST") {
@@ -36,13 +29,7 @@ export default async (req, res) => {
         amount,
         paymentMethod,
       });
-      const browser = await puppeteer.launch({
-        args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-        defaultViewport: chrome.defaultViewport,
-        executablePath: await chrome.executablePath,
-        headless: true,
-        ignoreHTTPSErrors: true,
-      });
+      const browser = await playwright.launchChromium({ headless: true });
       const page = await browser.newPage();
       await page.setContent(html, { waitUntil: "networkidle0" });
       const pdf = await page.pdf({ format: "A4" });
