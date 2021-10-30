@@ -4,6 +4,7 @@ import { firestore, firestoreToJSON } from "@lib/firebase";
 import { Fragment } from "react";
 import { useEffect, useState } from "react";
 import { DefaultSeo } from "next-seo";
+import Comments from "@components/Blog/Comments";
 
 const BlogSinglePage = ({ post, mdxSource }) => {
   const [author, setAuthor] = useState([]);
@@ -34,6 +35,9 @@ const BlogSinglePage = ({ post, mdxSource }) => {
       <DefaultSeo {...SEO} />
       <PostHeader post={post} author={author} />
       <PostContent mdxSource={mdxSource} post={post} />
+      <div className="max-w-3xl mx-auto w-full relative">
+        <Comments post={post} />
+      </div>
     </Fragment>
   );
 };

@@ -9,35 +9,33 @@ const ProjectSingleHeader = ({ project }) => {
   const createdAt = new Date(project.createdAt);
   const dateDiff = Math.ceil(date.subtract(now, createdAt).toDays());
   return (
-    <div className="relative overflow-hidden mt-20">
-      <div className="w-full bg-gray-300 aspect-w-16 aspect-h-8 md:aspect-h-6 dark:bg-gray-700 relative overflow-hidden h-auto">
-        <div className="absolute bg-black inset-0 w-full h-full bg-opacity-40 z-10 rounded-md" />
+    <Container>
+      <div className="max-w-2xl mx-auto text-center pt-16 lg:pt-24 pb-16 lg:pb-20">
+        {/* <p className="font-semibold text-primary">
+          {project.tags || "Fundraising"}
+        </p> */}
+        <h1 className="font-extrabold text-4xl md:text-5xl lg:text-6xl mb-4">
+          {project.title}
+        </h1>
+        <p className="text-2xl lg:text-3xl lg:leding-relaxed">
+          {project.excerpt}
+        </p>
+      </div>
+      <div className="max-w-5xl mx-auto text-center relative">
         {project.coverImage && (
-          <div className="w-full h-full absolute">
+          <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
             <Image
               placeholder="blur"
               blurDataURL={project.coverImage.loaderDownloadUrl}
               src={project.coverImage.oriDownloadUrl}
+              width={1000}
+              height={400}
+              priority={true}
               objectFit="cover"
-              layout="fill"
+              layout="responsive"
             />
           </div>
         )}
-        <Container maxWidth="max-w-3xl h-full absolute z-20">
-          <div className="mx-auto max-w-md h-full flex flex-col justify-center items-center sm:items-baseline pt-16 lg:pt-24 pb-16 lg:pb-20 z-20">
-            <p className="uppercase font-semibold text-lg text-white">
-              {project.category || "Fundraising"}
-            </p>
-            <h1 className="font-extrabold text-white uppercase text-4xl md:text-5xl lg:text-6xl mb-4">
-              {project.title}
-            </h1>
-            <Link href={`/donate?project=${project.slug}`}>
-              <a className="px-8 py-3 text-primary bg-white font-semibold uppercase duration-300 hover:bg-primary hover:text-white whitespace-nowrap w-max">
-                Donate Now
-              </a>
-            </Link>
-          </div>
-        </Container>
       </div>
       <div className="max-w-3xl mx-auto mb-8 mt-8 px-4 sm:px-6 relative">
         <div className="flex space-x-8 lg:space-x-16 divide-x-2 dark:divide-gray-700 divide-gray-300">
@@ -64,7 +62,7 @@ const ProjectSingleHeader = ({ project }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
