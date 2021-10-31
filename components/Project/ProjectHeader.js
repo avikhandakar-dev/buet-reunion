@@ -37,7 +37,7 @@ const ProjectSingleHeader = ({ project }) => {
           </div>
         )}
       </div>
-      <div className="max-w-3xl mx-auto mb-8 mt-8 px-4 sm:px-6 relative">
+      <div className="max-w-3xl mx-auto mt-8 px-4 sm:px-6 relative">
         <div className="flex space-x-8 lg:space-x-16 divide-x-2 dark:divide-gray-700 divide-gray-300">
           <div className="text-gray-500 text-2xl uppercase flex-shrink-0">
             <p>${project.raised || 0}</p>
