@@ -17,7 +17,7 @@ const DonationsWidget = () => {
             Donations
           </p>
           <p className="text-black dark:text-white text-2xl">
-            ${donations.total || 0}
+            ${donations.total?.toFixed(2) || 0}
           </p>
         </div>
         <div className="text-white w-10 h-10 text-xl flex justify-center items-center bg-pink-500 rounded-full">
