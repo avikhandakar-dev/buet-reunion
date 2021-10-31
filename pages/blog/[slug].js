@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { DefaultSeo } from "next-seo";
 import Comments from "@components/Blog/Comments";
 import { useRouter } from "next/router";
-import LoadingScreen from "@components/LoadingScreen";
 import Empty from "@components/Svg/Empty";
+import { CgSpinner } from "react-icons/cg";
 
 const BlogSinglePage = () => {
   const [author, setAuthor] = useState([]);
@@ -60,7 +60,13 @@ const BlogSinglePage = () => {
   }, [post]);
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return (
+      <div className="w-full flex justify-center items-center h-screen">
+        <span className="inline-flex text-5xl animate-spin text-primary">
+          <CgSpinner />
+        </span>
+      </div>
+    );
   }
   if (!isLoading && !post) {
     return (

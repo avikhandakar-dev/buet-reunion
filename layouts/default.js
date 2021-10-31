@@ -7,6 +7,13 @@ import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import { useRouter } from "next/router";
 import MobileNav from "@components/MobileNav";
+import { motion } from "framer-motion";
+
+const variants = {
+  hidden: { opacity: 0, x: -200, y: 0 },
+  enter: { opacity: 1, x: 0, y: 0 },
+  exit: { opacity: 0, x: 0, y: -100 },
+};
 
 const DefaultLayout = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -46,7 +53,15 @@ const DefaultLayout = ({ children }) => {
     <Fragment>
       <Nav />
       <MobileNav />
-      {children}
+      <motion.main
+        variants={variants}
+        initial="hidden"
+        animate="enter"
+        exit="exit"
+        transition={{ type: "linear" }}
+      >
+        {children}
+      </motion.main>
       <Footer />
     </Fragment>
   );

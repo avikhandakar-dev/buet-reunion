@@ -4,8 +4,8 @@ import { firestore, firestoreToJSON } from "@lib/firebase";
 import { Fragment, useState, useEffect } from "react";
 import ProjectSingleHeader from "@components/Project/ProjectHeader";
 import { useRouter } from "next/router";
-import LoadingScreen from "@components/LoadingScreen";
 import Empty from "@components/Svg/Empty";
+import { CgSpinner } from "react-icons/cg";
 
 const ProjectSinglePage = () => {
   const [project, setProject] = useState(null);
@@ -37,7 +37,13 @@ const ProjectSinglePage = () => {
   }, [slug]);
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return (
+      <div className="w-full flex justify-center items-center h-screen">
+        <span className="inline-flex text-5xl animate-spin text-primary">
+          <CgSpinner />
+        </span>
+      </div>
+    );
   }
   if (!isLoading && !project) {
     return (
