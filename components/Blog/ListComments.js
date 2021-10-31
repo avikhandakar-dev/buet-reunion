@@ -5,7 +5,7 @@ const ListComments = ({ comments }) => {
   return (
     <div className="mt-4 mx-4 mb-16 flex space-y-4 flex-col">
       {comments.map((comment) => (
-        <div className="flex space-x-4">
+        <div className="flex space-x-4" key={comment.id}>
           <div className="border-2 flex-shrink-0 outline-none focus:outline-none border-gray-200 dark:border-gray-600 relative rounded-full overflow-hidden w-11 h-11">
             <Image
               src={comment.authorInfo.avatar || "/img/avatar.svg"}
