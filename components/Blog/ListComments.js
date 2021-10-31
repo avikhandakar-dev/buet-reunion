@@ -16,9 +16,9 @@ const ListComments = ({ comments }) => {
           </div>
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed flex-1">
             <strong>{comment.authorInfo.name}</strong>{" "}
-            <span class="text-xs text-gray-400">
+            {/* <span class="text-xs text-gray-400">
               {serverTimestampToString(comment.createdAt)}
-            </span>
+            </span> */}
             <p className="text-sm">{comment.text}</p>
           </div>
         </div>

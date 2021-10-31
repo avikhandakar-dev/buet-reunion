@@ -1,12 +1,20 @@
 import Link from "next/link";
 import { Fragment } from "react";
-import { FaFacebookF, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@lib/firebase";
 import LoadingScreen from "@components/LoadingScreen";
 import { Colors } from "./PollsBoxRow";
+import { CSVLink } from "react-csv";
+
 const ResultsSidebar = ({ poll }) => {
   const [user, userIsLoading] = useAuthState(auth);
+  const getVoters = () => {
+    const data = [];
+    data.push(["voters"]);
+    poll.voters.map((voter) => data.push([voter]));
+    return data;
+  };
+  const CSVData = getVoters();
   if (userIsLoading) {
     return <LoadingScreen />;
   }
@@ -31,6 +39,14 @@ const ResultsSidebar = ({ poll }) => {
         </div>
       </div>
       <div>
+        <h1 className="text-muted font-semibold">
+          Who Voted?
+          <CSVLink filename={"Voter.csv"} data={CSVData}>
+            <button className="text-xs mb-4 ml-2 text-yellow-500 underline font-semibold duration-300 hover:text-yellow-400">
+              (Expotr as CSV)
+            </button>
+          </CSVLink>
+        </h1>
         {poll.voters?.sort().map((voter, idx) => (
           <p
             className={`px-3 py-1 rounded-full bg-purple-600 text-xs font-semibold mr-2 mb-2 inline-block ${

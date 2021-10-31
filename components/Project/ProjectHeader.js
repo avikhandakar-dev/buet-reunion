@@ -6,7 +6,7 @@ import date from "date-and-time";
 
 const ProjectSingleHeader = ({ project }) => {
   const now = new Date();
-  const createdAt = new Date(project.createdAt);
+  const createdAt = new Date(project.createdAt.toDate().toDateString());
   const dateDiff = Math.ceil(date.subtract(now, createdAt).toDays());
   return (
     <Container>

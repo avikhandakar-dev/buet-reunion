@@ -1,14 +1,52 @@
 import { DefaultSeo } from "next-seo";
 import ProjectContent from "@components/Project/Content";
 import { firestore, firestoreToJSON } from "@lib/firebase";
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import ProjectSingleHeader from "@components/Project/ProjectHeader";
+import { useRouter } from "next/router";
+import LoadingScreen from "@components/LoadingScreen";
+import Empty from "@components/Svg/Empty";
 
-const ProjectSinglePage = ({ project }) => {
+const ProjectSinglePage = () => {
+  const [project, setProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const { slug } = router.query;
   const SEO = {
-    title: `Buetian 89 | ${project.title}`,
-    description: project.excerpt,
+    title: `Buetian 89 NA | ${project?.title}`,
+    description: project?.excerpt,
   };
+
+  useEffect(() => {
+    const unsubs = async () => {
+      if (!slug) {
+        return;
+      }
+
+      const projectQuery = firestore
+        .collection("projects")
+        .where("slug", "==", slug)
+        .limit(1);
+      const projects = (await projectQuery.get()).docs;
+      if (projects.length) {
+        setProject(projects[0].data());
+      }
+      setIsLoading(false);
+    };
+    return unsubs();
+  }, [slug]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+  if (!isLoading && !project) {
+    return (
+      <div className="mb-32 mt-48 px-5 flex flex-col justify-center items-center">
+        <Empty width={150} className="text-gray-600 dark:text-gray-200" />
+        <p className="mt-2">Project not found!</p>
+      </div>
+    );
+  }
   return (
     <Fragment>
       <DefaultSeo {...SEO} />
@@ -18,23 +56,4 @@ const ProjectSinglePage = ({ project }) => {
   );
 };
 
-export const getServerSideProps = async ({ params }) => {
-  const { slug } = params;
-  const projectQuery = firestore
-    .collection("projects")
-    .where("slug", "==", slug)
-    .limit(1);
-
-  const projects = (await projectQuery.get()).docs.map(firestoreToJSON);
-
-  if (!projects.length) {
-    return {
-      notFound: true,
-    };
-  }
-  const project = projects[0];
-  return {
-    props: { project },
-  };
-};
 export default ProjectSinglePage;
