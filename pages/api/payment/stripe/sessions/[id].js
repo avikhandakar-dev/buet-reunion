@@ -16,8 +16,6 @@ export default async (req, res) => {
       const checkout_session = await stripe.checkout.sessions.retrieve(id, {
         expand: ["payment_intent"],
       });
-      console.log("dddddd", checkout_session);
-
       if (checkout_session.payment_intent?.status === "succeeded") {
         const sessionId = checkout_session.id;
         const donationId = checkout_session.metadata.id;
@@ -30,10 +28,10 @@ export default async (req, res) => {
         let email = null;
         let country = null;
         if (anonymous === "false") {
-          uid = checkout_session.metadata.uid;
-          name = checkout_session.metadata.name;
-          email = checkout_session.metadata.email;
-          country = checkout_session.metadata.country;
+          uid = checkout_session.metadata.uid || null;
+          name = checkout_session.metadata.name || null;
+          email = checkout_session.metadata.email || null;
+          country = checkout_session.metadata.country || null;
         } else {
           email = checkout_session.customer_details?.email;
         }
@@ -88,6 +86,7 @@ export default async (req, res) => {
 
       res.status(200).json(checkout_session);
     } catch (err) {
+      console.log(err);
       res.status(500).json({ statusCode: 500, message: err.message });
     }
   } else {

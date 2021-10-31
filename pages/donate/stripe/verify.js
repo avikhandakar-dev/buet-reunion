@@ -82,7 +82,7 @@ const ResultPage = () => {
     return unsubs();
   }, [data]);
 
-  if (error) return <div>failed to load</div>;
+  if (error) return <div>Failed to load</div>;
 
   if (!data || isLoading)
     return (
