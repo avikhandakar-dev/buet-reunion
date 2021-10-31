@@ -11,7 +11,7 @@ export default async (req, res) => {
     }
     const msg = {
       to: email,
-      from: "Buetian 89 <buetian89@gmail.com>",
+      from: "Buetian 89 NA <buetian89@gmail.com>",
       subject: "Thank you for your donation",
       html: `
         <p>Thank you for your donation. Attached is the donation receipt you can use for tax deduction.</p>

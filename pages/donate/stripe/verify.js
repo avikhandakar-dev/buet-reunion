@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 const ResultPage = () => {
   const router = useRouter();
   const [sendMail, setSendMail] = useState(false);
-  let paymentSuccess = false;
+  const [status, setStatus] = useState("Verifying payment...");
   const [isLoading, setIsLoading] = useState(true);
   const { data, error } = useSWR(
     router.query.session_id
@@ -29,11 +29,13 @@ const ResultPage = () => {
     const unsubs = async () => {
       if (data?.payment_intent?.status === "succeeded") {
         if (!sendMail) {
+          setStatus("Fetching donation data...");
           const donationRef = firestore
             .collection("donations")
             .doc(data?.metadata?.id);
           const snapshot = await donationRef.get();
           const donationData = snapshot.data();
+          setStatus("Preparing receipt...");
           const genInvoice = await fetch("/api/generate-invoice", {
             method: "POST",
             headers: {
@@ -45,6 +47,7 @@ const ResultPage = () => {
             }),
           });
           if (genInvoice.status === 200) {
+            setStatus("Sending seceipt...");
             const buffer = genInvoice.arrayBuffer();
             const blob = new Blob([buffer]);
             try {
@@ -58,7 +61,7 @@ const ResultPage = () => {
               );
               if (mailResponse.statusCode === 200) {
                 setSendMail(true);
-                toast.success("Donation receipt has been sent to your email!");
+                toast.success("Donation receipt was sent to your email!");
               }
               setIsLoading(false);
             } catch (error) {
@@ -69,24 +72,25 @@ const ResultPage = () => {
             toast.error("Can't send receipt!");
           }
         }
+      } else {
+        if (data) {
+          setIsLoading(false);
+        }
       }
     };
     return unsubs();
   }, [data]);
-
-  if (data?.payment_intent?.status === "succeeded") {
-    paymentSuccess = true;
-  }
 
   if (error) return <div>failed to load</div>;
 
   if (!data || isLoading)
     return (
       <Fragment>
-        <div className="w-full mt-20 flex justify-center items-center h-[calc(100vh-80px)]">
-          <span className="inline-flex text-5xl animate-spin text-primary">
+        <div className="w-full mt-20 flex flex-col justify-center items-center h-[calc(100vh-80px)]">
+          <span className="text-5xl animate-spin text-primary">
             <CgSpinner />
           </span>
+          <p>{status}</p>
         </div>
       </Fragment>
     );

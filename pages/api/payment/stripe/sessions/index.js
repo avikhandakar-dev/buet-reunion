@@ -42,7 +42,7 @@ export default async (req, res) => {
           projectTitle: project.title,
           ...address,
         },
-        success_url: `${req.headers.origin}/donate/stripe/result?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${req.headers.origin}/donate/stripe/verify?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/donate`,
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);

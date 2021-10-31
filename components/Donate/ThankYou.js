@@ -3,11 +3,11 @@ import { FiCheckCircle } from "react-icons/fi";
 const ThankYou = ({ amount }) => {
   return (
     <div className="w-full mt-20 flex justify-center px-4 items-center h-[calc(100vh-80px)]">
-      <div className="max-w-xl mx-auto text-center">
+      <div className="max-w-2xl mx-auto text-center">
         <span className="text-5xl md:text-7xl text-green-500 mx-auto w-max block">
           <FiCheckCircle />
         </span>
-        <h1 className=" text-5xl md:text-7xl lg:text-9xl uppercase font-black">
+        <h1 className=" text-5xl md:text-7xl lg:text-8xl uppercase font-black">
           Thank{" "}
           <span className="bg-gradient-to-l from-green-200 to-green-500 bg-clip-text whitespace-nowrap text-transparent">
             You
