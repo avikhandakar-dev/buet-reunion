@@ -35,6 +35,7 @@ const ResultPage = () => {
             .doc(data?.metadata?.id);
           const snapshot = await donationRef.get();
           const donationData = snapshot.data();
+          console.log(donationData);
           setStatus("Preparing receipt...");
           const genInvoice = await fetch("/api/generate-invoice", {
             method: "POST",
@@ -48,7 +49,7 @@ const ResultPage = () => {
           });
           if (genInvoice.status === 200) {
             setStatus("Sending seceipt...");
-            const buffer = genInvoice.arrayBuffer();
+            const buffer = await genInvoice.arrayBuffer();
             const blob = new Blob([buffer]);
             try {
               const base64 = await BlobToBase64(blob);
