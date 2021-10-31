@@ -48,7 +48,7 @@ const ResultPage = () => {
             }),
           });
           if (genInvoice.status === 200) {
-            setStatus("Sending seceipt...");
+            setStatus("Sending receipt...");
             const buffer = await genInvoice.arrayBuffer();
             const blob = new Blob([buffer]);
             try {
