@@ -92,7 +92,7 @@ const FooterLarge = () => {
                     Blog
                   </a>
                 </Link>
-                <Link href="/polls">
+                <Link href="/about">
                   <a className="opacity-50 duration-300 hover:opacity-100">
                     About Us
                   </a>
