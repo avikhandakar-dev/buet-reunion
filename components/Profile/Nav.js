@@ -20,11 +20,11 @@ const ProfileNav = () => {
     <div className=" absolute z-30 w-full">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link href="/">
-          <a className="font-cursive text-xl uppercase flex items-center space-x-2 text-white">
+          <a className="font-cursive mx-4 text-xl uppercase flex items-center space-x-2 text-white">
             <span className="">
-              <img src="/logo_wot_white.svg" width={40} />
+              <img src="/logo_wot_white.svg" className="sm:w-10 w-12" />
             </span>
-            <p className="mt-[6px]">
+            <p className="mt-[6px] hidden sm:block">
               Buetian <span className="text-primary">89</span> NA
             </p>
           </a>

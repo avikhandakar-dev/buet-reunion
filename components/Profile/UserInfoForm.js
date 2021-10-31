@@ -90,7 +90,7 @@ const UserInfoForm = ({ userData }) => {
     return unsubs();
   }, []);
   return (
-    <form onSubmit={handelSubmit}>
+    <form className="lg:-mt-8" onSubmit={handelSubmit}>
       <div className="pl-6 mt-4 flex flex-col space-y-4">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-3 text-right">
@@ -104,8 +104,8 @@ const UserInfoForm = ({ userData }) => {
             <ChangeProfilePicture className="cursor-pointer font-semibold text-primary text-sm duration-300 hover:text-sky" />
           </div>
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="col-span-3 mb-1 sm:mb-0 sm:text-right">
             Name<span className="text-sm align-top">*</span>
           </div>
           <input
@@ -120,8 +120,8 @@ const UserInfoForm = ({ userData }) => {
             className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           />
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Phone<span className="text-sm align-top">*</span>
           </div>
           <input
@@ -136,8 +136,10 @@ const UserInfoForm = ({ userData }) => {
             className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           />
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">Email Address</div>
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
+            Email Address
+          </div>
           <input
             value={email}
             name="email"
@@ -146,8 +148,8 @@ const UserInfoForm = ({ userData }) => {
             className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           />
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right"></div>
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right"></div>
           <button
             type="button"
             disabled={isLoading}
@@ -156,8 +158,8 @@ const UserInfoForm = ({ userData }) => {
             Confirm Email
           </button>
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Country<span className="text-sm align-top">*</span>
           </div>
           <select
@@ -185,8 +187,8 @@ const UserInfoForm = ({ userData }) => {
             ))}
           </select>
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             State/Province<span className="text-sm align-top">*</span>
           </div>
           <select
@@ -209,8 +211,8 @@ const UserInfoForm = ({ userData }) => {
             ))}
           </select>
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Session<span className="text-sm align-top">*</span>
           </div>
           <select
@@ -236,8 +238,8 @@ const UserInfoForm = ({ userData }) => {
             </option>
           </select>
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Department<span className="text-sm align-top">*</span>
           </div>
           <input
@@ -252,8 +254,8 @@ const UserInfoForm = ({ userData }) => {
             className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           />
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Hall<span className="text-sm align-top">*</span>
           </div>
           <input
@@ -268,8 +270,8 @@ const UserInfoForm = ({ userData }) => {
             className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           />
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right">Bio</div>
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">Bio</div>
           <textarea
             onChange={(event) => {
               setBio(event.target.value);
@@ -281,8 +283,8 @@ const UserInfoForm = ({ userData }) => {
             className="block col-span-9 dark:placeholder-gray-500 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           />
         </div>
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-3 text-right" />
+        <div className="sm:grid grid-cols-12 gap-8">
+          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right" />
           <button
             disabled={isLoading || !dataChange}
             type="submit"

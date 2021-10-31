@@ -18,14 +18,14 @@ const Cookies = () => {
       </div>
       <div className="mb-16 text-left md:text-center text-gray-700 dark:text-gray-400 mx-auto max-w-2xl text-lg">
         <p className="mb-2 text-body">
-          This Cookie Policy explains how BUETIAN 89 (“
+          This Cookie Policy explains how BUETIAN 89 NA (“
           <em className="font-semibold">Company</em>", “
           <em className="font-semibold">we</em>", “
           <em className="font-semibold">us</em>",“
           <em className="font-semibold">our</em>") uses cookies and similar
           technologies to recognize you when you visit our websites at{" "}
           <a className="italic transition-colors text-primary hover:text-secondary">
-            https://buetian89.com
+            https://buetian89na.org
           </a>
           . It explains what these technologies are and why we use them, as well
           as your rights to control our use of them.
