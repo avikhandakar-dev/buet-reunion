@@ -5,7 +5,11 @@ import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import Image from "next/image";
 import ConfirmModal from "@components/Confirm";
-import { fetchPostJSON, serverTimestampToString } from "@lib/healper";
+import {
+  BlobToBase64,
+  fetchPostJSON,
+  serverTimestampToString,
+} from "@lib/healper";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { BiDownload } from "react-icons/bi";
 import { FaHourglassEnd } from "react-icons/fa";
@@ -66,16 +70,6 @@ const DonationsTableRow = ({ donation }) => {
       toast.error("Can't download receipt! Something went wrong :(");
       setIsDownloading(false);
     }
-  };
-  const BlobToBase64 = (blob) => {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
   };
   const sendReceipt = async () => {
     setIsSending(true);

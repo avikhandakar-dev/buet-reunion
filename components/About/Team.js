@@ -8,7 +8,7 @@ const Team = () => {
           Our Team
         </h1>
       </div>
-      <div className="grid gap-10 mx-auto lg:max-w-screen-lg sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-10 mx-auto lg:max-w-screen-lg grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
         <div className="flex flex-col items-center">
           <img
             className="object-cover w-20 h-20 mb-2 rounded-full shadow"

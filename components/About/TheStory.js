@@ -1,5 +1,6 @@
 import Container from "../Container";
 import { FiCheck } from "react-icons/fi";
+import { FaFilePdf } from "react-icons/fa";
 
 const TheStory = () => {
   return (
@@ -32,33 +33,32 @@ const TheStory = () => {
         </div>
         <div className="flex-shrink-0">
           <h1 className="lg:text-3xl md:text-2xl text-xl font-semibold">
-            Milestones
+            Our Constitution
           </h1>
-          <div className="mt-3">
-            <p className="flex items-center mb-2">
-              <span className="mr-2 text-primary">
-                <FiCheck />
-              </span>
-              Founded in 2021
-            </p>
-            <p className="flex items-center mb-2">
-              <span className="mr-2 text-primary">
-                <FiCheck />
-              </span>
-              Funds raised $2.5M
-            </p>
-            <p className="flex items-center mb-2">
-              <span className="mr-2 text-primary">
-                <FiCheck />
-              </span>
-              Community of 1K
-            </p>
-            <p className="flex items-center mb-2">
-              <span className="mr-2 text-primary">
-                <FiCheck />
-              </span>
-              85K Lives impacted
-            </p>
+          <div className="mt-4 flex md:grid grid-cols-2 gap-4 -ml-2 md:ml-0">
+            <div className="">
+              <a
+                className="duration-300 hover:text-primary"
+                href="/constitution.pdf"
+                target="_blank"
+              >
+                <FaFilePdf className="text-8xl" />
+                <p className="text-xs font-semibold mt-2 pl-3">Constitution</p>
+              </a>
+            </div>
+            <div>
+              <a
+                className="duration-300 hover:text-primary"
+                href="https://businesssearch.sos.ca.gov/CBS/SearchResults?filing=&SearchType=CORP&SearchCriteria=BUETian89+Foundation&SearchSubType=Keyword"
+                target="_blank"
+              >
+                <img src="/img/seal-of-california.svg" width="95" />
+                <p className="text-xs font-semibold mt-2 pl-2">
+                  State of California
+                  <br /> Approval
+                </p>
+              </a>
+            </div>
           </div>
         </div>
       </div>

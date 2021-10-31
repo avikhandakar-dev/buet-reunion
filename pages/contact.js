@@ -18,10 +18,6 @@ const Contact = () => {
                 <br />
                 It's easy.
               </h1>
-              {/* <p className="text-xl dark:text-gray-400 text-gray-600">
-              Fill up the form and we will get back
-              <br /> to you within 24 hours.
-            </p> */}
             </div>
           </div>
         </div>
@@ -77,11 +73,10 @@ const Contact = () => {
 
           <div className="lg:border-l-2 border-gray-200 dark:border-gray-700 lg:pl-16">
             <h3 className="font-semibold text-gray-600 dark:text-gray-300 text-2xl lg:text-3xl mb-3">
-              Address
+              Contact
             </h3>
             <p className="text-xl dark:text-gray-400 text-gray-600">
-              Send a message and we will get back
-              <br /> to you within 24 hours.
+              Feel free to contact us anytime.
             </p>
             <div className="flex mt-6 mb-3 items-center">
               <span className="text-2xl text-primary mr-4">

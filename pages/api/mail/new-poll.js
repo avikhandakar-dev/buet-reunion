@@ -34,7 +34,7 @@ export default async (req, res) => {
       const token = createToken({ email, pollId });
       messages.push({
         to: email,
-        from: "Buetian 89 <buetian89@gmail.com>",
+        from: "Buetian 89 NA <buetian89@gmail.com>",
         subject: `${title} - vote now at buetian89na.org`,
         html: `
         <h1>${title}</h1> 

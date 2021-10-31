@@ -19,7 +19,7 @@ const ListComments = ({ comments }) => {
             <span class="text-xs text-gray-400">
               {serverTimestampToString(comment.createdAt)}
             </span>
-            <p>{comment.text}</p>
+            <p className="text-sm">{comment.text}</p>
           </div>
         </div>
       ))}

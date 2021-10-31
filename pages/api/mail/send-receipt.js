@@ -14,7 +14,7 @@ export default async (req, res) => {
       from: "Buetian 89 <buetian89@gmail.com>",
       subject: "Thank you for your donation",
       html: `
-        <p>Thank you for your donation.</p>
+        <p>Thank you for your donation. Attached is the donation receipt you can use for tax deduction.</p>
       `,
       attachments: [
         {
