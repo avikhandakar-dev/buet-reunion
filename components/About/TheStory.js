@@ -33,7 +33,8 @@ const TheStory = () => {
         </div>
         <div className="flex-shrink-0">
           <h1 className="lg:text-3xl md:text-2xl text-xl font-semibold">
-            Our Constitution
+            Important <br />
+            Documents
           </h1>
           <div className="mt-4 flex md:grid grid-cols-2 gap-4 -ml-2 md:ml-0">
             <div className="">

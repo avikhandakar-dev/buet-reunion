@@ -47,7 +47,7 @@ const LoginPage = () => {
         <div className="w-full max-w-sm ">
           <div className="px-8 py-10 bg-gray-50 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 rounded">
             <Link href="/">
-              <a className="font-cursive text-2xl uppercase flex flex-col items-center mb-8">
+              <a className="font-cursive text-2xl flex flex-col items-center mb-8">
                 <span className="block dark:hidden">
                   <img src="/logo_wot.svg" width={50} />
                 </span>
@@ -55,7 +55,7 @@ const LoginPage = () => {
                   <img src="/logo_wot_white.svg" width={50} />
                 </span>
                 <p className="mt-[6px]">
-                  Buetian <span className="text-primary">89</span> NA
+                  BUETian <span className="text-primary">89</span> NA
                 </p>
               </a>
             </Link>

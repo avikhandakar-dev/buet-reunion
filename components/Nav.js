@@ -12,7 +12,7 @@ const Nav = () => {
     <header className="fixed z-40 left-0 top-0 w-full h-20 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200 dark:border-gray-800">
       <div className="w-full hidden px-16 h-full lg:flex justify-between items-center">
         <Link href="/">
-          <a className="font-cursive text-2xl uppercase flex items-center space-x-2">
+          <a className="font-cursive text-2xl flex items-center space-x-2">
             <span className="block dark:hidden">
               <img src="/logo_wot.svg" width={50} />
             </span>
@@ -20,7 +20,7 @@ const Nav = () => {
               <img src="/logo_wot_white.svg" width={50} />
             </span>
             <p className="mt-[6px]">
-              Buetian <span className="text-primary">89</span> NA
+              BUET<span>ian</span> <span className="text-primary">89</span> NA
             </p>
           </a>
         </Link>
@@ -42,7 +42,9 @@ const Nav = () => {
           </span>
           <span className="mx-4">
             <ActiveLink activeClassName="text-primary" href="/about">
-              <a>About Us</a>
+              <a>
+                About <span className="hidden xl:inline">Us</span>
+              </a>
             </ActiveLink>
           </span>
           <span className="mx-4">

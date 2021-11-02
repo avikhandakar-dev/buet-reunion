@@ -31,7 +31,7 @@ const About = () => {
               Food distribution
             </h6>
             <p className="max-w-md mb-3 text-lg text-white sm:mx-auto">
-              We help the poor and needy providing their food emergency.
+              We help the poor and needy providing their food during emergency.
             </p>
           </div>
           <div className="text-center">

@@ -115,14 +115,22 @@ const AuthIcon = ({ mobile = false }) => {
           </a>
         </Link>
       ) : (
-        <Link href="/accounts/login">
-          <a className="transition duration-200 hover:text-primary flex justify-center items-center">
-            <span className="mr-2">
-              <MdLockOpen />
-            </span>{" "}
-            Login
-          </a>
-        </Link>
+        <div className="flex items-center">
+          <span className="mr-2">
+            <MdLockOpen />
+          </span>{" "}
+          <Link href="/accounts/login">
+            <a className="transition duration-200 mr-2 hover:text-primary flex justify-center items-center">
+              Login
+            </a>
+          </Link>
+          <span className="mr-2 hidden xl:block"> / </span>
+          <Link href="/accounts/register">
+            <a className="transition duration-200 hidden xl:flex hover:text-primary justify-center items-center">
+              Register
+            </a>
+          </Link>
+        </div>
       )}
     </span>
   );

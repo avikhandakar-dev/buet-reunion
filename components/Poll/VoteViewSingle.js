@@ -15,6 +15,15 @@ const VoteViewSingle = ({ poll }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const { user } = useContext(AuthContext);
   const toggleSelected = (id) => {
+    if (poll.allowMultiSelect) {
+      if (selectedOptions.length >= poll.choicesLimit) {
+        if (!selectedOptions.includes(id)) {
+          return toast.error(
+            `You can only select up to ${poll.choicesLimit} options.`
+          );
+        }
+      }
+    }
     setSelectedOptions((options) => {
       if (poll.allowMultiSelect) {
         if (selectedOptions.includes(id)) {

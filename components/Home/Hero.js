@@ -12,17 +12,14 @@ const Hero = () => {
     <Container>
       <div className="grid items-center justify-center lg:grid-cols-2 gap-10 lg:gap-0 pt-16 lg:pt-32 lg:pb-16 sm:px-6">
         <div className="lg:max-w-md md:max-w-full">
-          <h1 className="mb-4 text-4xl font-black md:text-6xl xl:text-7xl">
-            Stand by <br />
-            <span className="bg-clip-text whitespace-nowrap text-transparent bg-gradient-to-bl from-primary to-sky">
-              The Humanity
-            </span>
+          <h1 className="mb-4 text-4xl font-black md:text-6xl">
+            Create the World You Want to Live In
           </h1>
           <p className="text-xl text-gray-700 leading-relaxed dark:text-gray-300 mb-8">
-            The BUETian89 Foundation of North America is a non-profit,
-            non-political, non-religious, social organization that promotes
-            social and professional connection among the alumni of ex-students
-            of BUET 89 batch in North America.
+            The BUETian89 Foundation of North America is a non-profit,
+            non-political, non-religious, social organization which conducts
+            charitable projects, locally and abroad, to enlighten and empower
+            underprivileged communities.
           </p>
           <div className="">
             <span className="mr-5">

@@ -15,6 +15,7 @@ import {
 import { fetchGetJSON } from "@lib/healper";
 import toast from "react-hot-toast";
 
+const validCountries = ["US", "CA", "MX"];
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -25,11 +26,12 @@ const RegisterPage = () => {
   const [department, setDepartment] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [conPassword, setConPassword] = useState("");
   const [usernameIsChecking, setUsernameIsChecking] = useState(false);
   const [usernameIsValid, setUsernameIsValid] = useState(false);
   const [countryList, setCountryList] = useState(Country.getAllCountries());
   const [stateList, setStateList] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState("US");
   const [selectedState, setSelectedState] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
   const stateRef = useRef();
@@ -50,6 +52,9 @@ const RegisterPage = () => {
   };
   const onSubmit = async (event) => {
     event.preventDefault();
+    if (password != conPassword) {
+      return toast.error("The password confirmation does not match!");
+    }
     setIsLoading(true);
     setErrorMessage(null);
     if (
@@ -126,11 +131,10 @@ const RegisterPage = () => {
   }, [username]);
 
   useEffect(async () => {
-    // const geoInfo = await fetchGetJSON("https://extreme-ip-lookup.com/json/");
     const geoInfo = await fetchGetJSON("https://freegeoip.app/json/");
-    const countryCode = geoInfo?.country_code || "US";
+    // const countryCode = geoInfo?.country_code || "US";
+    const countryCode = "US";
     const regionName = geoInfo?.region_name;
-    console.log(geoInfo);
     if (countryCode) {
       setSelectedCountry(countryCode);
       setSelectedState(regionName);
@@ -169,10 +173,10 @@ const RegisterPage = () => {
   return (
     <div className="flex mt-6 relative min-h-screen flex-col justify-between">
       <div className="flex-grow flex justify-center items-center">
-        <div className="w-full max-w-sm ">
+        <div className="w-full max-w-2xl ">
           <div className="px-8 py-10 bg-gray-50 border border-gray-200 dark:border-gray-700 dark:bg-gray-900 rounded">
             <Link href="/">
-              <a className="font-cursive text-2xl uppercase flex flex-col items-center mb-8">
+              <a className="font-cursive text-2xl flex flex-col items-center mb-8">
                 <span className="block dark:hidden">
                   <img src="/logo_wot.svg" width={50} />
                 </span>
@@ -180,16 +184,20 @@ const RegisterPage = () => {
                   <img src="/logo_wot_white.svg" width={50} />
                 </span>
                 <p className="mt-[6px]">
-                  Buetian <span className="text-primary">89</span> NA
+                  BUETian <span className="text-primary">89</span> NA
                 </p>
               </a>
             </Link>
-            <form onSubmit={onSubmit}>
-              <div className="block mb-2">
+            <form
+              onSubmit={onSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              <div className="block">
                 <input
                   onChange={(event) => {
                     setEmail(event.target.value);
                   }}
+                  autoComplete="off"
                   value={email}
                   name="email"
                   required
@@ -198,7 +206,7 @@ const RegisterPage = () => {
                   placeholder="Email"
                 />
               </div>
-              <div className="block mb-2">
+              <div className="block">
                 <input
                   onChange={(event) => {
                     setName(event.target.value);
@@ -211,7 +219,7 @@ const RegisterPage = () => {
                   placeholder="Full Name"
                 />
               </div>
-              <div className="block mb-2">
+              <div className="block">
                 <input
                   onChange={(event) => {
                     setPhone(event.target.value);
@@ -224,7 +232,7 @@ const RegisterPage = () => {
                   placeholder="Phone Number"
                 />
               </div>
-              <div className="block mb-2">
+              <div className="block">
                 <select
                   className="block rounded invalid:text-gray-500 w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   required
@@ -239,17 +247,20 @@ const RegisterPage = () => {
                   <option disabled value="" selected={!selectedCountry}>
                     Country
                   </option>
-                  {countryList?.map((country) => (
-                    <option
-                      selected={country.isoCode == selectedCountry}
-                      value={country.isoCode}
-                    >
-                      {country.name}
-                    </option>
-                  ))}
+                  {countryList?.map(
+                    (country) =>
+                      validCountries.includes(country.isoCode) && (
+                        <option
+                          selected={country.isoCode == selectedCountry}
+                          value={country.isoCode}
+                        >
+                          {country.name}
+                        </option>
+                      )
+                  )}
                 </select>
               </div>
-              <div className="block mb-2">
+              <div className="block">
                 <select
                   className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   required
@@ -272,7 +283,7 @@ const RegisterPage = () => {
                   ))}
                 </select>
               </div>
-              <div className="block mb-2">
+              <div className="block">
                 <select
                   className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   required
@@ -282,14 +293,14 @@ const RegisterPage = () => {
                   }}
                 >
                   <option disabled value="" selected>
-                    Class Begins at BUET
+                    Actual Class Begins at BUET
                   </option>
                   <option value="1989">1989</option>
                   <option value="1990">1990</option>
                   <option value="1991">1991</option>
                 </select>
               </div>
-              <div className="block mb-2">
+              <div className="block">
                 <input
                   onChange={(event) => {
                     setDepartment(event.target.value);
@@ -302,7 +313,7 @@ const RegisterPage = () => {
                   placeholder="Buet Department"
                 />
               </div>
-              <div className="block mb-2">
+              <div className="block">
                 <input
                   onChange={(event) => {
                     setHall(event.target.value);
@@ -316,7 +327,7 @@ const RegisterPage = () => {
                 />
               </div>
 
-              {/* <div className="block mb-2">
+              {/* <div className="block">
                 <input
                   onChange={onChange}
                   value={username}
@@ -332,11 +343,12 @@ const RegisterPage = () => {
                   loading={usernameIsChecking}
                 />
               </div> */}
-              <div className="block mb-4">
+              <div className="block">
                 <input
                   onChange={(event) => {
                     setPassword(event.target.value);
                   }}
+                  autoComplete="off"
                   value={password}
                   required
                   type="password"
@@ -345,10 +357,23 @@ const RegisterPage = () => {
                   placeholder="Password"
                 />
               </div>
+              <div className="block">
+                <input
+                  onChange={(event) => {
+                    setConPassword(event.target.value);
+                  }}
+                  value={conPassword}
+                  required
+                  type="password"
+                  name="confirm-password"
+                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  placeholder="Confirm Password"
+                />
+              </div>
               <button
                 disabled={isLoading}
                 type="submit"
-                className="inline-flex items-center justify-center w-full px-10 py-2 font-semibold text-white transition duration-500 ease-in-out transform bg-primary rounded hover:bg-sky focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 "
+                className="inline-flex md:col-span-2 items-center justify-center w-full px-10 py-2 font-semibold text-white transition duration-500 ease-in-out transform bg-primary rounded hover:bg-sky focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 "
               >
                 {isLoading ? (
                   <span className="inline-flex text-2xl animate-spin text-white">
@@ -358,7 +383,7 @@ const RegisterPage = () => {
                   "Sign up"
                 )}
               </button>
-              <div className="text-center py-2 text-gray-400 text-sm">
+              <div className="text-center py-2 md:col-span-2 text-gray-400 text-sm">
                 By signing up, you agree to our{" "}
                 <Link href="/legal/terms">
                   <a className="font-medium text-gray-500 dark:text-gray-300 transition-colors duration-300 hover:text-primary">
