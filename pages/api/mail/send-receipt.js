@@ -1,3 +1,4 @@
+import { sendViaGmail } from "@lib/gmail";
 import sgMail from "@lib/sendgrid";
 
 export default async (req, res) => {
@@ -30,7 +31,11 @@ export default async (req, res) => {
     };
 
     try {
-      await sgMail.send(msg);
+      if (msg.to.includes("yahoo.com")) {
+        await sendViaGmail(msg.to, msg.subject, msg.html, msg.attachments);
+      } else {
+        await sgMail.send(msg);
+      }
       return res.status(200).json({
         statusCode: 200,
         message: "Send mail successfully!",
