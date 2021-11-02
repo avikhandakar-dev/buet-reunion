@@ -26,6 +26,9 @@ export default async (req, res) => {
           filename: "Receipt.pdf",
           type: "application/pdf",
           disposition: "attachment",
+          ...(email.includes("yahoo.com") && {
+            encoding: "base64",
+          }),
         },
       ],
     };
