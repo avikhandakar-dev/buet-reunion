@@ -48,12 +48,12 @@ const Tabs = [
     href: "/admin/media",
     color: "text-pink-600",
   },
-  {
-    icon: <BiCommentDetail />,
-    title: "Comments",
-    href: "/admin/comments",
-    color: "text-purple-500",
-  },
+  // {
+  //   icon: <BiCommentDetail />,
+  //   title: "Comments",
+  //   href: "/admin/comments",
+  //   color: "text-purple-500",
+  // },
   {
     icon: <FaPoll />,
     title: "Polls",
