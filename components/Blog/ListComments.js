@@ -63,7 +63,7 @@ const ListComments = ({ comments }) => {
             <div title="Delete comment" className="absolute top-2 right-2">
               <span className="w-8 h-8 rounded-full flex justify-center items-center">
                 <ConfirmModal
-                  body="Do you really want to delete this post? This process cannot be undone."
+                  body="Are you sure you want to delete this comment?"
                   className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
                   buttonIcon={<IoTrashOutline />}
                   action={() => handelDelete(comment.id)}

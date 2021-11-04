@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import ChangeProfilePicture from "./ChangeProfilePicture";
 
+const validCountries = ["US", "CA", "MX"];
 const UserInfoForm = ({ userData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const UserInfoForm = ({ userData }) => {
   const [countryList, setCountryList] = useState(Country.getAllCountries());
   const [stateList, setStateList] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(
-    userData.country || null
+    userData.country || "US"
   );
   const [selectedState, setSelectedState] = useState(userData.state || null);
   const [selectedClass, setSelectedClass] = useState(userData.CBB || null);
@@ -32,14 +33,7 @@ const UserInfoForm = ({ userData }) => {
   const handelSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    if (
-      !name ||
-      !selectedCountry ||
-      !selectedState ||
-      !selectedClass ||
-      !phone ||
-      !hall
-    ) {
+    if (!name || !selectedCountry || !selectedClass || !phone || !hall) {
       return toast.error("Please fill in all the required fields!");
     }
     if (name != user.displayName) {
@@ -73,18 +67,20 @@ const UserInfoForm = ({ userData }) => {
 
   useEffect(() => {
     const unsubs = async () => {
-      if (userData.country && userData.state) {
+      if (userData.country) {
         setStateList(State.getStatesOfCountry(userData.country));
         return;
       }
-      // const geoInfo = await fetchGetJSON("https://extreme-ip-lookup.com/json/");
       const geoInfo = await fetchGetJSON("https://freegeoip.app/json/");
-      const countryCode = geoInfo?.country_code || "US";
+      // const countryCode = geoInfo?.country_code || "US";
+      const countryCode = geoInfo?.country_code;
       const regionName = geoInfo?.region_name;
-      if (countryCode) {
+      if (countryCode && validCountries.includes(countryCode)) {
         setSelectedCountry(countryCode);
         setSelectedState(regionName);
         setStateList(State.getStatesOfCountry(countryCode));
+      } else {
+        setStateList(State.getStatesOfCountry("US"));
       }
     };
     return unsubs();
@@ -169,48 +165,64 @@ const UserInfoForm = ({ userData }) => {
               setSelectedCountry(event.target.value);
               setStateList(State.getStatesOfCountry(event.target.value));
               setSelectedState(null);
-              stateRef.current.selectedIndex = 0;
+              if (selectedCountry != "CA") {
+                stateRef.current.selectedIndex = 0;
+              }
               setDataChange(true);
             }}
             className="block invalid:text-gray-500 col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
           >
-            <option disabled value="" selected={!selectedCountry}>
+            <option
+              disabled
+              value=""
+              selected={
+                !selectedCountry || !validCountries.includes(selectedCountry)
+              }
+            >
               Choose your country...
             </option>
-            {countryList?.map((country) => (
-              <option
-                selected={country.isoCode == selectedCountry}
-                value={country.isoCode}
-              >
-                {country.name}
-              </option>
-            ))}
+            {countryList?.map(
+              (country) =>
+                validCountries.includes(country.isoCode) && (
+                  <option
+                    selected={country.isoCode == selectedCountry}
+                    value={country.isoCode}
+                  >
+                    {country.name}
+                  </option>
+                )
+            )}
           </select>
         </div>
-        <div className="sm:grid grid-cols-12 gap-8">
-          <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
-            State/Province<span className="text-sm align-top">*</span>
+        {selectedCountry != "CA" && (
+          <div className="sm:grid grid-cols-12 gap-8">
+            <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
+              State/Province<span className="text-sm align-top">*</span>
+            </div>
+            <select
+              className="block invalid:text-gray-500 col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+              required
+              ref={stateRef}
+              name="state"
+              onChange={(event) => {
+                setSelectedState(event.target.value);
+                setDataChange(true);
+              }}
+            >
+              <option disabled value="" selected={!selectedState}>
+                Your state...
+              </option>
+              {stateList.map((state) => (
+                <option
+                  selected={state.name == selectedState}
+                  value={state.name}
+                >
+                  {state.name.replace("District", "")}
+                </option>
+              ))}
+            </select>
           </div>
-          <select
-            className="block invalid:text-gray-500 col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
-            required
-            ref={stateRef}
-            name="state"
-            onChange={(event) => {
-              setSelectedState(event.target.value);
-              setDataChange(true);
-            }}
-          >
-            <option disabled value="" selected={!selectedState}>
-              Your state...
-            </option>
-            {stateList.map((state) => (
-              <option selected={state.name == selectedState} value={state.name}>
-                {state.name.replace("District", "")}
-              </option>
-            ))}
-          </select>
-        </div>
+        )}
         <div className="sm:grid grid-cols-12 gap-8">
           <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Session<span className="text-sm align-top">*</span>
@@ -242,33 +254,103 @@ const UserInfoForm = ({ userData }) => {
           <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Department<span className="text-sm align-top">*</span>
           </div>
-          <input
+          <select
+            className="block invalid:text-gray-500 col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+            required
+            name="department"
             onChange={(event) => {
               setDepartment(event.target.value);
               setDataChange(true);
             }}
-            value={department}
-            required
-            type="text"
-            name="department"
-            className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
-          />
+          >
+            <option disabled value="" selected>
+              Buet Department
+            </option>
+            <option selected={department == "Arch"} value="Arch">
+              Arch
+            </option>
+            <option selected={department == "ChE"} value="ChE">
+              ChE
+            </option>
+            <option selected={department == "CE"} value="CE">
+              CE
+            </option>
+            <option selected={department == "CSE"} value="CSE">
+              CSE
+            </option>
+            <option selected={department == "EE"} value="EE">
+              EE
+            </option>
+            <option selected={department == "ME"} value="ME">
+              ME
+            </option>
+            <option selected={department == "NAME"} value="NAME">
+              NAME
+            </option>
+            <option selected={department == "MET"} value="MET">
+              MET
+            </option>
+          </select>
         </div>
         <div className="sm:grid grid-cols-12 gap-8">
           <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Hall<span className="text-sm align-top">*</span>
           </div>
-          <input
+          <select
+            className="block invalid:text-gray-500 col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+            required
+            name="hall"
             onChange={(event) => {
               setHall(event.target.value);
               setDataChange(true);
             }}
-            value={hall}
-            required
-            type="text"
-            name="hall"
-            className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
-          />
+          >
+            <option disabled value="" selected>
+              Buet Hall
+            </option>
+            <option
+              selected={hall == "Ahsanullah Hall"}
+              value="Ahsanullah Hall"
+            >
+              Ahsanullah Hall
+            </option>
+            <option selected={hall == "Titumir Hall"} value="Titumir Hall">
+              Titumir Hall
+            </option>
+            <option selected={hall == "Chatri Hall"} value="Chatri Hall">
+              Chatri Hall
+            </option>
+            <option
+              selected={hall == "Dr. M. A. Rashid Hall"}
+              value="Dr. M. A. Rashid Hall"
+            >
+              Dr. M. A. Rashid Hall
+            </option>
+            <option
+              selected={hall == "Kazi Nazrul Islam Hall"}
+              value="Kazi Nazrul Islam Hall"
+            >
+              Kazi Nazrul Islam Hall
+            </option>
+            <option
+              selected={hall == "Sher-e-Bangla Hall"}
+              value="Sher-e-Bangla Hall"
+            >
+              Sher-e-Bangla Hall
+            </option>
+            <option
+              selected={hall == "Suhrawardy Hall"}
+              value="Suhrawardy Hall"
+            >
+              Suhrawardy Hall
+            </option>
+            <option
+              selected={hall == "Shahid Smriti Hall"}
+              value="Shahid Smriti Hall"
+            >
+              Shahid Smriti Hall
+            </option>
+          </select>
         </div>
         <div className="sm:grid grid-cols-12 gap-8">
           <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">Bio</div>

@@ -60,7 +60,7 @@ const OurTeam = () => {
                 <div title="Delete member" className="absolute top-2 right-2">
                   <span className="w-8 h-8 rounded-full flex justify-center items-center bg-white">
                     <ConfirmModal
-                      body="Do you really want to delete this post? This process cannot be undone."
+                      body="Do you really want to delete this member? This process cannot be undone."
                       className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
                       buttonIcon={<IoTrashOutline />}
                       action={() => handelDelete(member)}

@@ -32,7 +32,6 @@ const DefaultLayout = ({ children }) => {
           if (!userDataIsLoading && userData) {
             if (
               !userData.country ||
-              !userData.state ||
               !userData.CBB ||
               !userData.hall ||
               !userData.phone

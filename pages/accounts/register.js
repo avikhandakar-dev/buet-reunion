@@ -61,7 +61,6 @@ const RegisterPage = () => {
       !name ||
       !email ||
       !selectedCountry ||
-      !selectedState ||
       !selectedClass ||
       !hall ||
       !department ||
@@ -133,12 +132,14 @@ const RegisterPage = () => {
   useEffect(async () => {
     const geoInfo = await fetchGetJSON("https://freegeoip.app/json/");
     // const countryCode = geoInfo?.country_code || "US";
-    const countryCode = "US";
+    const countryCode = geoInfo?.country_code;
     const regionName = geoInfo?.region_name;
-    if (countryCode) {
+    if (countryCode && validCountries.includes(countryCode)) {
       setSelectedCountry(countryCode);
       setSelectedState(regionName);
       setStateList(State.getStatesOfCountry(countryCode));
+    } else {
+      setStateList(State.getStatesOfCountry("US"));
     }
   }, []);
 
@@ -211,6 +212,7 @@ const RegisterPage = () => {
                   onChange={(event) => {
                     setName(event.target.value);
                   }}
+                  autoComplete="off"
                   value={name}
                   required
                   type="text"
@@ -224,6 +226,7 @@ const RegisterPage = () => {
                   onChange={(event) => {
                     setPhone(event.target.value);
                   }}
+                  autoComplete="off"
                   value={phone}
                   required
                   type="tel"
@@ -241,7 +244,9 @@ const RegisterPage = () => {
                     setSelectedCountry(event.target.value);
                     setStateList(State.getStatesOfCountry(event.target.value));
                     setSelectedState(null);
-                    stateRef.current.selectedIndex = 0;
+                    if (selectedCountry != "CA") {
+                      stateRef.current.selectedIndex = 0;
+                    }
                   }}
                 >
                   <option disabled value="" selected={!selectedCountry}>
@@ -260,29 +265,31 @@ const RegisterPage = () => {
                   )}
                 </select>
               </div>
-              <div className="block">
-                <select
-                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  required
-                  ref={stateRef}
-                  name="state"
-                  onChange={(event) => {
-                    setSelectedState(event.target.value);
-                  }}
-                >
-                  <option disabled value="" selected={!selectedState}>
-                    State/Province
-                  </option>
-                  {stateList.map((state) => (
-                    <option
-                      selected={state.name == selectedState}
-                      value={state.name}
-                    >
-                      {state.name.replace("District", "")}
+              {selectedCountry != "CA" && (
+                <div className="block">
+                  <select
+                    className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                    required
+                    ref={stateRef}
+                    name="state"
+                    onChange={(event) => {
+                      setSelectedState(event.target.value);
+                    }}
+                  >
+                    <option disabled value="" selected={!selectedState}>
+                      State/Province
                     </option>
-                  ))}
-                </select>
-              </div>
+                    {stateList.map((state) => (
+                      <option
+                        selected={state.name == selectedState}
+                        value={state.name}
+                      >
+                        {state.name.replace("District", "")}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div className="block">
                 <select
                   className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
@@ -301,30 +308,53 @@ const RegisterPage = () => {
                 </select>
               </div>
               <div className="block">
-                <input
+                <select
+                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  required
+                  name="department"
                   onChange={(event) => {
                     setDepartment(event.target.value);
                   }}
-                  value={department}
-                  required
-                  type="text"
-                  name="department"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Buet Department"
-                />
+                >
+                  <option disabled value="" selected>
+                    Buet Department
+                  </option>
+                  <option value="Arch">Arch</option>
+                  <option value="ChE">ChE</option>
+                  <option value="CE">CE</option>
+                  <option value="CSE">CSE</option>
+                  <option value="EE">EE</option>
+                  <option value="ME">ME</option>
+                  <option value="NAME">NAME</option>
+                  <option value="MET">MET</option>
+                </select>
               </div>
+
               <div className="block">
-                <input
+                <select
+                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  required
+                  name="hall"
                   onChange={(event) => {
                     setHall(event.target.value);
                   }}
-                  value={hall}
-                  required
-                  type="text"
-                  name="hall"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Buet Hall"
-                />
+                >
+                  <option disabled value="" selected>
+                    Buet Hall
+                  </option>
+                  <option value="Ahsanullah Hall">Ahsanullah Hall</option>
+                  <option value="Titumir Hall">Titumir Hall</option>
+                  <option value="Chatri Hall">Chatri Hall</option>
+                  <option value="Dr. M. A. Rashid Hall">
+                    Dr. M. A. Rashid Hall
+                  </option>
+                  <option value="Kazi Nazrul Islam Hall">
+                    Kazi Nazrul Islam Hall
+                  </option>
+                  <option value="Sher-e-Bangla Hall">Sher-e-Bangla Hall</option>
+                  <option value="Suhrawardy Hall">Suhrawardy Hall</option>
+                  <option value="Shahid Smriti Hall">Shahid Smriti Hall</option>
+                </select>
               </div>
 
               {/* <div className="block">
@@ -363,6 +393,7 @@ const RegisterPage = () => {
                     setConPassword(event.target.value);
                   }}
                   value={conPassword}
+                  autoComplete="off"
                   required
                   type="password"
                   name="confirm-password"
@@ -403,12 +434,12 @@ const RegisterPage = () => {
                   </a>
                 </Link>{" "}
                 .
+                {errorMessage ? (
+                  <div className="text-red-500 py-2 text-sm font-medium w-full text-center mt-4">
+                    {errorMessage}
+                  </div>
+                ) : null}
               </div>
-              {errorMessage ? (
-                <div className=" text-red-500 py-2 text-sm font-medium w-full text-center">
-                  {errorMessage}
-                </div>
-              ) : null}
             </form>
             <div className="relative w-full border-b-2 my-8 border-gray-200 dark:border-gray-700">
               <span className="font-medium text-sm absolute transform left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-400 bg-gray-50 px-5 dark:bg-gray-900">
