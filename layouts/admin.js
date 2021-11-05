@@ -101,7 +101,7 @@ const AdminLayout = ({ children }) => {
         <div>
           <div className="flex justify-center flex-col items-center mb-8">
             <Link href="/">
-              <a className="font-cursive text-xl uppercase flex flex-col items-center">
+              <a className="font-cursive text-xl flex flex-col items-center">
                 <span className="block dark:hidden">
                   <img src="/logo_wot.svg" width={50} />
                 </span>
@@ -109,7 +109,7 @@ const AdminLayout = ({ children }) => {
                   <img src="/logo_wot_white.svg" width={50} />
                 </span>
                 <p className="mt-[6px] hidden lg:block">
-                  Buetian <span className="text-primary">89</span> NA
+                  BUETian <span className="text-primary">89</span> NA
                 </p>
               </a>
             </Link>
@@ -149,7 +149,7 @@ const AdminLayout = ({ children }) => {
       <div className="flex-grow h-full overflow-y-auto">
         <div className="mx-auto relative">{children}</div>
         <div className="flex justify-between px-6 lg:px-10 py-4">
-          <p>© 2021 Buetian 89</p>
+          <p>© 2021 BUETian 89</p>
           <div className="flex">
             <Link href="/">
               <a className="text-gray-600 hover:text-primary dark:text-gray-400 mr-8">

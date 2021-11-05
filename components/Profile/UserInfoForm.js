@@ -165,7 +165,7 @@ const UserInfoForm = ({ userData }) => {
               setSelectedCountry(event.target.value);
               setStateList(State.getStatesOfCountry(event.target.value));
               setSelectedState(null);
-              if (selectedCountry != "CA") {
+              if (selectedCountry != "MX") {
                 stateRef.current.selectedIndex = 0;
               }
               setDataChange(true);
@@ -194,7 +194,7 @@ const UserInfoForm = ({ userData }) => {
             )}
           </select>
         </div>
-        {selectedCountry != "CA" && (
+        {selectedCountry != "MX" && (
           <div className="sm:grid grid-cols-12 gap-8">
             <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
               State/Province<span className="text-sm align-top">*</span>

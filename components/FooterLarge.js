@@ -24,8 +24,8 @@ const FooterLarge = () => {
       >
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           <div className="flex flex-col space-y-4 col-span-2 md:col-span-3 lg:col-span-1">
-            <p className="font-cursive text-xl uppercase">
-              Buetian{" "}
+            <p className="font-cursive text-xl">
+              BUETian{" "}
               <span className="text-primary dark:text-yellow-500">89</span> NA
             </p>
           </div>
@@ -154,7 +154,7 @@ const FooterLarge = () => {
             <span className="opacity-50">
               Copyright © 2021 all rights reserved by{" "}
             </span>
-            <span className="underline">Buetian 89 NA</span>
+            <span className="underline">BUETian 89 NA</span>
           </p>
           <div className="text-sm flex items-center">
             <span className="opacity-50 flex items-center">

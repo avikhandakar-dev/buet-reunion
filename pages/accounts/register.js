@@ -244,7 +244,7 @@ const RegisterPage = () => {
                     setSelectedCountry(event.target.value);
                     setStateList(State.getStatesOfCountry(event.target.value));
                     setSelectedState(null);
-                    if (selectedCountry != "CA") {
+                    if (selectedCountry != "MX") {
                       stateRef.current.selectedIndex = 0;
                     }
                   }}
@@ -265,7 +265,7 @@ const RegisterPage = () => {
                   )}
                 </select>
               </div>
-              {selectedCountry != "CA" && (
+              {selectedCountry != "MX" && (
                 <div className="block">
                   <select
                     className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
