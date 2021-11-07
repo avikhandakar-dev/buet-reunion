@@ -31,7 +31,7 @@ const ContactForm = () => {
   };
   if (success) {
     return (
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="w-full h-full min-h-[500px] flex justify-center items-center">
         <div className="text-center">
           <span className="text-5xl md:text-7xl text-green-500 mx-auto w-max block">
             <FiCheckCircle />
@@ -50,7 +50,7 @@ const ContactForm = () => {
 
   return (
     <form onSubmit={handelSubmit}>
-      <h1 className="font- uppercase text-3xl font-bold mb-8 text-gray-500 dark:text-gray-600">
+      <h1 className="font- uppercase text-3xl font-bold mb-8 lg:text-gray-500 lg:dark:text-gray-600">
         Contact Us{" "}
       </h1>
       <div className="grid grid-cols-2 gap-10 mb-8">
