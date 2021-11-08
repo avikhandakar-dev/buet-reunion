@@ -127,10 +127,10 @@ const ContactForm = () => {
           Email Us
         </p>
         <a
-          href="mailto:buetian89@gmail.com"
+          href="mailto:contact@buetian89na.org"
           className="duration-300 hover:text-primary font-light"
         >
-          buetian89@gmail.com
+          contact@buetian89na.org
         </a>
       </div>
     </form>
