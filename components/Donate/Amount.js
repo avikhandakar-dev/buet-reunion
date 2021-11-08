@@ -42,8 +42,8 @@ const DonationAmount = ({ totalAmount }) => {
   }, [pCharge, selectedAmount, customAmount]);
 
   return (
-    <div className="">
-      <h1 className="font-medium lg:text-xl uppercase mb-4 text-gray-600 dark:text-gray-300">
+    <div className="mt-8">
+      <h1 className="font-bold font-serif lg:text-xl mb-4 text-gray-600 dark:text-gray-300">
         Amount
       </h1>
       <div className="grid grid-cols-3 gap-4">
@@ -52,7 +52,7 @@ const DonationAmount = ({ totalAmount }) => {
             {item.value == 0 ? (
               <div className="grid grid-cols-3 sm:flex col-span-2">
                 <span
-                  className={`px-6 text-xl text-center py-3 flex-shrink-0 border-2 rounded-l border-gray-200 dark:border-gray-700  border-r-0 ${
+                  className={`px-6 text-xl text-center py-3 flex-shrink-0 border-2 rounded-l border-gray-500 dark:border-gray-700  border-r-0 ${
                     customAmount
                       ? "text-white bg-green-500 border-green-500"
                       : "text-green-500"
@@ -73,7 +73,7 @@ const DonationAmount = ({ totalAmount }) => {
                     );
                   }}
                   type="text"
-                  className="sm:flex-grow col-span-2 outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 font-medium rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-xl text-center text-green-500 bg-transparent"
+                  className="sm:flex-grow max-w-sm col-span-2 outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-500 focus:ring-0 focus:outline-none border-gray-500 font-medium rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-xl text-center text-green-500 bg-transparent"
                 />
               </div>
             ) : (
@@ -82,7 +82,7 @@ const DonationAmount = ({ totalAmount }) => {
                   setSelectedAmount(item.value);
                   setCustomAmount("");
                 }}
-                className={`text-center border-2 cursor-pointer border-gray-200 dark:border-gray-700 text-xl font-medium rounded p-3 ${
+                className={`text-center border-2 cursor-pointer border-gray-500 dark:border-gray-700 text-xl font-medium rounded p-3 ${
                   selectedAmount == item.value
                     ? "text-white bg-green-500 border-green-500"
                     : "text-green-500"

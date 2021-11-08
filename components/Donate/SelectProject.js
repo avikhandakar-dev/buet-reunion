@@ -1,14 +1,17 @@
 import PulseBar from "@components/Pulse/Bar";
 import { firestore } from "@lib/firebase";
-import { getFundingProgress } from "@lib/healper";
-import Image from "next/image";
 import { Fragment, useState, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { FaCheckCircle } from "react-icons/fa";
+import { Listbox, Transition } from "@headlessui/react";
+import { BsCheck } from "react-icons/bs";
+import { FiChevronDown } from "react-icons/fi";
 
 const SelectProject = ({ project }) => {
   const [projects = [], loading, error] = useCollectionData(
-    firestore.collection("projects").orderBy("createdAt", "desc")
+    firestore
+      .collection("projects")
+      .where("published", "==", true)
+      .orderBy("createdAt", "desc")
   );
   const [selectedProject, setSelectedProject] = useState(null);
   useEffect(() => {
@@ -23,11 +26,83 @@ const SelectProject = ({ project }) => {
   }
 
   return (
-    <div className="shadow-projectBar rounded-md overflow-hidden bg-gray-100 dark:bg-gray-900">
-      <h1 className="font-medium lg:text-xl uppercase bg-green-500 p-4 text-white">
-        Select a Project
+    <div className="">
+      <h1 className="font-bold font-serif lg:text-xl mb-4 text-gray-600 dark:text-gray-300">
+        Project
       </h1>
-      <div className="grid gap-4">
+      <div>
+        <Listbox value={selectedProject} onChange={setSelectedProject}>
+          {({ open }) => (
+            <>
+              <div className="relative max-w-xl">
+                <Listbox.Button className="relative w-full py-3 pl-4 pr-10 text-left bg-transparent rounded cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white border-gray-500 rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700">
+                  <span className="block truncate">
+                    {selectedProject?.title || "Please select a project..."}
+                  </span>
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <FiChevronDown
+                      className="w-5 h-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Listbox.Button>
+                <Transition
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options
+                    static
+                    className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                  >
+                    {projects.map((project, idx) => (
+                      <Listbox.Option
+                        key={idx}
+                        className={({ active }) =>
+                          `${
+                            active
+                              ? "text-green-900 bg-green-100"
+                              : "text-gray-900"
+                          }
+                          cursor-default select-none relative py-2 pl-10 pr-4`
+                        }
+                        value={project}
+                      >
+                        {({ selected, active }) => (
+                          <>
+                            <span
+                              className={`${
+                                selected ? "font-medium" : "font-normal"
+                              } block truncate`}
+                            >
+                              {project.title}
+                            </span>
+                            {selected ? (
+                              <span
+                                className={`${
+                                  active ? "text-green-600" : "text-green-600"
+                                }
+                                absolute inset-y-0 left-0 flex items-center pl-3`}
+                              >
+                                <BsCheck
+                                  className="w-5 h-5"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            ) : null}
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </Transition>
+              </div>
+            </>
+          )}
+        </Listbox>
+      </div>
+      {/* <div className="grid gap-4">
         {projects.map((project, idx) => (
           <Fragment key={idx}>
             <div
@@ -83,7 +158,7 @@ const SelectProject = ({ project }) => {
             </div>
           </Fragment>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

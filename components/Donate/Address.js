@@ -37,7 +37,7 @@ const BillingAddress = ({ address }) => {
 
   return (
     <div className="mt-8">
-      <h1 className="font-medium lg:text-xl uppercase mb-4 text-gray-600 dark:text-gray-300">
+      <h1 className="font-bold font-serif lg:text-xl mb-4 text-gray-600 dark:text-gray-300">
         Address
       </h1>
       <div
@@ -58,7 +58,7 @@ const BillingAddress = ({ address }) => {
                 setName(event.target.value);
               }}
               type="text"
-              className="w-full outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-sm text-center bg-transparent"
+              className="w-full outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-500 focus:ring-0 focus:outline-none border-gray-500 rounded border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-sm text-center bg-transparent"
             />
           </div>
           <div className="w-full">
@@ -72,7 +72,7 @@ const BillingAddress = ({ address }) => {
                 setEmail(event.target.value);
               }}
               type="text"
-              className="w-full outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-sm text-center bg-transparent"
+              className="w-full outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-500 focus:ring-0 focus:outline-none border-gray-500 rounded border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-2 text-sm text-center bg-transparent"
             />
           </div>
         </div>
@@ -81,7 +81,7 @@ const BillingAddress = ({ address }) => {
             Country
           </label>
           <select
-            className="w-full outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-200 focus:ring-0 focus:outline-none border-gray-200 rounded-r border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-4 text-sm text-center bg-transparent"
+            className="w-full max-w-xl outline-none placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-500 focus:ring-0 focus:outline-none border-gray-500 rounded border-2 dark:border-gray-700 dark:focus:border-gray-700 py-3 px-4 text-sm text-center bg-transparent"
             required
             name="country"
             onChange={(event) => {

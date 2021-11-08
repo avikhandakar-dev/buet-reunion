@@ -13,9 +13,7 @@ const DonatePage = () => {
   return (
     <Fragment>
       <DonateHeader />
-      <div className="pt-8" id="donation">
-        <DonationForm />
-      </div>
+      <DonationForm />
     </Fragment>
   );
 };
