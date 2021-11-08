@@ -41,7 +41,7 @@ const DonationForm = () => {
   };
   return (
     <Container maxWidth="max-w-6xl -mt-16 lg:-mt-8">
-      <div className="h-full w-full dark:border-2 dark:border-gray-900 px-6 py-8 md:px-16 md:py-16 dark:py-0 shadow-projectBar rounded-2xl">
+      <div className="h-full w-full dark:border-2 dark:border-gray-900 px-6 py-8 md:px-16 md:py-16 shadow-projectBar rounded-2xl">
         <SelectProject project={(pro) => setProject(pro)} />
         <DonationAmount totalAmount={(amount) => setAmount(amount)} />
         <BillingAddress address={(addr) => setAddress(addr)} />
