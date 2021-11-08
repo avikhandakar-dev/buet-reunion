@@ -70,10 +70,10 @@ const Nav = () => {
             <HiMenuAlt2 />
           </button>
         </div>
-        <div className="font-cursive text-2xl uppercase">
+        <div className="font-cursive text-2xl">
           <Link href="/">
             <a>
-              BUETIAN <span className="text-primary">89</span> NA
+              BUETian <span className="text-primary">89</span> NA
             </a>
           </Link>
         </div>

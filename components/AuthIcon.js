@@ -127,7 +127,7 @@ const AuthIcon = ({ mobile = false }) => {
           <span className="mr-2 hidden xl:block"> / </span>
           <Link href="/accounts/register">
             <a className="transition duration-200 hidden xl:flex hover:text-primary justify-center items-center">
-              Register
+              Sign up
             </a>
           </Link>
         </div>

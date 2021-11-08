@@ -44,8 +44,8 @@ const MobileNav = () => {
             </div>
             <div className="relative h-full py-8 flex flex-col justify-between px-8">
               <div>
-                <p className="text-sm uppercase font-semibold">
-                  Buetian <span className="text-primary">89</span> NA
+                <p className="text-sm font-semibold">
+                  BUETian <span className="text-primary">89</span> NA
                 </p>
               </div>
               <div
