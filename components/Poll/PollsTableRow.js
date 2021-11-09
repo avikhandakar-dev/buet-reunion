@@ -171,7 +171,7 @@ const PollsTableRow = ({ poll }) => {
             className="flex justify-center items-center"
           >
             <ConfirmModal
-              body="Do you really want to delete this post? This process cannot be undone."
+              body="Do you really want to delete this poll? This process cannot be undone."
               className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
               buttonIcon={<IoTrashOutline />}
               action={handelDelete}

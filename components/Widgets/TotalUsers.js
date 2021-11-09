@@ -48,7 +48,7 @@ const TotalUsersWidget = () => {
       </div>
       <div className="flex">
         <p className="text-gray-400 dark:text-gray-200 mr-3">
-          Premium <span className="text-green-400">{isPremium.length}</span>
+          Pending <span className="text-green-400">{isRegistered.length}</span>
         </p>
         <p className="text-gray-400 dark:text-gray-200">
           Member <span className="text-green-400">{isMember.length}</span>

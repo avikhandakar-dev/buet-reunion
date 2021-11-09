@@ -12,6 +12,7 @@ import { FiMapPin, FiSmartphone } from "react-icons/fi";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { BsBuilding } from "react-icons/bs";
 import { GoQuote } from "react-icons/go";
+import ProfileCardMenu from "./Admin/ProfileCardMenu";
 
 const ProfileCard = ({ userRecord, userData }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,13 +46,13 @@ const ProfileCard = ({ userRecord, userData }) => {
     }
     return roles.join(", ");
   };
-  const acceptRequest = async () => {
+  const acceptRequest = async (role = "member") => {
     setIsLoading(true);
     const token = await user?.getIdToken();
     const response = await fetchPostJSON("/api/users/set-role", {
       uid: userRecord.uid,
       token: token,
-      role: "member",
+      role,
     });
     if (response.statusCode === 500) {
       toast.error(response.message);
@@ -74,6 +75,9 @@ const ProfileCard = ({ userRecord, userData }) => {
   return (
     <Fragment>
       <div className="w-full relative rounded-md bg-white dark:bg-gray-800 shadow-md overflow-hidden">
+        <span className="absolute right-4 top-4 z-10">
+          <ProfileCardMenu userRecord={userRecord} />
+        </span>
         <div className="relative w-full h-32">
           <Image
             placeholder="blur"
@@ -176,6 +180,7 @@ const ProfileCard = ({ userRecord, userData }) => {
             </div>
           </div>
         </div>
+
         {userRecord.customClaims?.member ||
         userRecord.customClaims?.premium ||
         isSuccess ? (
@@ -183,7 +188,7 @@ const ProfileCard = ({ userRecord, userData }) => {
         ) : (
           <button
             disabled={isLoading}
-            onClick={() => acceptRequest()}
+            onClick={() => acceptRequest("member")}
             className="w-full bg-gradient-to-r text-white from-yellow-500 via-red-500 to-pink-500 px-4 py-3 font-semibold duration-300 hover:to-pink-400 hover:from-yellow-600"
           >
             {isLoading ? (

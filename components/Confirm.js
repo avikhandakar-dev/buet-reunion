@@ -2,9 +2,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState, useEffect } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { IoMdClose } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoWarningOutline } from "react-icons/io5";
 
 const ConfirmModal = ({
+  type,
   className,
   title,
   buttonTitle,
@@ -84,9 +85,15 @@ const ConfirmModal = ({
                   as="div"
                   className="text-lg font-medium text-gray-900 dark:text-gray-200 pb-3 dark:border-gray-800 px-6"
                 >
-                  <div className="text-5xl w-20 h-20 mb-4 rounded-full border-2 border-red-500 text-red-500 mx-auto flex justify-center items-center">
-                    <IoMdClose />
-                  </div>
+                  {type == "warning" ? (
+                    <div className="text-5xl w-20 h-20 mb-4 text-yellow-500 mx-auto flex justify-center items-center">
+                      <IoWarningOutline />
+                    </div>
+                  ) : (
+                    <div className="text-5xl w-20 h-20 mb-4 rounded-full border-2 border-red-500 text-red-500 mx-auto flex justify-center items-center">
+                      <IoMdClose />
+                    </div>
+                  )}
                   <span className="mb-4 block text-3xl">{title}</span>
                   <a
                     onClick={closeModal}
@@ -115,7 +122,11 @@ const ConfirmModal = ({
                       disabled={isLoading}
                       type="button"
                       onClick={action}
-                      className="inline-flex justify-center w-24 text-center py-2 text-sm font-medium text-white bg-red-500 border border-transparent rounded hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
+                      className={`${
+                        type == "warning"
+                          ? "bg-yellow-500 hover:bg-yellow-400"
+                          : "bg-red-500 hover:bg-red-400"
+                      } inline-flex justify-center w-24 text-center py-2 text-sm font-medium text-white border border-transparent rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500`}
                     >
                       {isLoading ? (
                         <span className="inline-flex text-xl animate-spin text-white">
@@ -139,6 +150,7 @@ const ConfirmModal = ({
 ConfirmModal.defaultProps = {
   openOnStart: false,
   title: "Are you sure?",
+  type: "error",
   buttonTitle: null,
   actionButtonTitle: "Delete",
   buttonIcon: null,
