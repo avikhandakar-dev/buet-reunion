@@ -125,7 +125,7 @@ const ProfileCardMenu = ({ userRecord }) => {
                 <ConfirmModal
                   actionButtonTitle="Yes"
                   type="warning"
-                  body={`You want to promote ${userRecord.displayName} to admin?`}
+                  body={`You want to remove ${userRecord.displayName} from member?`}
                   buttonIcon={
                     <button
                       className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
@@ -150,7 +150,7 @@ const ProfileCardMenu = ({ userRecord }) => {
                 <ConfirmModal
                   actionButtonTitle="Yes"
                   type="warning"
-                  body={`You want to remove ${userRecord.displayName} from admin?`}
+                  body={`You want to accept ${userRecord.displayName} as member?`}
                   buttonIcon={
                     <button
                       className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}

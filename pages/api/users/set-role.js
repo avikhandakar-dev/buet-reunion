@@ -53,7 +53,7 @@ export default async (req, res) => {
           }
         }
 
-        const prevRole = userRecord.customClaims;
+        const prevRole = userRecord.customClaims || {};
         prevRole[role] = revoke ? false : true;
         await admin.auth().setCustomUserClaims(uid, {
           ...prevRole,
