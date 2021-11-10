@@ -20,17 +20,17 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                         <FaChevronUp
                           className={`${
                             open ? "transform rotate-180" : ""
-                          } w-5 h-5`}
+                          } w-5 h-5 duration-300`}
                         />
                       </Disclosure.Button>
                       <Transition
                         show={open}
-                        enter="transition duration-300 ease-out"
-                        enterFrom="transform scale-95 opacity-0"
-                        enterTo="transform scale-100 h-auto opacity-100"
-                        leave="transition duration-300 ease-out"
-                        leaveFrom="transform scale-100 opacity-100"
-                        leaveTo="transform scale-95 opacity-0"
+                        enter="transition duration-300 ease-out origin-top"
+                        enterFrom="transform scale-y-95 opacity-0"
+                        enterTo="transform scale-y-100 h-auto opacity-100"
+                        leave="transition duration-75 ease-out origin-top"
+                        leaveFrom="transform scale-y-100 opacity-100"
+                        leaveTo="transform scale-y-95 opacity-0"
                       >
                         <Disclosure.Panel>
                           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
