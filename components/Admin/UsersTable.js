@@ -3,8 +3,69 @@ import Link from "next/link";
 import { BsEyeFill } from "react-icons/bs";
 import { Disclosure, Transition } from "@headlessui/react";
 import { FaChevronUp } from "react-icons/fa";
+import { useState } from "react";
+import Pagination from "@components/Pagination";
+import { FiArrowDown, FiArrowUp } from "react-icons/fi";
+
+const orderBy = (data, value, direction) => {
+  if (direction === "asc") {
+    return [...data].sort((a, b) => (a[value] > b[value] ? 1 : -1));
+  }
+  if (direction === "desc") {
+    return [...data].sort((a, b) => (a[value] > b[value] ? -1 : 1));
+  }
+  return data;
+};
+const SortArrow = ({ direction }) => {
+  if (!direction) {
+    return <></>;
+  }
+  if (direction === "desc") {
+    return (
+      <div className="">
+        <FiArrowDown />
+      </div>
+    );
+  } else {
+    return (
+      <div className="">
+        <FiArrowUp />
+      </div>
+    );
+  }
+};
 
 const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
+  const [direction, setDirection] = useState("asc");
+  const [orderedBy, setOrderedBy] = useState("displayName");
+  const orderedUsers = orderBy(users, orderedBy, direction);
+  const switchDirection = () => {
+    if (direction == "asc") {
+      setDirection("desc");
+    } else {
+      setDirection("asc");
+    }
+  };
+  const setValueAndDirection = (value) => {
+    setOrderedBy(value);
+    switchDirection();
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const totalPage = Math.ceil(users.length / itemsPerPage) || 1;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = orderedUsers.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginateFront = () =>
+    setCurrentPage(currentPage >= totalPage ? totalPage : currentPage + 1);
+  const paginateBack = () =>
+    setCurrentPage(currentPage <= 1 ? 1 : currentPage - 1);
+  const paginateFirst = () => setCurrentPage(1);
+  const paginateLast = () => setCurrentPage(totalPage);
+
   return (
     <>
       {users.length > 0 && (
@@ -37,10 +98,16 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                             <thead className="bg-gray-50 dark:bg-gray-600">
                               <tr>
                                 <th
+                                  onClick={() =>
+                                    setValueAndDirection("displayName")
+                                  }
                                   scope="col"
-                                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
+                                  className="px-6 py-3 flex items-center cursor-pointer text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
                                 >
                                   Name
+                                  {orderedBy === "displayName" && (
+                                    <SortArrow direction={direction} />
+                                  )}
                                 </th>
                                 <th
                                   scope="col"
@@ -66,7 +133,7 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                               </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-800">
-                              {users.map((user, idx) => (
+                              {currentItems.map((user, idx) => (
                                 <tr key={idx}>
                                   <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
@@ -119,6 +186,17 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                               ))}
                             </tbody>
                           </table>
+                          <Pagination
+                            itemsPerPage={itemsPerPage}
+                            totalItems={users.length}
+                            paginateBack={paginateBack}
+                            paginateFront={paginateFront}
+                            paginateFirst={paginateFirst}
+                            paginateLast={paginateLast}
+                            currentPage={currentPage}
+                            totalPage={totalPage}
+                            setItemsPerPage={(num) => setItemsPerPage(num)}
+                          />
                         </Disclosure.Panel>
                       </Transition>
                     </>

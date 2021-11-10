@@ -91,7 +91,7 @@ const ProfileCardMenu = ({ userRecord }) => {
                     <button
                       className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
                     >
-                      Remove admin privileges
+                      Revoke Adminship
                       <span className="ml-2" aria-hidden="true">
                         <ImPower />
                       </span>
@@ -130,7 +130,7 @@ const ProfileCardMenu = ({ userRecord }) => {
                     <button
                       className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
                     >
-                      Revoked membership
+                      Revoked Membership
                       <span className="ml-2" aria-hidden="true">
                         <FaUserAltSlash />
                       </span>
@@ -155,7 +155,7 @@ const ProfileCardMenu = ({ userRecord }) => {
                     <button
                       className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
                     >
-                      Accept membership
+                      Accept Membership
                       <span className="ml-2" aria-hidden="true">
                         <FaUser />
                       </span>

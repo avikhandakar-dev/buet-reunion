@@ -26,6 +26,7 @@ const UserReview = () => {
     const unsubs = async () => {
       if (user) {
         const token = await user?.getIdToken();
+        console.log(token);
         const response = await fetchPostJSON("/api/users/get", {
           uid: id,
           token: token,
