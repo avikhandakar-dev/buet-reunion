@@ -21,9 +21,11 @@ const UserInfoForm = ({ userData }) => {
   const [hall, setHall] = useState(userData.hall || "");
   const [department, setDepartment] = useState(userData.department || "");
   const [countryList, setCountryList] = useState(Country.getAllCountries());
-  const [stateList, setStateList] = useState([]);
+  const [stateList, setStateList] = useState(
+    State.getStatesOfCountry(userData.country) || []
+  );
   const [selectedCountry, setSelectedCountry] = useState(
-    userData.country || "US"
+    userData.country || ""
   );
   const [selectedState, setSelectedState] = useState(userData.state || null);
   const [selectedClass, setSelectedClass] = useState(userData.CBB || null);
@@ -65,26 +67,6 @@ const UserInfoForm = ({ userData }) => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    const unsubs = async () => {
-      if (userData.country) {
-        setStateList(State.getStatesOfCountry(userData.country));
-        return;
-      }
-      const geoInfo = await fetchGetJSON("https://freegeoip.app/json/");
-      // const countryCode = geoInfo?.country_code || "US";
-      const countryCode = geoInfo?.country_code;
-      const regionName = geoInfo?.region_name;
-      if (countryCode && validCountries.includes(countryCode)) {
-        setSelectedCountry(countryCode);
-        setSelectedState(regionName);
-        setStateList(State.getStatesOfCountry(countryCode));
-      } else {
-        setStateList(State.getStatesOfCountry("US"));
-      }
-    };
-    return unsubs();
-  }, []);
   return (
     <form className="lg:-mt-8" onSubmit={handelSubmit}>
       <div className="pl-6 mt-4 flex flex-col space-y-4">

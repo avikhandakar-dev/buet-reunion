@@ -29,7 +29,7 @@ const DefaultLayout = ({ children }) => {
     const unsubs = async () => {
       if (user) {
         if (!redirectToProfile) {
-          if (!userDataIsLoading && userData) {
+          if (!userDataIsLoading) {
             if (
               !userData.country ||
               !userData.CBB ||
