@@ -46,16 +46,33 @@ const UsersAdmin = () => {
         ) : (
           <div className="px-6 lg:px-10 -mt-24">
             <div className="mb-6">
-              <UsersTable users={isAdmin} category="Admin" />
+              <UsersTable
+                users={isRegistered}
+                category="Pending"
+                isOpen={true}
+                buttonClass="flex font-medium text-xl py-4 px-5 justify-between w-full text-left text-yellow-900 bg-yellow-100 dark:text-yellow-100 dark:bg-yellow-500 hover:bg-yellow-200 dark:hover:bg-yellow-600 focus:outline-none focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75"
+              />
             </div>
             <div className="mb-6">
-              <UsersTable users={isPremium} category="Premium Members" />
+              <UsersTable
+                users={isPremium}
+                category="Premium Members"
+                buttonClass="flex font-medium text-xl py-4 px-5 justify-between w-full text-left text-purple-900 bg-purple-100 dark:text-purple-100 dark:bg-purple-600 hover:bg-purple-200 dark:hover:bg-purple-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+              />
             </div>
             <div className="mb-6">
-              <UsersTable users={isMember} category="Members" />
+              <UsersTable
+                users={isMember}
+                category="Members"
+                buttonClass="flex font-medium text-xl py-4 px-5 justify-between w-full text-left text-green-900 bg-green-100 dark:text-green-100 dark:bg-green-600 hover:bg-green-200 dark:hover:bg-green-700 focus:outline-none focus-visible:ring focus-visible:ring-green-500 focus-visible:ring-opacity-75"
+              />
             </div>
             <div className="mb-6">
-              <UsersTable users={isRegistered} category="Pending" />
+              <UsersTable
+                users={isAdmin}
+                category="Admin"
+                buttonClass="flex font-medium text-xl py-4 px-5 justify-between w-full text-left text-purple-900 bg-purple-100 dark:text-purple-100 dark:bg-purple-600 hover:bg-purple-200 dark:hover:bg-purple-700 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+              />
             </div>
           </div>
         )}
