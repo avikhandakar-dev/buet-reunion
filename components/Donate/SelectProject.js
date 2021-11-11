@@ -11,6 +11,7 @@ const SelectProject = ({ project }) => {
     firestore
       .collection("projects")
       .where("published", "==", true)
+      .where("closed", "==", false)
       .orderBy("createdAt", "desc")
   );
   const [selectedProject, setSelectedProject] = useState(null);

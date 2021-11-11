@@ -3,6 +3,7 @@ import { getFundingProgress } from "@lib/healper";
 import Image from "next/image";
 import Link from "next/link";
 import date from "date-and-time";
+import { FaLock } from "react-icons/fa";
 
 const ProjectSingleHeader = ({ project }) => {
   const now = new Date();
@@ -20,6 +21,14 @@ const ProjectSingleHeader = ({ project }) => {
         <p className="text-2xl lg:text-3xl lg:leding-relaxed">
           {project.excerpt}
         </p>
+        {project.closed && (
+          <div className="flex justify-center items-center">
+            <FaLock className="block mt-1" />
+            <p className="text-yellow-500 ml-2 text-xl font-semibold mt-2">
+              Closed
+            </p>
+          </div>
+        )}
       </div>
       <div className="max-w-5xl mx-auto text-center relative">
         {project.coverImage && (

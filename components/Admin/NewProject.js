@@ -80,6 +80,7 @@ const NewProject = () => {
         coverImage,
         featured: isFeatured,
         published: isPublished,
+        closed: false,
         userId: user?.uid,
         userName: user?.displayName,
         userEmail: user.email,
