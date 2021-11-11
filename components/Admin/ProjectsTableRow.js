@@ -13,8 +13,10 @@ import { serverTimestampToString } from "@lib/healper";
 const ProjectsTableRow = ({ project }) => {
   const [isFeatured, setIsFeatured] = useState(project.featured || false);
   const [isPublished, setIsPublished] = useState(project.published || false);
+  const [isClosed, setIsClosed] = useState(project.closed || false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPubLoading, setPubIsLoading] = useState(false);
+  const [isCloLoading, setCloIsLoading] = useState(false);
   const [processFinished, setProcessFinished] = useState(false);
   const toggleFeatured = () => {
     setIsLoading(true);
@@ -57,6 +59,28 @@ const ProjectsTableRow = ({ project }) => {
       .catch((error) => {
         console.error("Error updating document: ", error);
         setPubIsLoading(false);
+        return toast.error("Failed!");
+      });
+  };
+  const toggleClosed = () => {
+    setCloIsLoading(true);
+    if (isCloLoading) {
+      return toast.error("Please wait!");
+    }
+    firestore
+      .collection("projects")
+      .doc(project.id)
+      .update({
+        closed: !isClosed,
+      })
+      .then(() => {
+        setCloIsLoading(false);
+        setIsClosed(!isClosed);
+        return toast.success("Success!");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+        setCloIsLoading(false);
         return toast.error("Failed!");
       });
   };
@@ -137,6 +161,14 @@ const ProjectsTableRow = ({ project }) => {
           onChange={togglePublished}
           size={60}
           isLoading={isPubLoading}
+        />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <Toggle
+          enabled={isClosed}
+          onChange={toggleClosed}
+          size={60}
+          isLoading={isCloLoading}
         />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">

@@ -31,7 +31,7 @@ const RegisterPage = () => {
   const [usernameIsValid, setUsernameIsValid] = useState(false);
   const [countryList, setCountryList] = useState(Country.getAllCountries());
   const [stateList, setStateList] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("US");
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
   const stateRef = useRef();
@@ -129,19 +129,19 @@ const RegisterPage = () => {
     }
   }, [username]);
 
-  useEffect(async () => {
-    const geoInfo = await fetchGetJSON("https://freegeoip.app/json/");
-    // const countryCode = geoInfo?.country_code || "US";
-    const countryCode = geoInfo?.country_code;
-    const regionName = geoInfo?.region_name;
-    if (countryCode && validCountries.includes(countryCode)) {
-      setSelectedCountry(countryCode);
-      setSelectedState(regionName);
-      setStateList(State.getStatesOfCountry(countryCode));
-    } else {
-      setStateList(State.getStatesOfCountry("US"));
-    }
-  }, []);
+  // useEffect(async () => {
+  //   const geoInfo = await fetchGetJSON("https://freegeoip.app/json/");
+  //   // const countryCode = geoInfo?.country_code || "US";
+  //   const countryCode = geoInfo?.country_code;
+  //   const regionName = geoInfo?.region_name;
+  //   if (countryCode && validCountries.includes(countryCode)) {
+  //     setSelectedCountry(countryCode);
+  //     setSelectedState(regionName);
+  //     setStateList(State.getStatesOfCountry(countryCode));
+  //   } else {
+  //     setStateList(State.getStatesOfCountry("US"));
+  //   }
+  // }, []);
 
   const checkUsername = useCallback(
     debounce(async (username) => {

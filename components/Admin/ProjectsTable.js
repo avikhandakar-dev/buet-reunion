@@ -63,6 +63,12 @@ const ProjectsTable = ({ projects }) => {
                           scope="col"
                           className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
                         >
+                          Closed
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
+                        >
                           Fundraise
                         </th>
                         <th
