@@ -51,7 +51,7 @@ const TotalUsersWidget = () => {
           Pending <span className="text-green-400">{isRegistered.length}</span>
         </p>
         <p className="text-gray-400 dark:text-gray-200">
-          Member <span className="text-green-400">{isMember.length}</span>
+          Members <span className="text-green-400">{isMember.length}</span>
         </p>
       </div>
     </div>
