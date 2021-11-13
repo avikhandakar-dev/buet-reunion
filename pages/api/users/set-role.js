@@ -1,6 +1,6 @@
 import admin from "@lib/firebaseAdmin";
 
-const superUser = [
+export const superUser = [
   "avikhandakar@gmail.com",
   "khmizan@yahoo.com",
   "shahnaz.afroz@gmail.com",

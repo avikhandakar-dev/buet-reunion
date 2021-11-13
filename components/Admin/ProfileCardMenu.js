@@ -7,34 +7,85 @@ import { IoTrashOutline } from "react-icons/io5";
 import { FaUser, FaUserAltSlash } from "react-icons/fa";
 import ConfirmModal from "@components/Confirm";
 import AuthContext from "@lib/authContext";
-import { fetchPostJSON } from "@lib/healper";
+import { fetchDeleteJSON, fetchPostJSON } from "@lib/healper";
 import toast from "react-hot-toast";
+import { deleteImage, firestore } from "@lib/firebase";
+import { useRouter } from "next/router";
 
 const ProfileCardMenu = ({ userRecord }) => {
   const { user } = useContext(AuthContext);
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [processFinished, setProcessFinished] = useState(false);
 
   const changeRole = async (role = "member", revoke = false) => {
-    setIsLoading(true);
-    setProcessFinished(false);
-    const token = await user?.getIdToken();
-    const response = await fetchPostJSON("/api/users/set-role", {
-      uid: userRecord.uid,
-      token: token,
-      role,
-      revoke,
+    const Request = async () => {
+      setIsLoading(true);
+      const token = await user?.getIdToken();
+      const response = await fetchPostJSON("/api/users/set-role", {
+        uid: userRecord.uid,
+        token: token,
+        role,
+        revoke,
+      });
+      if (response.statusCode === 200) {
+        setIsLoading(false);
+        setProcessFinished(true);
+        return response.message;
+      } else {
+        setIsLoading(false);
+        throw new Error(response.message);
+      }
+    };
+    toast.promise(Request(), {
+      loading: <b>Please wait...</b>,
+      success: (data) => <b>{data}</b>,
+      error: (err) => <b>{err.toString()}</b>,
     });
-    if (response.statusCode === 200) {
-      toast.success("Success!");
-      setIsLoading(false);
-      setProcessFinished(true);
-    } else {
-      toast.error(response.message);
-      setIsLoading(false);
-      setProcessFinished(true);
-    }
   };
+
+  const deleteUser = () => {
+    const Request = async () => {
+      setIsLoading(true);
+      const token = await user?.getIdToken();
+      const response = await fetchDeleteJSON("/api/users/delete", {
+        token,
+        uid: userRecord.uid,
+      });
+      if (response.statusCode === 200) {
+        const docRef = firestore.collection("users").doc(user.uid);
+        const snapData = await docRef.get();
+        const userData = snapData.data();
+        if (userData.avatar) {
+          try {
+            await deleteImage(userData.avatar);
+            await docRef.delete();
+          } catch (error) {}
+        }
+        setIsLoading(false);
+        setProcessFinished(true);
+        return response.message;
+      } else {
+        setIsLoading(false);
+        throw new Error(response.message);
+      }
+    };
+    toast.promise(Request(), {
+      loading: <b>Please wait...</b>,
+      success: (data) => <b>{data}</b>,
+      error: (err) => <b>{err.toString()}</b>,
+    });
+  };
+
+  useEffect(() => {
+    const unsubs = async () => {
+      if (processFinished) {
+        router.replace("/admin");
+      }
+    };
+    return unsubs();
+  }, [processFinished]);
+
   return (
     <Menu as="div" className="relative inline-block text-left mt-1">
       <Menu.Button className="text-2xl md:text-3xl text-pink-500">
@@ -170,8 +221,7 @@ const ProfileCardMenu = ({ userRecord }) => {
               )}
             </Menu.Item>
           )}
-
-          {/* <Menu.Item>
+          <Menu.Item>
             {({ active }) => (
               <ConfirmModal
                 body={`You want to delete ${userRecord.displayName}? This process cannot be undone.`}
@@ -186,13 +236,13 @@ const ProfileCardMenu = ({ userRecord }) => {
                   </button>
                 }
                 action={() => {
-                  true;
+                  deleteUser();
                 }}
                 isLoading={isLoading}
                 processFinished={processFinished}
               />
             )}
-          </Menu.Item> */}
+          </Menu.Item>
         </Menu.Items>
       </Transition>
     </Menu>
