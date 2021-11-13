@@ -17,8 +17,8 @@ const ProfileNav = () => {
     },
   ];
   return (
-    <div className=" absolute z-30 w-full">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <div className="fixed z-40 left-0 top-0 w-full h-20 bg-black bg-opacity-70 backdrop-filter backdrop-blur-lg backdrop-saturate-150 border-b border-gray-800">
+      <div className="w-full hidden px-16 h-full lg:flex justify-between items-center">
         <Link href="/">
           <a className="font-cursive mx-4 text-xl uppercase flex items-center space-x-2 text-white">
             <span className="">
