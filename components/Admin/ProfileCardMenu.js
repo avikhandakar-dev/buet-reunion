@@ -53,7 +53,7 @@ const ProfileCardMenu = ({ userRecord }) => {
         uid: userRecord.uid,
       });
       if (response.statusCode === 200) {
-        const docRef = firestore.collection("users").doc(user.uid);
+        const docRef = firestore.collection("users").doc(userRecord.uid);
         const snapData = await docRef.get();
         const userData = snapData.data();
         if (userData.avatar) {
