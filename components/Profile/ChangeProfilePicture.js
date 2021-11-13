@@ -1,5 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import AuthContext from "@lib/authContext";
+import { deleteImage, firestore, uploadImage } from "@lib/firebase";
+import { Fragment, useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { CgSpinner } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
 
@@ -8,11 +11,15 @@ const ChangeProfilePicture = ({
   buttonTitle,
   buttonIcon,
   openOnStart,
-  isLoading,
 }) => {
+  const { user } = useContext(AuthContext);
   let [isOpen, setIsOpen] = useState(openOnStart);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+
   function closeModal() {
-    if (!isLoading) {
+    if (!isLoading && !isRemoving) {
       setIsOpen(false);
     }
   }
@@ -20,6 +27,124 @@ const ChangeProfilePicture = ({
   function openModal() {
     setIsOpen(true);
   }
+
+  const handelFileChange = async (event) => {
+    const imageTypes = ["image/png", "image/jpeg"];
+    const selected = event.target.files[0];
+    if (selected && imageTypes.includes(selected.type)) {
+      setImageFile(selected);
+    } else {
+      setImageFile(null);
+      event.target.value = null;
+      toast.error("Please select an image file (png or jpeg)");
+    }
+  };
+
+  const deleteAvatar = async (noToast = false) => {
+    if (!noToast) {
+      setIsRemoving(true);
+    }
+    const docRef = firestore.collection("users").doc(user.uid);
+    const snapData = await docRef.get();
+    const userData = snapData.data();
+    if (userData.avatar) {
+      try {
+        const deleteImageRes = await deleteImage(userData.avatar);
+        await user.updateProfile({
+          photoURL: null,
+        });
+        await firestore.collection("users").doc(user.uid).update({
+          avatar: null,
+        });
+        if (!noToast) {
+          toast.success("Profile picture removed!");
+          setIsRemoving(false);
+          closeModal();
+        }
+      } catch (error) {
+        if (!noToast) {
+          toast.error("Error removing profile picture!");
+          setIsRemoving(false);
+        }
+      }
+    } else {
+      setIsRemoving(false);
+      if (!noToast) {
+        toast.success("Profile picture removed!");
+        closeModal();
+      }
+    }
+  };
+
+  async function updateAvatar() {
+    if (!user) {
+      return false;
+    }
+    if (!imageFile) {
+      return false;
+    }
+    await deleteAvatar(true);
+    const {
+      oriPath,
+      oriDownloadUrl,
+      thumbPath,
+      thumbDownloadUrl,
+      loaderPath,
+      loaderDownloadUrl,
+      fileName,
+    } = await uploadImage({
+      file: imageFile,
+      folder: `avatar/${user.uid}`,
+      format: "JPEG",
+    });
+    if (
+      !oriPath ||
+      !oriDownloadUrl ||
+      !thumbPath ||
+      !thumbDownloadUrl ||
+      !loaderPath ||
+      !loaderDownloadUrl ||
+      !fileName
+    ) {
+      return false;
+    }
+    try {
+      await user.updateProfile({
+        photoURL: thumbDownloadUrl,
+      });
+      await firestore.collection("users").doc(user.uid).update({
+        avatar: {
+          oriPath,
+          oriDownloadUrl,
+          thumbPath,
+          thumbDownloadUrl,
+          loaderPath,
+          loaderDownloadUrl,
+        },
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    const unsubs = async () => {
+      if (imageFile) {
+        setIsLoading(true);
+        const res = await updateAvatar();
+        if (res) {
+          toast.success("Successfully updated profile picture!");
+          setImageFile(null);
+        } else {
+          toast.error("Server error! Can't change profile picture!");
+        }
+        setIsLoading(false);
+        closeModal();
+      }
+    };
+    return unsubs();
+  }, [imageFile]);
 
   return (
     <>
@@ -80,28 +205,35 @@ const ChangeProfilePicture = ({
                   </a>
                 </Dialog.Title>
                 <div className="flex flex-col justify-center divide-y divide-gray-200 dark:divide-gray-700">
+                  <label className="cursor-pointer">
+                    <a
+                      disabled={isLoading}
+                      type="button"
+                      onClick={() => null}
+                      className="block w-full text-center py-3 text-sm font-semibold text-primary bg-transparent duration-300 hover:text-sky"
+                    >
+                      {isLoading ? (
+                        <span className="text-xl flex justify-center items-center animate-spin text-primary">
+                          <CgSpinner />
+                        </span>
+                      ) : (
+                        "Upload Picture"
+                      )}
+                    </a>
+                    <input
+                      onChange={(event) => handelFileChange(event)}
+                      type="file"
+                      className="hidden"
+                    />
+                  </label>
                   <button
-                    disabled={isLoading}
+                    disabled={isRemoving}
                     type="button"
-                    onClick={() => null}
-                    className="block text-center py-3 text-sm font-semibold text-primary bg-transparent duration-300 hover:text-sky"
-                  >
-                    {isLoading ? (
-                      <span className="block text-sm animate-spin text-primary">
-                        <CgSpinner />
-                      </span>
-                    ) : (
-                      "Upload Picture"
-                    )}
-                  </button>
-                  <button
-                    disabled={isLoading}
-                    type="button"
-                    onClick={() => null}
+                    onClick={() => deleteAvatar()}
                     className="block text-center py-3 text-sm font-semibold text-red-500 bg-transparent duration-300 hover:text-red-400"
                   >
-                    {isLoading ? (
-                      <span className="block text-sm animate-spin text-red-500">
+                    {isRemoving ? (
+                      <span className="text-xl flex justify-center items-center animate-spin text-red-500">
                         <CgSpinner />
                       </span>
                     ) : (
@@ -109,7 +241,7 @@ const ChangeProfilePicture = ({
                     )}
                   </button>
                   <button
-                    disabled={isLoading}
+                    disabled={isLoading || isRemoving}
                     type="button"
                     className="block text-center py-3 text-sm font-medium bg-transparent focus:outline-none"
                     onClick={() => {

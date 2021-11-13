@@ -79,7 +79,10 @@ const UserInfoForm = ({ userData }) => {
           </div>
           <div className="col-span-9">
             <p>{user?.displayName}</p>
-            <ChangeProfilePicture className="cursor-pointer font-semibold text-primary text-sm duration-300 hover:text-sky" />
+            <ChangeProfilePicture
+              uid={user?.uid}
+              className="cursor-pointer font-semibold text-primary text-sm duration-300 hover:text-sky"
+            />
           </div>
         </div>
         <div className="sm:grid grid-cols-12 gap-8">
