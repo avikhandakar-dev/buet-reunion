@@ -69,7 +69,7 @@ const UserInfoForm = ({ userData }) => {
 
   return (
     <form className="lg:-mt-8" onSubmit={handelSubmit}>
-      <div className="pl-6 mt-4 flex flex-col space-y-4">
+      <div className="mt-4 flex flex-col space-y-4">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-3 text-right">
             <Avatar
