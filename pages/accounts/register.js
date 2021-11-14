@@ -192,190 +192,238 @@ const RegisterPage = () => {
                 </p>
               </a>
             </Link>
-            <form
-              onSubmit={onSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            >
-              <div className="block">
-                <input
-                  onChange={(event) => {
-                    setName(event.target.value);
-                  }}
-                  autoComplete="off"
-                  value={name}
-                  required
-                  type="text"
-                  name="name"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Full Name"
-                />
-              </div>
-              <div className="block">
-                <input
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                  }}
-                  autoComplete="off"
-                  value={email}
-                  name="email"
-                  required
-                  type="email"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Email"
-                />
-              </div>
-              <div className="block">
-                <input
-                  onChange={(event) => {
-                    setPhone(event.target.value);
-                  }}
-                  autoComplete="off"
-                  value={phone}
-                  required
-                  type="tel"
-                  name="phone"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Phone Number"
-                />
-              </div>
-              <div className="block">
-                <select
-                  className="block rounded invalid:text-gray-500 w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  required
-                  name="country"
-                  onChange={(event) => {
-                    setSelectedCountry(event.target.value);
-                    setStateList(State.getStatesOfCountry(event.target.value));
-                    setSelectedState(null);
-                    if (selectedCountry != "MX") {
-                      stateRef.current.selectedIndex = 0;
-                    }
-                  }}
-                >
-                  <option disabled value="" selected={!selectedCountry}>
-                    Country
-                  </option>
-                  {countryList?.map(
-                    (country) =>
-                      validCountries.includes(country.isoCode) && (
-                        <option
-                          selected={country.isoCode == selectedCountry}
-                          value={country.isoCode}
-                        >
-                          {country.name}
-                        </option>
-                      )
-                  )}
-                </select>
-              </div>
-              {selectedCountry != "MX" && (
-                <div className="block">
-                  <select
-                    className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                    required
-                    ref={stateRef}
-                    name="state"
-                    onChange={(event) => {
-                      setSelectedState(event.target.value);
-                    }}
-                  >
-                    <option disabled value="" selected={!selectedState}>
-                      State/Province
-                    </option>
-                    {stateList.map((state) => (
-                      <option
-                        selected={state.name == selectedState}
-                        value={state.name}
-                      >
-                        {state.name.replace("District", "")}
+            <form className="flex flex-col space-y-6" onSubmit={onSubmit}>
+              <section>
+                <h4 className="font-semibold mb-2">Personal Info</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="block">
+                    <input
+                      onChange={(event) => {
+                        setName(event.target.value);
+                      }}
+                      autoComplete="off"
+                      value={name}
+                      required
+                      type="text"
+                      name="name"
+                      className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      placeholder="Full Name"
+                    />
+                  </div>
+                  <div className="block">
+                    <input
+                      onChange={(event) => {
+                        setPhone(event.target.value);
+                      }}
+                      autoComplete="off"
+                      value={phone}
+                      required
+                      type="tel"
+                      name="phone"
+                      className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      placeholder="Phone Number"
+                    />
+                  </div>
+                  <div className="block">
+                    <select
+                      className="block rounded invalid:text-gray-500 w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      required
+                      name="country"
+                      onChange={(event) => {
+                        setSelectedCountry(event.target.value);
+                        setStateList(
+                          State.getStatesOfCountry(event.target.value)
+                        );
+                        setSelectedState(null);
+                        if (selectedCountry != "MX") {
+                          stateRef.current.selectedIndex = 0;
+                        }
+                      }}
+                    >
+                      <option disabled value="" selected={!selectedCountry}>
+                        Country
                       </option>
-                    ))}
-                  </select>
+                      {countryList?.map(
+                        (country) =>
+                          validCountries.includes(country.isoCode) && (
+                            <option
+                              selected={country.isoCode == selectedCountry}
+                              value={country.isoCode}
+                            >
+                              {country.name}
+                            </option>
+                          )
+                      )}
+                    </select>
+                  </div>
+                  {selectedCountry != "MX" && (
+                    <div className="block">
+                      <select
+                        className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                        required
+                        ref={stateRef}
+                        name="state"
+                        onChange={(event) => {
+                          setSelectedState(event.target.value);
+                        }}
+                      >
+                        <option disabled value="" selected={!selectedState}>
+                          State/Province
+                        </option>
+                        {stateList.map((state) => (
+                          <option
+                            selected={state.name == selectedState}
+                            value={state.name}
+                          >
+                            {state.name.replace("District", "")}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
-              )}
-              <div className="block">
-                <div className="flex items-center space-x-2">
-                  <select
-                    className="block flex-1 invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                    required
-                    name="class"
-                    onChange={(event) => {
-                      setSelectedClass(event.target.value);
-                    }}
-                  >
-                    {/* <option disabled value="">
+              </section>
+
+              <section>
+                <h4 className="font-semibold mb-2">Study</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="block">
+                    <div className="flex items-center space-x-2">
+                      <select
+                        className="block flex-1 invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                        required
+                        name="class"
+                        onChange={(event) => {
+                          setSelectedClass(event.target.value);
+                        }}
+                      >
+                        {/* <option disabled value="">
                       Actual Class Begins at BUET
                     </option> */}
-                    <option value="1989">Class started in 1989</option>
-                    <option value="1990">Class started in 1990</option>
-                    <option selected value="1991">
-                      Class started in 1991
-                    </option>
-                  </select>
-                  <Popover className="relative">
-                    <Popover.Button className="text-2xl text-green-500 duration-300 hover:text-green-400">
-                      <MdHelp />
-                    </Popover.Button>
-                    <Popover.Panel className="absolute min-w-[370px] shadow-md p-4 rounded-md left-0 translate-x-[-90%] z-10 bg-green-50">
-                      <div className="flex flex-col ">
-                        <p className="text-xs text-green-900 font-semibold">
-                          Ex. 1991 - For HSC batch ‘89, class started on May 18,
-                          1991
-                        </p>
-                      </div>
-                    </Popover.Panel>
-                  </Popover>
-                </div>
-              </div>
-              <div className="block">
-                <select
-                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  required
-                  name="department"
-                  onChange={(event) => {
-                    setDepartment(event.target.value);
-                  }}
-                >
-                  <option disabled value="" selected>
-                    Buet Department
-                  </option>
-                  <option value="Arch">Arch</option>
-                  <option value="ChE">ChE</option>
-                  <option value="CE">CE</option>
-                  <option value="CSE">CSE</option>
-                  <option value="EE">EE</option>
-                  <option value="ME">ME</option>
-                  <option value="NAME">NAME</option>
-                  <option value="MET">MET</option>
-                </select>
-              </div>
+                        <option value="1989">Class started in 1989</option>
+                        <option value="1990">Class started in 1990</option>
+                        <option selected value="1991">
+                          Class started in 1991
+                        </option>
+                      </select>
+                      <Popover className="relative">
+                        <Popover.Button className="text-2xl text-green-500 duration-300 hover:text-green-400">
+                          <MdHelp />
+                        </Popover.Button>
+                        <Popover.Panel className="absolute min-w-[370px] shadow-md p-4 rounded-md left-0 translate-x-[-90%] z-10 bg-green-50">
+                          <div className="flex flex-col ">
+                            <p className="text-xs text-green-900 font-semibold">
+                              Ex. 1991 - For HSC batch ‘89, class started on May
+                              18, 1991
+                            </p>
+                          </div>
+                        </Popover.Panel>
+                      </Popover>
+                    </div>
+                  </div>
+                  <div className="block">
+                    <select
+                      className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      required
+                      name="department"
+                      onChange={(event) => {
+                        setDepartment(event.target.value);
+                      }}
+                    >
+                      <option disabled value="" selected>
+                        Buet Department
+                      </option>
+                      <option value="Arch">Arch</option>
+                      <option value="ChE">ChE</option>
+                      <option value="CE">CE</option>
+                      <option value="CSE">CSE</option>
+                      <option value="EE">EE</option>
+                      <option value="ME">ME</option>
+                      <option value="NAME">NAME</option>
+                      <option value="MET">MET</option>
+                    </select>
+                  </div>
 
-              <div className="block">
-                <select
-                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  required
-                  name="hall"
-                  onChange={(event) => {
-                    setHall(event.target.value);
-                  }}
-                >
-                  <option disabled value="" selected>
-                    Buet Hall
-                  </option>
-                  <option value="Ahsanullah Hall">Ahsanullah Hall</option>
-                  <option value="Titumir Hall">Titumir Hall</option>
-                  <option value="Chatri Hall">Chatri Hall</option>
-                  <option value="Dr. M. A. Rashid Hall">
-                    Dr. M. A. Rashid Hall
-                  </option>
-                  <option value="Kazi Nazrul Islam Hall">
-                    Kazi Nazrul Islam Hall
-                  </option>
-                  <option value="Sher-e-Bangla Hall">Sher-e-Bangla Hall</option>
-                  <option value="Suhrawardy Hall">Suhrawardy Hall</option>
-                  <option value="Shahid Smriti Hall">Shahid Smriti Hall</option>
-                </select>
-              </div>
+                  <div className="block">
+                    <select
+                      className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      required
+                      name="hall"
+                      onChange={(event) => {
+                        setHall(event.target.value);
+                      }}
+                    >
+                      <option disabled value="" selected>
+                        Buet Hall
+                      </option>
+                      <option value="Ahsanullah Hall">Ahsanullah Hall</option>
+                      <option value="Titumir Hall">Titumir Hall</option>
+                      <option value="Chatri Hall">Chatri Hall</option>
+                      <option value="Dr. M. A. Rashid Hall">
+                        Dr. M. A. Rashid Hall
+                      </option>
+                      <option value="Kazi Nazrul Islam Hall">
+                        Kazi Nazrul Islam Hall
+                      </option>
+                      <option value="Sher-e-Bangla Hall">
+                        Sher-e-Bangla Hall
+                      </option>
+                      <option value="Suhrawardy Hall">Suhrawardy Hall</option>
+                      <option value="Shahid Smriti Hall">
+                        Shahid Smriti Hall
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <h4 className="font-semibold mb-2">Account Info</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="block">
+                    <input
+                      onChange={(event) => {
+                        setEmail(event.target.value);
+                      }}
+                      autoComplete="off"
+                      value={email}
+                      name="email"
+                      required
+                      type="email"
+                      className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div className="block">
+                    <input
+                      onChange={(event) => {
+                        setPassword(event.target.value);
+                      }}
+                      autoComplete="off"
+                      value={password}
+                      required
+                      type="password"
+                      name="password"
+                      className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      placeholder="Password"
+                    />
+                  </div>
+                  <div className="block">
+                    <input
+                      onChange={(event) => {
+                        setConPassword(event.target.value);
+                      }}
+                      value={conPassword}
+                      autoComplete="off"
+                      required
+                      type="password"
+                      name="confirm-password"
+                      className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                      placeholder="Confirm Password"
+                    />
+                  </div>
+                </div>
+              </section>
 
               {/* <div className="block">
                 <input
@@ -393,34 +441,7 @@ const RegisterPage = () => {
                   loading={usernameIsChecking}
                 />
               </div> */}
-              <div className="block">
-                <input
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
-                  autoComplete="off"
-                  value={password}
-                  required
-                  type="password"
-                  name="password"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Password"
-                />
-              </div>
-              <div className="block">
-                <input
-                  onChange={(event) => {
-                    setConPassword(event.target.value);
-                  }}
-                  value={conPassword}
-                  autoComplete="off"
-                  required
-                  type="password"
-                  name="confirm-password"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Confirm Password"
-                />
-              </div>
+
               <button
                 disabled={isLoading}
                 type="submit"
