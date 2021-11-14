@@ -306,10 +306,10 @@ const RegisterPage = () => {
                     {/* <option disabled value="">
                       Actual Class Begins at BUET
                     </option> */}
-                    <option value="1989">Class started on - 1989</option>
-                    <option value="1990">Class started on - 1990</option>
+                    <option value="1989">Class started in 1989</option>
+                    <option value="1990">Class started in 1990</option>
                     <option selected value="1991">
-                      Class started on - 1991
+                      Class started in 1991
                     </option>
                   </select>
                   <Popover className="relative">
@@ -319,15 +319,7 @@ const RegisterPage = () => {
                     <Popover.Panel className="absolute min-w-[370px] shadow-md p-4 rounded-md left-0 translate-x-[-90%] z-10 bg-green-50">
                       <div className="flex flex-col ">
                         <p className="text-xs text-green-900 font-semibold">
-                          1989 - For HSC batch ‘87, class started on May 18,
-                          1989
-                        </p>
-                        <p className="text-xs text-green-900 font-semibold">
-                          1990 - For HSC batch ‘88, class started on May 18,
-                          1990
-                        </p>
-                        <p className="text-xs text-green-900 font-semibold">
-                          1991 - For HSC batch ‘89, class started on May 18,
+                          Ex. 1991 - For HSC batch ‘89, class started on May 18,
                           1991
                         </p>
                       </div>
