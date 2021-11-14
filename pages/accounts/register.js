@@ -14,6 +14,8 @@ import {
 } from "@lib/firebase";
 import { fetchGetJSON } from "@lib/healper";
 import toast from "react-hot-toast";
+import { MdHelp } from "react-icons/md";
+import { Popover } from "@headlessui/react";
 
 const validCountries = ["US", "CA", "MX"];
 const RegisterPage = () => {
@@ -33,7 +35,7 @@ const RegisterPage = () => {
   const [stateList, setStateList] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
-  const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedClass, setSelectedClass] = useState("1991");
   const stateRef = useRef();
   const restrictedName = ["admin", "api"];
 
@@ -197,20 +199,6 @@ const RegisterPage = () => {
               <div className="block">
                 <input
                   onChange={(event) => {
-                    setEmail(event.target.value);
-                  }}
-                  autoComplete="off"
-                  value={email}
-                  name="email"
-                  required
-                  type="email"
-                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  placeholder="Email"
-                />
-              </div>
-              <div className="block">
-                <input
-                  onChange={(event) => {
                     setName(event.target.value);
                   }}
                   autoComplete="off"
@@ -220,6 +208,20 @@ const RegisterPage = () => {
                   name="name"
                   className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
                   placeholder="Full Name"
+                />
+              </div>
+              <div className="block">
+                <input
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                  }}
+                  autoComplete="off"
+                  value={email}
+                  name="email"
+                  required
+                  type="email"
+                  className="block rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                  placeholder="Email"
                 />
               </div>
               <div className="block">
@@ -292,21 +294,46 @@ const RegisterPage = () => {
                 </div>
               )}
               <div className="block">
-                <select
-                  className="block invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
-                  required
-                  name="class"
-                  onChange={(event) => {
-                    setSelectedClass(event.target.value);
-                  }}
-                >
-                  <option disabled value="" selected>
-                    Actual Class Begins at BUET
-                  </option>
-                  <option value="1989">1989</option>
-                  <option value="1990">1990</option>
-                  <option value="1991">1991</option>
-                </select>
+                <div className="flex items-center space-x-2">
+                  <select
+                    className="block flex-1 invalid:text-gray-500 rounded w-full border bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm"
+                    required
+                    name="class"
+                    onChange={(event) => {
+                      setSelectedClass(event.target.value);
+                    }}
+                  >
+                    {/* <option disabled value="">
+                      Actual Class Begins at BUET
+                    </option> */}
+                    <option value="1989">Class started on - 1989</option>
+                    <option value="1990">Class started on - 1990</option>
+                    <option selected value="1991">
+                      Class started on - 1991
+                    </option>
+                  </select>
+                  <Popover className="relative">
+                    <Popover.Button className="text-2xl text-green-500 duration-300 hover:text-green-400">
+                      <MdHelp />
+                    </Popover.Button>
+                    <Popover.Panel className="absolute min-w-[370px] shadow-md p-4 rounded-md left-0 translate-x-[-90%] z-10 bg-green-50">
+                      <div className="flex flex-col ">
+                        <p className="text-xs text-green-900 font-semibold">
+                          1989 - For HSC batch ‘87, class started on May 18,
+                          1989
+                        </p>
+                        <p className="text-xs text-green-900 font-semibold">
+                          1990 - For HSC batch ‘88, class started on May 18,
+                          1990
+                        </p>
+                        <p className="text-xs text-green-900 font-semibold">
+                          1991 - For HSC batch ‘89, class started on May 18,
+                          1991
+                        </p>
+                      </div>
+                    </Popover.Panel>
+                  </Popover>
+                </div>
               </div>
               <div className="block">
                 <select
