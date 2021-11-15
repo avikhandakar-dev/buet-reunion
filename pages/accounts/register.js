@@ -285,7 +285,7 @@ const RegisterPage = () => {
               </section>
 
               <section>
-                <h4 className="font-semibold mb-2">Study</h4>
+                <h4 className="font-semibold mb-2">BUET Info</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="block">
                     <div className="flex items-center space-x-2">
