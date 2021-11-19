@@ -1,7 +1,7 @@
 import Container from "@components/Container";
 import LoadingScreen from "@components/LoadingScreen";
 import AuthContext from "@lib/authContext";
-import { fetchPostJSON } from "@lib/healper";
+import { fetchPostJSON, sleep } from "@lib/healper";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BiFilter, BiSortDown } from "react-icons/bi";
@@ -10,11 +10,14 @@ import { FaGlobeAmericas, FaUserCircle } from "react-icons/fa";
 import { AiFillPicture } from "react-icons/ai";
 import { MdSchool } from "react-icons/md";
 import MemberCard from "@components/MemberCard";
+import AccessDenied from "@components/AccessDenied";
+import { auth } from "@lib/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const MembersArea = () => {
   const [members, setMembers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const [user, userIsLoading] = useAuthState(auth);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("date");
   const [direction, setDirection] = useState("asc");
@@ -122,16 +125,24 @@ const MembersArea = () => {
         );
         if (response.statusCode === 200) {
           setMembers(response.data);
+          setIsLoading(false);
         } else {
+          setIsLoading(false);
+        }
+      } else {
+        if (!userIsLoading) {
+          setIsLoading(false);
         }
       }
-      setIsLoading(false);
     };
     return unsubs();
-  }, [user]);
+  }, [user, userIsLoading]);
 
   if (isLoading) {
     return <LoadingScreen />;
+  }
+  if (!isLoading && !members.length) {
+    return <AccessDenied />;
   }
   return (
     <Container maxWidth="max-w-6xl mt-16">
