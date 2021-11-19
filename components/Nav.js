@@ -48,6 +48,11 @@ const Nav = () => {
             </ActiveLink>
           </span>
           <span className="mx-4">
+            <ActiveLink activeClassName="text-primary" href="/members">
+              <a>Members</a>
+            </ActiveLink>
+          </span>
+          <span className="mx-4">
             <ActiveLink activeClassName="text-primary" href="/contact">
               <a>Contact</a>
             </ActiveLink>

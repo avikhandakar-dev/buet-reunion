@@ -26,7 +26,9 @@ function MyApp({ Component, pageProps, router }) {
                 showOnShallow={true}
                 options={{ showSpinner: false }}
               />
-              <Component {...pageProps} />
+              <main className="min-h-screen">
+                <Component {...pageProps} />
+              </main>
               <Toaster />
             </Layout>
           </AnimatePresence>

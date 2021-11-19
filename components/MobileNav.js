@@ -83,6 +83,13 @@ const MobileNav = () => {
                   </ActiveLink>
                 </span>
                 <span className="text-2xl uppercase font-black">
+                  <ActiveLink activeClassName="text-primary" href="/members">
+                    <a className="duration-300 hover:text-primary w-full block">
+                      Members
+                    </a>
+                  </ActiveLink>
+                </span>
+                <span className="text-2xl uppercase font-black">
                   <ActiveLink activeClassName="text-primary" href="/about">
                     <a className="duration-300 hover:text-primary w-full block">
                       About Us
