@@ -10,7 +10,7 @@ const PostContent = ({ post }) => {
   const { asPath } = useRouter();
   return (
     <Container>
-      <div className="max-w-3xl relative mx-auto -mt-16 lg:-mt-8 text-xl lg:px-4 prose lg:prose-xl dark:prose-dark prose-green first-letter:text-primary first-letter:font-extrabold first-letter:text-5xl lg:first-letter:text-6xl first-letter:float-left first-letter:pr-2 lg:first-letter:mt-1.5 first-letter:mt-0.5">
+      <div className="max-w-3xl text-lg relative mx-auto -mt-16 lg:-mt-8 lg:px-4 prose dark:prose-dark prose-green first-letter:text-primary first-letter:font-extrabold first-letter:text-5xl first-letter:float-left first-letter:pr-2 first-letter:mt-0.5">
         <ReactMarkdown children={post.text} remarkPlugins={[remarkGfm]} />
         <Share url={asPath} title={post.title} author={post.authorName} />
       </div>

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import Image from "next/image";
 import ConfirmModal from "@components/Confirm";
+import { Truncate } from "@lib/healper";
 
 const PostsTableRow = ({ post }) => {
   const [isFeatured, setIsFeatured] = useState(post.featured || false);
@@ -100,7 +101,7 @@ const PostsTableRow = ({ post }) => {
           </div>
           <div className="ml-4">
             <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              {post.title}
+              {Truncate(post.title, 50)}
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
               {/* {post.createdAt} */}

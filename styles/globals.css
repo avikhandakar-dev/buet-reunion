@@ -189,3 +189,9 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Fix mdx */
+.prose p {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
