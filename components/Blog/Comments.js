@@ -28,7 +28,7 @@ const Comments = ({ post }) => {
           </div>
         </>
       )}
-      {!loading && comments.length && <ListComments comments={comments} />}
+      {!loading && comments.length > 0 && <ListComments comments={comments} />}
     </div>
   );
 };

@@ -49,7 +49,7 @@ const ResultsSidebar = ({ poll }) => {
         </h1>
         {poll.voters?.sort().map((voter, idx) => (
           <p
-            className={`px-3 py-1 rounded-full bg-purple-600 text-xs font-semibold mr-2 mb-2 inline-block ${
+            className={`px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 inline-block ${
               Colors[idx % Colors.length]
             }`}
           >
