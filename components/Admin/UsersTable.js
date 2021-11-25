@@ -6,6 +6,8 @@ import { FaChevronUp } from "react-icons/fa";
 import { useState } from "react";
 import Pagination from "@components/Pagination";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
+import { CSVLink } from "react-csv";
+import { TiExportOutline } from "react-icons/ti";
 
 const orderBy = (data, value, direction) => {
   if (direction === "asc") {
@@ -66,10 +68,26 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
   const paginateFirst = () => setCurrentPage(1);
   const paginateLast = () => setCurrentPage(totalPage);
 
+  const CSVData = users.map((user) => {
+    const {
+      uid,
+      disabled,
+      metadata,
+      passwordHash,
+      passwordSalt,
+      customClaims,
+      tokensValidAfterTime,
+      providerData,
+      emailVerified,
+      photoURL,
+      ...filteredObj
+    } = user;
+    return filteredObj;
+  });
   return (
     <>
       {users.length > 0 && (
-        <div className="flex flex-col">
+        <div className="flex flex-col relative">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 dark:border-gray-800 rounded-md">
@@ -199,6 +217,16 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                           />
                         </Disclosure.Panel>
                       </Transition>
+                      {category == "Members" && open && (
+                        <div className="flex justify-center items-center py-2 border-2 border-gray-100 dark:border-gray-600">
+                          <CSVLink filename={`${category}.csv`} data={CSVData}>
+                            <button className="font-medium duration-300 flex items-center space-x-2 hover:text-primary">
+                              Export CSV
+                              <TiExportOutline className="text-xl" />
+                            </button>
+                          </CSVLink>
+                        </div>
+                      )}
                     </>
                   )}
                 </Disclosure>
