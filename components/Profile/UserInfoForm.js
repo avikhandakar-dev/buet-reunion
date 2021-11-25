@@ -7,6 +7,8 @@ import { CgSpinner } from "react-icons/cg";
 import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import ChangeProfilePicture from "./ChangeProfilePicture";
+import Toggle from "@components/Toggle";
+import { useRouter } from "next/router";
 
 const validCountries = ["US", "CA", "MX"];
 const UserInfoForm = ({ userData }) => {
@@ -18,6 +20,8 @@ const UserInfoForm = ({ userData }) => {
   );
   const [bio, setBio] = useState(userData.bio || "");
   const [phone, setPhone] = useState(userData.phone || "");
+  const [shareEmail, setShareEmail] = useState(userData.shareEmail || false);
+  const [sharePhone, setSharePhone] = useState(userData.sharePhone || false);
   const [hall, setHall] = useState(userData.hall || "");
   const [department, setDepartment] = useState(userData.department || "");
   const [countryList, setCountryList] = useState(Country.getAllCountries());
@@ -31,7 +35,54 @@ const UserInfoForm = ({ userData }) => {
   const [selectedClass, setSelectedClass] = useState(userData.CBB || null);
   const stateRef = useRef();
   const [dataChange, setDataChange] = useState(false);
+  const [phoneShareLoading, setPhoneShareLoading] = useState(false);
+  const [emailShareLoading, setEmailShareLoading] = useState(false);
+  const router = useRouter();
 
+  const toggleSharePhone = () => {
+    setPhoneShareLoading(true);
+    if (phoneShareLoading) {
+      return toast.error("Please wait!");
+    }
+    firestore
+      .collection("users")
+      .doc(user?.uid)
+      .update({
+        sharePhone: !sharePhone,
+      })
+      .then(() => {
+        setPhoneShareLoading(false);
+        setSharePhone(!sharePhone);
+        return toast.success("Success!");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+        setPhoneShareLoading(false);
+        return toast.error("Failed!");
+      });
+  };
+  const toggleShareEmail = () => {
+    setEmailShareLoading(true);
+    if (emailShareLoading) {
+      return toast.error("Please wait!");
+    }
+    firestore
+      .collection("users")
+      .doc(user?.uid)
+      .update({
+        shareEmail: !shareEmail,
+      })
+      .then(() => {
+        setEmailShareLoading(false);
+        setShareEmail(!sharePhone);
+        return toast.success("Success!");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+        setEmailShareLoading(false);
+        return toast.error("Failed!");
+      });
+  };
   const handelSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -59,6 +110,7 @@ const UserInfoForm = ({ userData }) => {
         CBB: selectedClass,
         bio: bio,
       });
+      router.push("/accounts/profile");
     } catch (error) {
       setIsLoading(false);
       return toast.error(error.message);
@@ -105,29 +157,51 @@ const UserInfoForm = ({ userData }) => {
           <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Phone<span className="text-sm align-top">*</span>
           </div>
-          <input
-            onChange={(event) => {
-              setPhone(event.target.value);
-              setDataChange(true);
-            }}
-            value={phone}
-            required
-            type="tel"
-            name="phone"
-            className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
-          />
+          <div className="flex space-x-4 items-center w-full col-span-9">
+            <input
+              onChange={(event) => {
+                setPhone(event.target.value);
+                setDataChange(true);
+              }}
+              value={phone}
+              required
+              type="tel"
+              name="phone"
+              className="block flex-1 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+            />
+            <div className="flex items-center space-x-2">
+              <p>Share </p>
+              <Toggle
+                enabled={sharePhone}
+                onChange={toggleSharePhone}
+                size={60}
+                isLoading={phoneShareLoading}
+              />
+            </div>
+          </div>
         </div>
         <div className="sm:grid grid-cols-12 gap-8">
           <div className="mb-1 sm:mb-0 col-span-3 sm:text-right">
             Email Address
           </div>
-          <input
-            value={email}
-            name="email"
-            readonly
-            type="email"
-            className="block col-span-9 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
-          />
+          <div className="flex space-x-4 items-center w-full col-span-9">
+            <input
+              value={email}
+              name="email"
+              readonly
+              type="email"
+              className="block dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
+            />
+            <div className="flex items-center space-x-2">
+              <p>Share </p>
+              <Toggle
+                enabled={shareEmail}
+                onChange={toggleShareEmail}
+                size={60}
+                isLoading={emailShareLoading}
+              />
+            </div>
+          </div>
         </div>
         <div className="sm:grid grid-cols-12 gap-8">
           <div className="mb-1 sm:mb-0 col-span-3 sm:text-right"></div>

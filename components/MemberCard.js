@@ -1,6 +1,6 @@
 import { Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { AiFillPicture } from "react-icons/ai";
+import { AiFillPicture, AiOutlineMail } from "react-icons/ai";
 import Image from "next/image";
 import { IoCloseOutline } from "react-icons/io5";
 import { FiMapPin, FiSmartphone } from "react-icons/fi";
@@ -8,6 +8,7 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { BsBuilding } from "react-icons/bs";
 import { VscSymbolClass } from "react-icons/vsc";
 import { GoQuote } from "react-icons/go";
+import { serverTimestampToString } from "@lib/healper";
 
 const MemberCard = ({ member, isModalShow, close }) => {
   return (
@@ -72,7 +73,10 @@ const MemberCard = ({ member, isModalShow, close }) => {
                       {member.authData.displayName}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
-                      {member.authData.email}
+                      Join Date :{" "}
+                      {serverTimestampToString(
+                        member.authData.metadata.creationTime
+                      )}
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-3 max-w-3xl gap-4 text-gray-700 dark:text-gray-400 py-8">
                       <div className="flex space-x-2 mr-12 mb-4">
@@ -89,20 +93,37 @@ const MemberCard = ({ member, isModalShow, close }) => {
                           </p>
                         </div>
                       </div>
+                      {member.profile?.shareEmail && (
+                        <div className="flex space-x-2 mr-12 mb-4">
+                          <div className="flex-shrink-0 text-white w-10 h-10 text-xl flex justify-center items-center bg-yellow-500 rounded-full">
+                            <AiOutlineMail />
+                          </div>
+                          <div className="text-left">
+                            <p className="uppercase text-gray-400 dark:text-gray-200 font-semibold text-sm">
+                              Email
+                            </p>
+                            <p className="text-black dark:text-white text-sm">
+                              {member.authData.email}
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
-                      <div className="flex space-x-2 mr-12 mb-4">
-                        <div className="flex-shrink-0 text-white w-10 h-10 text-xl flex justify-center items-center bg-yellow-500 rounded-full">
-                          <FiSmartphone />
+                      {member.profile?.sharePhone && (
+                        <div className="flex space-x-2 mr-12 mb-4">
+                          <div className="flex-shrink-0 text-white w-10 h-10 text-xl flex justify-center items-center bg-yellow-500 rounded-full">
+                            <FiSmartphone />
+                          </div>
+                          <div className="text-left">
+                            <p className="uppercase text-gray-400 dark:text-gray-200 font-semibold text-sm">
+                              Phone
+                            </p>
+                            <p className="text-black dark:text-white text-sm">
+                              {member.profile?.phone || "Unknown"}
+                            </p>
+                          </div>
                         </div>
-                        <div className="text-left">
-                          <p className="uppercase text-gray-400 dark:text-gray-200 font-semibold text-sm">
-                            Phone
-                          </p>
-                          <p className="text-black dark:text-white text-sm">
-                            {member.profile?.phone || "Unknown"}
-                          </p>
-                        </div>
-                      </div>
+                      )}
 
                       <div className="flex space-x-2 mr-12 mb-4">
                         <div className="flex-shrink-0 text-white w-10 h-10 text-xl flex justify-center items-center bg-sky rounded-full">
