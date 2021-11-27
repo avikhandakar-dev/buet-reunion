@@ -53,6 +53,15 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
     switchDirection();
   };
 
+  const downloadAsText = (str) => {
+    const element = document.createElement("a");
+    const file = new Blob([str], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "Emails.txt";
+    document.body.appendChild(element);
+    element.click();
+  };
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -84,6 +93,10 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
     } = user;
     return filteredObj;
   });
+  const getEmails = () => {
+    const emails = users.map((user) => user.email);
+    return emails;
+  };
   return (
     <>
       {users.length > 0 && (
@@ -220,11 +233,18 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                       {category == "Members" && open && (
                         <div className="flex justify-center items-center py-2 border-2 border-gray-100 dark:border-gray-600">
                           <CSVLink filename={`${category}.csv`} data={CSVData}>
-                            <button className="font-medium duration-300 flex items-center space-x-2 hover:text-primary">
+                            <button className="font-medium text-primaryDark border-2 border-primaryDark px-4 py-1 rounded duration-300 flex items-center space-x-2 hover:text-white hover:bg-primaryDark">
                               Export CSV
                               <TiExportOutline className="text-xl" />
                             </button>
                           </CSVLink>
+                          <button
+                            onClick={() => downloadAsText(getEmails().join())}
+                            className="font-medium text-primary border-2 border-primary rounded px-4 py-1 ml-8 duration-300 flex items-center space-x-2 hover:text-white hover:bg-primary"
+                          >
+                            Export Text (Emails)
+                            <TiExportOutline className="text-xl" />
+                          </button>
                         </div>
                       )}
                     </>
