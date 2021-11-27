@@ -36,7 +36,10 @@ const MembersArea = () => {
         );
       } else {
         return [...data].sort((a, b) =>
-          a.authData.displayName > b.authData.displayName ? 1 : -1
+          a.authData.displayName.toLowerCase() >
+          b.authData.displayName.toLowerCase()
+            ? 1
+            : -1
         );
       }
     }
@@ -50,7 +53,10 @@ const MembersArea = () => {
         );
       } else {
         return [...data].sort((a, b) =>
-          a.authData.displayName > b.authData.displayName ? -1 : 1
+          a.authData.displayName.toLowerCase() >
+          b.authData.displayName.toLowerCase()
+            ? -1
+            : 1
         );
       }
     }

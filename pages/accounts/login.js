@@ -2,15 +2,22 @@ import { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
-import { auth, googleAuthProvider } from "../../lib/firebase";
+import {
+  auth,
+  firestore,
+  googleAuthProvider,
+  serverTimestamp,
+} from "../../lib/firebase";
 import Footer from "../../components/Footer";
 import AuthLayout from "../../layouts/auth";
+import { GlobalContext } from "@lib/globalContext";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setIsBusy } = useContext(GlobalContext);
 
   const AuthenticateUser = async (event) => {
     event.preventDefault();
@@ -31,12 +38,38 @@ const LoginPage = () => {
   const signInWithGoogle = () => {
     setErrorMessage(null);
     setIsLoading(true);
+    setIsBusy(true);
     auth
       .signInWithPopup(googleAuthProvider)
-      .then((result) => {
-        return setIsLoading(false);
+      .then(async (result) => {
+        const user = result.user;
+        const userRef = firestore.doc(`users/${user.uid}`);
+        const userSnap = await userRef.get();
+        if (!userSnap.exists) {
+          const { displayName, email } = user;
+          const createdAt = serverTimestamp();
+          try {
+            await userRef.set({
+              displayName,
+              email,
+              createdAt,
+            });
+            setIsBusy(false);
+            setIsLoading(false);
+            setErrorMessage(null);
+          } catch (error) {
+            setIsBusy(false);
+            setIsLoading(false);
+            return setErrorMessage(error.message);
+          }
+        } else {
+          setIsBusy(false);
+          setIsLoading(false);
+          setErrorMessage(null);
+        }
       })
       .catch((error) => {
+        setIsBusy(false);
         setIsLoading(false);
         return setErrorMessage(error.message);
       });

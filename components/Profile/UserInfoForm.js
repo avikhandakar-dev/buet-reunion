@@ -169,7 +169,10 @@ const UserInfoForm = ({ userData }) => {
               name="phone"
               className="block flex-1 dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
             />
-            <div className="flex items-center space-x-2">
+            <div
+              title="Other members can see you phone number."
+              className="flex items-center space-x-2"
+            >
               <p>Share </p>
               <Toggle
                 enabled={sharePhone}
@@ -192,7 +195,10 @@ const UserInfoForm = ({ userData }) => {
               type="email"
               className="block dark:placeholder-gray-400 rounded w-full border bg-transparent border-gray-200 dark:border-gray-700 px-2 py-1"
             />
-            <div className="flex items-center space-x-2">
+            <div
+              title="Other members can see you email address."
+              className="flex items-center space-x-2"
+            >
               <p>Share </p>
               <Toggle
                 enabled={shareEmail}

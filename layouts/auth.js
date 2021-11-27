@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { Fragment, useContext, useEffect } from "react";
 import AuthContext from "@lib/authContext";
 import { motion } from "framer-motion";
+import { GlobalContext } from "@lib/globalContext";
 
 const variants = {
   hidden: { opacity: 0, x: -200, y: 0 },
@@ -14,12 +15,15 @@ const AuthLayout = ({ children }) => {
   const router = useRouter();
   const path = router.query["next"];
   const nextPath = path ? path : "/";
+  const { isBusy } = useContext(GlobalContext);
 
   useEffect(() => {
     if (user) {
-      router.push(nextPath);
+      if (!isBusy) {
+        router.push(nextPath);
+      }
     }
-  }, [user]);
+  }, [user, isBusy]);
 
   return (
     <motion.main

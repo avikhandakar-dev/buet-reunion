@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
@@ -16,9 +16,11 @@ import { fetchGetJSON } from "@lib/healper";
 import toast from "react-hot-toast";
 import { MdHelp } from "react-icons/md";
 import { Popover } from "@headlessui/react";
+import { GlobalContext } from "@lib/globalContext";
 
 const validCountries = ["US", "CA", "MX"];
 const RegisterPage = () => {
+  const { setIsBusy } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
@@ -42,16 +44,39 @@ const RegisterPage = () => {
   const signInWithGoogle = () => {
     setErrorMessage(null);
     setIsLoading(true);
+    setIsBusy(true);
     auth
       .signInWithPopup(googleAuthProvider)
-      .then((result) => {
-        return setIsLoading(false);
+      .then(async (result) => {
+        const user = result.user;
+        const userRef = firestore.doc(`users/${user.uid}`);
+        const userSnap = await userRef.get();
+        if (!userSnap.exists) {
+          const { displayName, email } = userAuth;
+          const createdAt = serverTimestamp();
+          try {
+            await userRef.set({
+              displayName,
+              email,
+              createdAt,
+            });
+            setIsBusy(false);
+            setIsLoading(false);
+            setErrorMessage(null);
+          } catch (error) {
+            setIsBusy(false);
+            setIsLoading(false);
+            return setErrorMessage(error.message);
+          }
+        }
       })
       .catch((error) => {
+        setIsBusy(false);
         setIsLoading(false);
         return setErrorMessage(error.message);
       });
   };
+
   const onSubmit = async (event) => {
     event.preventDefault();
     if (password != conPassword) {
@@ -75,6 +100,7 @@ const RegisterPage = () => {
     //   setIsLoading(false);
     //   return toast.error("Invalid username!");
     // }
+    setIsBusy(true);
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(async (userCredential) => {
@@ -99,10 +125,12 @@ const RegisterPage = () => {
         // batch.set(usernameDoc, { uid: userCredential.user.uid });
         await batch.commit();
         setIsLoading(false);
+        setIsBusy(false);
       })
       .catch((error) => {
         console.log(error);
         setIsLoading(false);
+        setIsBusy(false);
         return setErrorMessage(error.message);
       });
   };

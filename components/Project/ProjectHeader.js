@@ -4,6 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import date from "date-and-time";
 import { FaLock } from "react-icons/fa";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Pagination, Autoplay, Navigation } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+SwiperCore.use([Pagination, Autoplay, Navigation]);
+
+const pagination = {
+  clickable: true,
+};
 
 const ProjectSingleHeader = ({ project }) => {
   const now = new Date();
@@ -31,19 +42,59 @@ const ProjectSingleHeader = ({ project }) => {
         )}
       </div>
       <div className="max-w-5xl mx-auto text-center relative">
-        {project.coverImage && (
-          <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
-            <Image
-              placeholder="blur"
-              blurDataURL={project.coverImage.loaderDownloadUrl}
-              src={project.coverImage.oriDownloadUrl}
-              width={1000}
-              height={400}
-              priority={true}
-              objectFit="cover"
-              layout="responsive"
-            />
+        {project.galleryImages?.length > 0 ? (
+          <div className="relative">
+            <Swiper
+              style={{
+                "--swiper-navigation-color": "#fff",
+                "--swiper-pagination-color": "#fff",
+              }}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: true,
+              }}
+              navigation={true}
+              slidesPerView={2}
+              spaceBetween={30}
+              loop={true}
+              height="auto"
+              slidesPerView={"1"}
+              pagination={pagination}
+              grabCursor={true}
+              onSlideChange={() => console.log("slide change")}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
+              {project.galleryImages.map((image, idx) => (
+                <SwiperSlide key={idx}>
+                  <div className="relative w-full aspect-w-16 aspect-h-8 overflow-hidden rounded-md">
+                    <Image
+                      placeholder="blur"
+                      blurDataURL={image.loaderDownloadUrl}
+                      src={image.oriDownloadUrl}
+                      priority={true}
+                      objectFit="cover"
+                      layout="fill"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
+        ) : (
+          project.coverImage && (
+            <div className="w-full relative overflow-hidden rounded-md h-auto transform group-hover:scale-110 transition duration-700">
+              <Image
+                placeholder="blur"
+                blurDataURL={project.coverImage.loaderDownloadUrl}
+                src={project.coverImage.oriDownloadUrl}
+                width={1000}
+                height={400}
+                priority={true}
+                objectFit="cover"
+                layout="responsive"
+              />
+            </div>
+          )
         )}
       </div>
       <div className="max-w-3xl mx-auto mt-8 px-4 sm:px-6 relative">
