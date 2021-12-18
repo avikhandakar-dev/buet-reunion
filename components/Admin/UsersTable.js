@@ -11,10 +11,14 @@ import { TiExportOutline } from "react-icons/ti";
 
 const orderBy = (data, value, direction) => {
   if (direction === "asc") {
-    return [...data].sort((a, b) => (a[value] > b[value] ? 1 : -1));
+    return [...data].sort((a, b) =>
+      a[value].toLowerCase() > b[value].toLowerCase() ? 1 : -1
+    );
   }
   if (direction === "desc") {
-    return [...data].sort((a, b) => (a[value] > b[value] ? -1 : 1));
+    return [...data].sort((a, b) =>
+      a[value].toLowerCase() > b[value].toLowerCase() ? -1 : 1
+    );
   }
   return data;
 };
