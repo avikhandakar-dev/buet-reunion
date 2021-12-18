@@ -194,7 +194,7 @@ const MembersArea = () => {
 
         <Pagination
           itemsPerPage={itemsPerPage}
-          totalItems={members.length}
+          totalItems={totalItems}
           paginateBack={paginateBack}
           paginateFront={paginateFront}
           paginateFirst={paginateFirst}
