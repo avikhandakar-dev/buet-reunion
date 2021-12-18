@@ -130,20 +130,28 @@ const PollsTableRow = ({ poll }) => {
         <div className="text-sm text-gray-500">{poll.userEmail}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <Toggle
-          enabled={isPublic}
-          onChange={togglePublic}
-          size={60}
-          isLoading={isLoading}
-        />
+        {poll.category == "election" ? (
+          ""
+        ) : (
+          <Toggle
+            enabled={isPublic}
+            onChange={togglePublic}
+            size={60}
+            isLoading={isLoading}
+          />
+        )}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-        <Toggle
-          enabled={isActive}
-          onChange={toggleActive}
-          size={60}
-          isLoading={activeIsLoading}
-        />
+        {poll.category == "election" ? (
+          ""
+        ) : (
+          <Toggle
+            enabled={isActive}
+            onChange={toggleActive}
+            size={60}
+            isLoading={activeIsLoading}
+          />
+        )}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
         {poll.voters?.length || 0}

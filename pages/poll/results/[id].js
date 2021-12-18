@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import AuthContext from "@lib/authContext";
 import toast from "react-hot-toast";
 import Empty from "@components/Svg/Empty";
-import { fetchPostJSON } from "@lib/healper";
+import { dateExpired, fetchPostJSON } from "@lib/healper";
 
 const PollResults = () => {
   const { user } = useContext(AuthContext);
@@ -26,6 +26,17 @@ const PollResults = () => {
         if (!!idTokenResult.claims.admin) {
           const pollRef = firestore.collection("polls").doc(id);
           const pollData = await pollRef.get();
+          if (pollData?.data().endDate) {
+            const endDate = new Date(pollData.data().endDate);
+            const today = new Date();
+            if (!dateExpired(endDate, today)) {
+              toast.error(
+                "Sorry you can't see results until voting is closed!"
+              );
+              router.replace("/");
+              return;
+            }
+          }
           setPoll(pollData.data());
           setIsLoading(false);
         } else {

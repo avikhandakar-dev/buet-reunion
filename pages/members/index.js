@@ -1,18 +1,13 @@
 import Container from "@components/Container";
 import LoadingScreen from "@components/LoadingScreen";
-import AuthContext from "@lib/authContext";
-import { fetchPostJSON, sleep } from "@lib/healper";
-import { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { BiFilter, BiSortDown } from "react-icons/bi";
-import Image from "next/image";
-import { FaGlobeAmericas, FaUserCircle } from "react-icons/fa";
-import { AiFillPicture } from "react-icons/ai";
-import { MdSchool } from "react-icons/md";
-import MemberCard from "@components/MemberCard";
+import { fetchPostJSON } from "@lib/healper";
+import { useEffect, useState } from "react";
+import { BiSortDown } from "react-icons/bi";
 import AccessDenied from "@components/AccessDenied";
 import { auth } from "@lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import MembersTable from "@components/MembersTable";
+import Pagination from "@components/Pagination";
 
 const MembersArea = () => {
   const [members, setMembers] = useState([]);
@@ -21,9 +16,6 @@ const MembersArea = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("date");
   const [direction, setDirection] = useState("asc");
-  const [itemsPerPage, setItemsPerPage] = useState(12);
-  const [selectedMember, setSelectedMember] = useState(null);
-  const [isModalShow, setIsModalShow] = useState(true);
 
   const orderBy = (data, direction) => {
     if (direction === "asc") {
@@ -78,19 +70,23 @@ const MembersArea = () => {
     }
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(25);
   const totalItems = (filteredMembers || members).length;
-  const indexOfLastItem = 1 * itemsPerPage;
+  const totalPage = Math.ceil(totalItems / itemsPerPage) || 1;
+  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = (filteredMembers || members).slice(
     indexOfFirstItem,
     indexOfLastItem
   );
 
-  const loadMore = () => {
-    if (itemsPerPage < totalItems) {
-      setItemsPerPage(itemsPerPage + 12);
-    }
-  };
+  const paginateFront = () =>
+    setCurrentPage(currentPage >= totalPage ? totalPage : currentPage + 1);
+  const paginateBack = () =>
+    setCurrentPage(currentPage <= 1 ? 1 : currentPage - 1);
+  const paginateFirst = () => setCurrentPage(1);
+  const paginateLast = () => setCurrentPage(totalPage);
 
   function toTimestamp(strDate) {
     var datum = Date.parse(strDate);
@@ -192,56 +188,23 @@ const MembersArea = () => {
         </button>
       </div>
       <div className="mt-8">
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {currentItems.map((member) => (
-            <div
-              onClick={() => {
-                setSelectedMember(member);
-                setIsModalShow(true);
-              }}
-              className="shadow-md rounded-md overflow-hidden cursor-pointer duration-300 hover:scale-105 hover:shadow-lg"
-            >
-              <div className="relative aspect-w-1 aspect-h-1 bg-gray-50 dark:bg-gray-900">
-                {member.profile?.avatar ? (
-                  <Image
-                    placeholder="blur"
-                    blurDataURL={member.profile.avatar.loaderDownloadUrl}
-                    src={member.profile.avatar.oriDownloadUrl}
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                ) : member.authData.photoURL ? (
-                  <Image
-                    src={member.authData.photoURL}
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                ) : (
-                  <div className="w-full h-full text-gray-400 dark:text-gray-600 dark:bg-gray-800 bg-gray-200 flex justify-center items-center text-7xl">
-                    <AiFillPicture />
-                  </div>
-                )}
-              </div>
-              <div className="p-4 overflow-hidden bg-gray-50 dark:bg-gray-700">
-                <p className="truncate text-sm font-medium">
-                  {member.authData.displayName}
-                </p>
-                <div className="flex justify-between mt-2">
-                  <div className="text-xs font-semibold flex items-center">
-                    <FaGlobeAmericas className="mr-1" />
-                    <p>{member.profile?.country || "US"}</p>
-                  </div>
-                  <div className="text-xs font-semibold flex items-center">
-                    <MdSchool className="mr-1 text-base" />
-                    <p>{member.profile?.CBB || "-"}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="">
+          <MembersTable members={currentItems} />
         </div>
 
-        {itemsPerPage < totalItems && (
+        <Pagination
+          itemsPerPage={itemsPerPage}
+          totalItems={members.length}
+          paginateBack={paginateBack}
+          paginateFront={paginateFront}
+          paginateFirst={paginateFirst}
+          paginateLast={paginateLast}
+          currentPage={currentPage}
+          totalPage={totalPage}
+          setItemsPerPage={(num) => setItemsPerPage(num)}
+        />
+
+        {/* {itemsPerPage < totalItems && (
           <div className="flex justify-center items-center mt-16">
             <button
               onClick={() => loadMore()}
@@ -250,15 +213,8 @@ const MembersArea = () => {
               Load More
             </button>
           </div>
-        )}
+        )} */}
       </div>
-      {selectedMember && (
-        <MemberCard
-          member={selectedMember}
-          isModalShow={isModalShow}
-          close={() => setIsModalShow(false)}
-        />
-      )}
     </Container>
   );
 };

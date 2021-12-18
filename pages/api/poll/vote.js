@@ -1,4 +1,5 @@
 import admin from "@lib/firebaseAdmin";
+import { dateExpired } from "@lib/healper";
 import { verifyToken } from "@lib/jwt";
 import { getCookie } from "cookies-next";
 
@@ -84,6 +85,17 @@ export default async (req, res) => {
           return res.status(500).json({
             statusCode: 500,
             message: "Something went wrong!",
+          });
+        }
+      }
+
+      if (pollData.data().endDate) {
+        const endDate = new Date(pollData.data().endDate);
+        const today = new Date();
+        if (dateExpired(endDate, today)) {
+          return res.status(500).json({
+            statusCode: 500,
+            message: "Sorry voting is closed!",
           });
         }
       }

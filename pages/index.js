@@ -3,7 +3,7 @@ import About from "../components/Home/About";
 import Featured from "../components/Home/Featured";
 import Hero from "../components/Home/Hero";
 import RecentBlog from "../components/Home/RecentBlog";
-import RecentProjects from "../components/Home/RecentProjects";
+// import RecentProjects from "../components/Home/RecentProjects";
 
 const HomePage = () => {
   return (

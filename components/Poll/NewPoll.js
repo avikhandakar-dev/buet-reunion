@@ -26,6 +26,7 @@ const NewPoll = () => {
   const [access, setAccess] = useState("members");
   const [textFile, setTextFile] = useState(null);
   const [fileError, setFileError] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const addQuestion = () => {
     setPollQuestions((questions) => {
@@ -176,8 +177,14 @@ const NewPoll = () => {
         questions: pollQuestions,
         options: pollOptions,
         category,
-        public: visibility == "private" ? false : true,
+        public:
+          category == "election"
+            ? false
+            : visibility == "private"
+            ? false
+            : true,
         active: true,
+        endDate: category == "election" ? endDate : null,
         totalVotes: 0,
         id: pollId,
         votes: createVotes(),
@@ -339,6 +346,7 @@ const NewPoll = () => {
                       <option value="crypto">Crypto</option>
                       <option value="days">Days</option>
                       <option value="drink">Drink</option>
+                      <option value="election">Election</option>
                       <option value="food">Food</option>
                       <option value="gaming">Gaming</option>
                       <option value="general" selected>
@@ -363,22 +371,40 @@ const NewPoll = () => {
                       <option value="week">Week</option>
                     </select>
                   </div>
-                  <div className="mt-3 rounded">
-                    <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
-                      Poll visibility
-                    </p>
-                    <select
-                      onChange={(event) => setVisibility(event.target.value)}
-                      className="w-full focus:outline-none bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700"
-                      name="pollVisibility"
-                      required={true}
-                    >
-                      <option value="private" selected>
-                        Private
-                      </option>
-                      <option value="public">Public</option>
-                    </select>
-                  </div>
+                  {category != "election" && (
+                    <div className="mt-3 rounded">
+                      <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
+                        Poll visibility
+                      </p>
+                      <select
+                        onChange={(event) => setVisibility(event.target.value)}
+                        className="w-full focus:outline-none bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700"
+                        name="pollVisibility"
+                        required={true}
+                      >
+                        <option value="private" selected>
+                          Private
+                        </option>
+                        <option value="public">Public</option>
+                      </select>
+                    </div>
+                  )}
+
+                  {category == "election" && (
+                    <div className="mt-3 rounded">
+                      <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
+                        End date
+                      </p>
+                      <input
+                        type="date"
+                        className="w-full focus:outline-none bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-700"
+                        name="end-date"
+                        value={endDate}
+                        onChange={(event) => setEndDate(event.target.value)}
+                      />
+                    </div>
+                  )}
+
                   <div className="mt-3 rounded">
                     <p className=" text-gray-500 dark:text-gray-200 font-medium mb-1">
                       Who can vote
