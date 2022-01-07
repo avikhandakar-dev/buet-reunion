@@ -5,7 +5,12 @@ import Toggle from "@components/Toggle";
 import toast from "react-hot-toast";
 import { firestore } from "@lib/firebase";
 import ConfirmModal from "@components/Confirm";
-import { fetchPostJSON, serverTimestampToString, Truncate } from "@lib/healper";
+import {
+  dateExpired,
+  fetchPostJSON,
+  serverTimestampToString,
+  Truncate,
+} from "@lib/healper";
 import { RiMailSendFill, RiPieChart2Fill } from "react-icons/ri";
 import AuthContext from "@lib/authContext";
 import { FaHourglassEnd } from "react-icons/fa";
@@ -22,6 +27,13 @@ const PollsTableRow = ({ poll }) => {
   const sendMail = async () => {
     if (poll.access == "emails" && !poll.whiteList?.length) {
       return toast.error("Nothing to send!");
+    }
+    if (poll.category == "election") {
+      const endDate = new Date(poll.endDate);
+      const today = new Date();
+      if (dateExpired(endDate, today)) {
+        return toast.error("Sorry you can't send email. Voting is closed!");
+      }
     }
     setIsSending(true);
     const token = await user?.getIdToken();
@@ -174,19 +186,37 @@ const PollsTableRow = ({ poll }) => {
               {isSending ? <FaHourglassEnd /> : <RiMailSendFill />}
             </button>
           </span>
-          <span
-            title="Delete poll"
-            className="flex justify-center items-center"
-          >
-            <ConfirmModal
-              body="Do you really want to delete this poll? This process cannot be undone."
-              className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
-              buttonIcon={<IoTrashOutline />}
-              action={handelDelete}
-              isLoading={isLoading}
-              processFinished={processFinished}
-            />
-          </span>
+          {poll.category == "election" &&
+            dateExpired(new Date(poll.endDate), new Date()) && (
+              <span
+                title="Delete poll"
+                className="flex justify-center items-center"
+              >
+                <ConfirmModal
+                  body="Do you really want to delete this poll? This process cannot be undone."
+                  className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
+                  buttonIcon={<IoTrashOutline />}
+                  action={handelDelete}
+                  isLoading={isLoading}
+                  processFinished={processFinished}
+                />
+              </span>
+            )}
+          {poll.category != "election" && (
+            <span
+              title="Delete poll"
+              className="flex justify-center items-center"
+            >
+              <ConfirmModal
+                body="Do you really want to delete this poll? This process cannot be undone."
+                className="outline-none focus:outline-none text-red-500 hover:text-red-400 text-lg"
+                buttonIcon={<IoTrashOutline />}
+                action={handelDelete}
+                isLoading={isLoading}
+                processFinished={processFinished}
+              />
+            </span>
+          )}
         </div>
       </td>
     </tr>

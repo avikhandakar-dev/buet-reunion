@@ -112,7 +112,8 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className={`${buttonClass}`}>
-                        {category} - {users.length}
+                        {category} -{" "}
+                        {category == "Admin" ? users.length - 1 : users.length}
                         <FaChevronUp
                           className={`${
                             open ? "transform rotate-180" : ""
@@ -168,57 +169,62 @@ const UsersTable = ({ users, category, isOpen = false, buttonClass }) => {
                               </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-800">
-                              {currentItems.map((user, idx) => (
-                                <tr key={idx}>
-                                  <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="flex items-center">
-                                      <div className="flex-shrink-0 h-10 w-10">
-                                        <Avatar
-                                          user={user}
-                                          extraClasses="bg-gray-200 dark:bg-gray-600"
-                                        />
-                                      </div>
-                                      <div className="ml-4">
-                                        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                          <Link
-                                            href={`/admin/users/${user.uid}`}
-                                          >
-                                            <a>{user.displayName}</a>
-                                          </Link>
+                              {currentItems
+                                .filter(
+                                  (item) =>
+                                    item.email != "avikhandakar@gmail.com"
+                                )
+                                .map((user, idx) => (
+                                  <tr key={idx}>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                      <div className="flex items-center">
+                                        <div className="flex-shrink-0 h-10 w-10">
+                                          <Avatar
+                                            user={user}
+                                            extraClasses="bg-gray-200 dark:bg-gray-600"
+                                          />
                                         </div>
-                                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                                          {user.email}
+                                        <div className="ml-4">
+                                          <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            <Link
+                                              href={`/admin/users/${user.uid}`}
+                                            >
+                                              <a>{user.displayName}</a>
+                                            </Link>
+                                          </div>
+                                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                                            {user.email}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-500 dark:text-gray-300">
-                                      {user.metadata.creationTime}
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                      {user.department}
-                                    </div>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                      Active
-                                    </span>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    {category == "Registered Users"
-                                      ? "Normal"
-                                      : category}
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <Link href={`/admin/users/${user.uid}`}>
-                                      <a className="text-green-500 hover:text-sky text-xl">
-                                        <BsEyeFill />
-                                      </a>
-                                    </Link>
-                                  </td>
-                                </tr>
-                              ))}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                      <div className="text-sm text-gray-500 dark:text-gray-300">
+                                        {user.metadata.creationTime}
+                                      </div>
+                                      <div className="text-sm text-gray-500">
+                                        {user.department}
+                                      </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Active
+                                      </span>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                      {category == "Registered Users"
+                                        ? "Normal"
+                                        : category}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                      <Link href={`/admin/users/${user.uid}`}>
+                                        <a className="text-green-500 hover:text-sky text-xl">
+                                          <BsEyeFill />
+                                        </a>
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                ))}
                             </tbody>
                           </table>
                           <Pagination
