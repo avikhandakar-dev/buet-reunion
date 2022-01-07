@@ -13,6 +13,7 @@ import { dateExpired, fetchPostJSON } from "@lib/healper";
 const PollResults = () => {
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPollExpired, setIsPollExpired] = useState(false);
   const [poll, setPoll] = useState(null);
   const router = useRouter();
   const { id } = router.query;
@@ -33,8 +34,11 @@ const PollResults = () => {
               toast.error(
                 "Sorry you can't see results until voting is closed!"
               );
-              router.replace("/");
-              return;
+              // router.replace("/");
+              setIsPollExpired(false);
+              // return;
+            } else {
+              setIsPollExpired(true);
             }
           }
           setPoll(pollData.data());
@@ -61,7 +65,11 @@ const PollResults = () => {
     return (
       <>
         <Container maxWidth="max-w-5xl">
-          {poll?.questions.length > 1 ? "" : <ResultsViewSingle poll={poll} />}
+          {poll?.questions.length > 1 ? (
+            ""
+          ) : (
+            <ResultsViewSingle poll={poll} expired={isPollExpired} />
+          )}
         </Container>
       </>
     );
