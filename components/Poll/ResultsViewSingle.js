@@ -21,7 +21,8 @@ const ResultsViewSingle = ({ poll, expired }) => {
       </div>
       <div className="flex flex-col lg:flex-row lg:space-x-16">
         <div className="flex-1 flex-grow">
-          {poll.category == "election" && expired ? (
+          {(poll.category == "election" && expired) ||
+          poll.category != "election" ? (
             <>
               {poll.options.map((option) => (
                 <div
