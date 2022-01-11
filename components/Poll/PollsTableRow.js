@@ -50,9 +50,13 @@ const PollsTableRow = ({ poll }) => {
         toast.error(getEmailRes.message);
       }
     }
+
+    const alreadyVoted = poll.voters || [];
+    const emails = emailsList.filter((email) => !alreadyVoted.includes(email));
+
     const response = await fetchPostJSON("/api/mail/new-poll", {
       token: token,
-      emails: emailsList,
+      emails: emails,
       title: poll.questions[0].text,
       pollId: poll.id,
     });

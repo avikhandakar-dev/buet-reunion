@@ -26,11 +26,7 @@ export default async (req, res) => {
             });
           }
         }
-        emails.forEach((email) => {
-          if (email.includes("yahoo.com")) {
-            console.log(email);
-          }
-        });
+
         return res.status(200).json({
           statusCode: 200,
           emails,
