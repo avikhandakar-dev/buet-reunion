@@ -54,9 +54,13 @@ const ResultsViewSingle = ({ poll, expired }) => {
                       className="absolute inset-0 h-full bg-primary rounded-full transition-all duration-500"
                     />
                   </div>
-                  <p className="text-muted text-sm">
-                    {poll.votes[option.id]} Votes
-                  </p>
+                  {poll.category === "general" && poll.active ? (
+                    <></>
+                  ) : (
+                    <p className="text-muted text-sm">
+                      {poll.votes[option.id]} Votes
+                    </p>
+                  )}
                 </div>
               ))}
             </>
