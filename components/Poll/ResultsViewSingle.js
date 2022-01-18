@@ -21,8 +21,7 @@ const ResultsViewSingle = ({ poll, expired }) => {
       </div>
       <div className="flex flex-col lg:flex-row lg:space-x-16">
         <div className="flex-1 flex-grow">
-          {(poll.category == "election" && expired) ||
-          poll.category != "election" ? (
+          {(poll.category == "election" && expired) || !poll.active ? (
             <>
               {poll.options.map((option) => (
                 <div
@@ -54,13 +53,9 @@ const ResultsViewSingle = ({ poll, expired }) => {
                       className="absolute inset-0 h-full bg-primary rounded-full transition-all duration-500"
                     />
                   </div>
-                  {poll.category === "general" && poll.active ? (
-                    <></>
-                  ) : (
-                    <p className="text-muted text-sm">
-                      {poll.votes[option.id]} Votes
-                    </p>
-                  )}
+                  <p className="text-muted text-sm">
+                    {poll.votes[option.id]} Votes
+                  </p>
                 </div>
               ))}
             </>
