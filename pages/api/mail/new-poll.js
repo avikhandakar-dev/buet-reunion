@@ -59,9 +59,11 @@ export default async (req, res) => {
 
     try {
       if (messages.length) {
+        console.log(messages);
         await sgMail.send(messages);
       }
       if (gmailMessages.length) {
+        console.log(gmailMessages);
         for (const msg of gmailMessages) {
           const gmailRes = await sendViaGmail(msg.to, msg.subject, msg.html);
         }

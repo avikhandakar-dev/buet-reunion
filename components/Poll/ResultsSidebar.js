@@ -47,15 +47,18 @@ const ResultsSidebar = ({ poll }) => {
             </button>
           </CSVLink>
         </h1>
-        {poll.voters?.sort().map((voter, idx) => (
-          <p
-            className={`px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 inline-block ${
-              Colors[idx % Colors.length]
-            }`}
-          >
-            {voter}
-          </p>
-        ))}
+        {poll.category == "election" &&
+          poll.voters
+            ?.sort()
+            .map((voter, idx) => (
+              <p
+                className={`px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 inline-block ${
+                  Colors[idx % Colors.length]
+                }`}
+              >
+                {voter}
+              </p>
+            ))}
       </div>
     </Fragment>
   );
