@@ -38,7 +38,7 @@ const ResultsSidebar = ({ poll }) => {
           <h1 className="font-semibold text-5xl">{poll.voters?.length || 0}</h1>
         </div>
       </div>
-      {poll.category !== "general" && (
+      {(poll.category === "election" || !poll.active) && (
         <div>
           <h1 className="text-muted font-semibold">
             Who Voted?
