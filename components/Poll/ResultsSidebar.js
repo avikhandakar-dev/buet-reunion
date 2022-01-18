@@ -38,28 +38,27 @@ const ResultsSidebar = ({ poll }) => {
           <h1 className="font-semibold text-5xl">{poll.voters?.length || 0}</h1>
         </div>
       </div>
-      <div>
-        <h1 className="text-muted font-semibold">
-          Who Voted?
-          <CSVLink filename={"Voter.csv"} data={CSVData}>
-            <button className="text-xs mb-4 ml-2 text-yellow-500 underline font-semibold duration-300 hover:text-yellow-400">
-              (Expotr as CSV)
-            </button>
-          </CSVLink>
-        </h1>
-        {poll.category == "election" &&
-          poll.voters
-            ?.sort()
-            .map((voter, idx) => (
-              <p
-                className={`px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 inline-block ${
-                  Colors[idx % Colors.length]
-                }`}
-              >
-                {voter}
-              </p>
-            ))}
-      </div>
+      {poll.category !== "general" && (
+        <div>
+          <h1 className="text-muted font-semibold">
+            Who Voted?
+            <CSVLink filename={"Voter.csv"} data={CSVData}>
+              <button className="text-xs mb-4 ml-2 text-yellow-500 underline font-semibold duration-300 hover:text-yellow-400">
+                (Expotr as CSV)
+              </button>
+            </CSVLink>
+          </h1>
+          {poll.voters?.sort().map((voter, idx) => (
+            <p
+              className={`px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 inline-block ${
+                Colors[idx % Colors.length]
+              }`}
+            >
+              {voter}
+            </p>
+          ))}
+        </div>
+      )}
     </Fragment>
   );
 };
