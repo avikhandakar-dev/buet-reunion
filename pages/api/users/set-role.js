@@ -4,7 +4,6 @@ export const superUser = [
   "avikhandakar@gmail.com",
   "khmizan@yahoo.com",
   "shahnaz.afroz@gmail.com",
-  "sadat411@yahoo.com",
 ];
 export default async (req, res) => {
   if (req.method === "POST") {

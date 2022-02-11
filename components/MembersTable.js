@@ -38,6 +38,18 @@ const MembersTable = ({ members }) => {
                 scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
               >
+                State
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
+              >
+                Department
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
+              >
                 Class Begins
               </th>
               <th scope="col" className="relative px-6 py-3">
@@ -104,9 +116,16 @@ const MembersTable = ({ members }) => {
                     {user.profile?.country || "US"}
                   </span>
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
+                  {user.profile?.state || "-"}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  {user.profile?.department || "-"}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                   {user.profile?.CBB || "-"}
                 </td>
+
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <a
                     onClick={() => {
