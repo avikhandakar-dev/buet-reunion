@@ -13,9 +13,11 @@ import { Truncate } from "@lib/healper";
 const PostsTableRow = ({ post }) => {
   const [isFeatured, setIsFeatured] = useState(post.featured || false);
   const [isPublished, setIsPublished] = useState(post.published || false);
+  const [isMembersOnly, setIsMembersOnly] = useState(post.membersOnly || false);
   const [isLoading, setIsLoading] = useState(false);
   const [processFinished, setProcessFinished] = useState(false);
   const [isPubLoading, setPubIsLoading] = useState(false);
+  const [isMemLoading, setMemIsLoading] = useState(false);
 
   const toggleFeatured = () => {
     setIsLoading(true);
@@ -57,6 +59,27 @@ const PostsTableRow = ({ post }) => {
       .catch((error) => {
         console.error("Error updating document: ", error);
         setPubIsLoading(false);
+        return toast.error("Failed!");
+      });
+  };
+  const toggleMembersOnly = () => {
+    setMemIsLoading(true);
+    if (isMemLoading) {
+      return toast.error("Please wait!");
+    }
+    firestore
+      .collection("posts")
+      .doc(post.id)
+      .update({
+        membersOnly: !isMembersOnly,
+      })
+      .then(() => {
+        setMemIsLoading(false);
+        setIsMembersOnly(!isMembersOnly);
+        return toast.success("Success!");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
         return toast.error("Failed!");
       });
   };
@@ -129,6 +152,14 @@ const PostsTableRow = ({ post }) => {
           onChange={togglePublished}
           size={60}
           isLoading={isPubLoading}
+        />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <Toggle
+          enabled={isMembersOnly}
+          onChange={toggleMembersOnly}
+          size={60}
+          isLoading={isMemLoading}
         />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">

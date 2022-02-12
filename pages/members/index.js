@@ -1,13 +1,14 @@
 import Container from "@components/Container";
 import LoadingScreen from "@components/LoadingScreen";
 import { fetchPostJSON } from "@lib/healper";
-import { useEffect, useState } from "react";
-import { BiSortDown } from "react-icons/bi";
+import { useEffect, useRef, useState } from "react";
+import { BiFilter, BiSortDown } from "react-icons/bi";
 import AccessDenied from "@components/AccessDenied";
 import { auth } from "@lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import MembersTable from "@components/MembersTable";
 import Pagination from "@components/Pagination";
+import { IoMdCloseCircle } from "react-icons/io";
 
 const MembersArea = () => {
   const [members, setMembers] = useState([]);
@@ -16,7 +17,18 @@ const MembersArea = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("date");
   const [direction, setDirection] = useState("asc");
+  const [filteredByCountry, setFilteredByCountry] = useState("");
+  const [filteredByDep, setFilteredByDep] = useState("");
 
+  const countryRef = useRef();
+  const depRef = useRef();
+
+  const resetFilter = () => {
+    setFilteredByCountry("");
+    setFilteredByDep("");
+    countryRef.current.value = "";
+    depRef.current.value = "";
+  };
   const orderBy = (data, direction) => {
     if (direction === "asc") {
       if (sortBy.includes("date")) {
@@ -57,14 +69,29 @@ const MembersArea = () => {
 
   const orderedMembers = orderBy(members, direction);
 
-  const filteredMembers = orderedMembers.filter((member) => {
+  const tmpFiltered = orderedMembers.filter((member) => {
+    if (filteredByCountry && filteredByDep) {
+      return (
+        member.profile?.country === filteredByCountry &&
+        member.profile?.department === filteredByDep
+      );
+    } else if (filteredByCountry) {
+      return member.profile?.country === filteredByCountry;
+    } else if (filteredByDep) {
+      return member.profile?.department === filteredByDep;
+    } else {
+      return orderedMembers;
+    }
+  });
+
+  const filteredMembers = tmpFiltered.filter((member) => {
     if (
       member.authData.displayName
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       member.authData.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.profile?.CBB?.includes(searchTerm) ||
-      member.profile?.state?.toLowerCase().includes(searchTerm.toLowerCase())
+      member.profile?.state?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      member.profile?.CBB?.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
       return member;
     }
@@ -158,17 +185,53 @@ const MembersArea = () => {
           type="search"
           name="search"
           className="mt-3 max-w-xs bg-transparent block w-full px-0.5 border-0 border-b-2 border-gray-400 dark:border-gray-600 focus:ring-0 focus:border-black dark:focus:border-primary"
-          placeholder="Search..."
+          placeholder="Search by name, email..."
         />
       </div>
-      <div className="flex justify-end items-center space-x-6 mt-8">
-        {/* <button className="font-semibold text-sm flex items-center">
+      <div className="flex items-start md:items-center flex-col md:flex-row justify-between mt-8">
+        <div className="font-semibold text-sm flex items-center">
           Filters
           <span>
             <BiFilter className="block text-xl ml-2" />
           </span>
-        </button> */}
-        <button className="font-semibold text-sm flex items-center">
+          <select
+            ref={countryRef}
+            onChange={(event) => setFilteredByCountry(event.target.value)}
+            className="focus:outline-none focus:border-none active:border-none focus:ring-0 bg-transparent border-none text-sm font-medium text-gray-400 dark:text-gray-500"
+            name="sort"
+          >
+            <option disabled value="" selected>
+              Country...
+            </option>
+            <option value="US">United State</option>
+            <option value="CA">Canada</option>
+            <option value="MX">Mexico</option>
+          </select>
+          <select
+            onChange={(event) => setFilteredByDep(event.target.value)}
+            className="focus:outline-none focus:border-none active:border-none focus:ring-0 bg-transparent border-none text-sm font-medium text-gray-400 dark:text-gray-500"
+            name="sort"
+            ref={depRef}
+          >
+            <option disabled value="" selected>
+              Depeartment...
+            </option>
+            <option value="Arch">Arch</option>
+            <option value="ChE">ChE</option>
+            <option value="CE">CE</option>
+            <option value="CSE">CSE</option>
+            <option value="EE">EE</option>
+            <option value="ME">ME</option>
+            <option value="NAME">NAME</option>
+            <option value="MET">MET</option>
+          </select>
+          {(filteredByCountry || filteredByDep) && (
+            <button onClick={resetFilter} className="ml-4 text-red-500 text-xl">
+              <IoMdCloseCircle />
+            </button>
+          )}
+        </div>
+        <div className="font-semibold text-sm flex items-center">
           Sort By
           <span>
             <BiSortDown className="block text-xl ml-2" />
@@ -185,7 +248,7 @@ const MembersArea = () => {
             <option value="name">Name [A-Z]</option>
             <option value="name-desc">Name [Z-A]</option>
           </select>
-        </button>
+        </div>
       </div>
       <div className="mt-8">
         <div className="">
