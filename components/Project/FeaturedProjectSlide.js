@@ -15,15 +15,17 @@ const FeaturedProjectSlide = ({ project }) => {
         <div className="w-full px-4 lg:px-0 relative">
           <span className="absolute hidden lg:block w-full h-full rounded-md top-2 -left-2 border-2 bg-green-400 border-green-400 opacity-60" />
           <div className="relative shadow-card w-full aspect-w-6 aspect-h-3 lg:aspect-h-6 rounded-md overflow-hidden">
-            <Image
-              placeholder="blur"
-              blurDataURL={project.coverImage.loaderDownloadUrl}
-              src={project.coverImage.oriDownloadUrl}
-              layout="fill"
-              objectFit="cover"
-              priority={true}
-              loading="eager"
-            />
+            {project.coverImage && (
+              <Image
+                placeholder="blur"
+                blurDataURL={project.coverImage.loaderDownloadUrl}
+                src={project.coverImage.oriDownloadUrl}
+                layout="fill"
+                objectFit="cover"
+                priority={true}
+                loading="eager"
+              />
+            )}
           </div>
         </div>
       </div>

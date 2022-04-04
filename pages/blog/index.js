@@ -1,5 +1,5 @@
 import BlogHeader from "@components/Blog/BlogHeader";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Empty from "@components/Svg/Empty";
 import { firestore } from "@lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -8,6 +8,7 @@ import Container from "@components/Container";
 import BlogCard from "@components/BlogCard";
 
 const BlogPage = () => {
+  const [isMember, setIsMember] = useState(false);
   const [posts = [], loading, error] = useCollectionData(
     firestore
       .collection("posts")
