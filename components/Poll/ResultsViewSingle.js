@@ -33,7 +33,8 @@ const ResultsViewSingle = ({ poll, expired }) => {
                     <p className="font-semibold text-2xl">
                       {poll.votes[option.id] > 0
                         ? Math.round(
-                            (poll.votes[option.id] / poll.totalVotes) * 100
+                            // (poll.votes[option.id] / poll.totalVotes) * 100
+                            (poll.votes[option.id] / poll.voters.length) * 100
                           )
                         : 0}
                       %
@@ -45,7 +46,9 @@ const ResultsViewSingle = ({ poll, expired }) => {
                         width: `${
                           poll.votes[option.id] > 0
                             ? Math.round(
-                                (poll.votes[option.id] / poll.totalVotes) * 100
+                                // (poll.votes[option.id] / poll.totalVotes) * 100
+                                (poll.votes[option.id] / poll.voters.length) *
+                                  100
                               )
                             : 0
                         }%`,
