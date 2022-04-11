@@ -32,7 +32,7 @@ export default async (req, res) => {
             currency: "usd",
             quantity: 1,
             ...(project.coverImage && {
-              images: [project.coverImage.thumbDownloadUrl],
+              images: [project.coverImage?.thumbDownloadUrl],
             }),
           },
         ],

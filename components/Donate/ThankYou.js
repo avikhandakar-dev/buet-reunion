@@ -14,11 +14,8 @@ const ThankYou = ({ amount }) => {
           </span>
         </h1>
         <p className="text-xl uppercase font-bold max-w-sm mx-auto">
-          Your donation of{" "}
-          <span className="text-green-500">
-            ${(Number(amount) / 100).toFixed(2)}
-          </span>{" "}
-          has been processed
+          Your donation of <span className="text-green-500">${amount}</span> has
+          been processed
         </p>
       </div>
     </div>

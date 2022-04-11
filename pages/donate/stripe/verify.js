@@ -35,7 +35,6 @@ const ResultPage = () => {
             .doc(data?.metadata?.id);
           const snapshot = await donationRef.get();
           const donationData = snapshot.data();
-          console.log(donationData);
           setStatus("Preparing receipt...");
           const genInvoice = await fetch("/api/generate-invoice", {
             method: "POST",
@@ -97,7 +96,7 @@ const ResultPage = () => {
     );
 
   return data?.payment_intent?.status === "succeeded" ? (
-    <ThankYou amount={data.amount_total} />
+    <ThankYou amount={(Number(data.amount_total) / 100).toFixed(2)} />
   ) : (
     <PaymentFailed />
   );

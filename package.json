@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
+    "@paypal/checkout-server-sdk": "^1.0.3",
+    "@paypal/react-paypal-js": "^7.6.0",
     "@sendgrid/mail": "^7.5.0",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.16.0",
