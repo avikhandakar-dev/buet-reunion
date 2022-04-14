@@ -22,6 +22,9 @@ export default async function handle(req, res) {
   request.headers["prefer"] = "return=representation";
   request.requestBody({
     intent: "CAPTURE",
+    payment_method: {
+      payee_preferred: "UNRESTRICTED",
+    },
     purchase_units: [
       {
         reference_id: nanoid(8),
