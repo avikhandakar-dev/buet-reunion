@@ -36,40 +36,44 @@ const ResultPage = () => {
           const snapshot = await donationRef.get();
           const donationData = snapshot.data();
           setStatus("Preparing receipt...");
-          const genInvoice = await fetch("/api/generate-invoice", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              donation: donationData,
-              date: serverTimestampToString(donationData.createdAt),
-            }),
-          });
-          if (genInvoice.status === 200) {
-            setStatus("Sending receipt...");
-            const buffer = await genInvoice.arrayBuffer();
-            const blob = new Blob([buffer]);
-            try {
-              const base64 = await BlobToBase64(blob);
-              const mailResponse = await fetchPostJSON(
-                "/api/mail/send-receipt",
-                {
-                  email: donationData.donorInfo?.email,
-                  attachment: base64,
+          if (process.env.NODE_ENV === "production") {
+            const genInvoice = await fetch("/api/generate-invoice", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                donation: donationData,
+                date: serverTimestampToString(donationData.createdAt),
+              }),
+            });
+            if (genInvoice.status === 200) {
+              setStatus("Sending receipt...");
+              const buffer = await genInvoice.arrayBuffer();
+              const blob = new Blob([buffer]);
+              try {
+                const base64 = await BlobToBase64(blob);
+                const mailResponse = await fetchPostJSON(
+                  "/api/mail/send-receipt",
+                  {
+                    email: donationData.donorInfo?.email,
+                    attachment: base64,
+                  }
+                );
+                if (mailResponse.statusCode === 200) {
+                  setSendMail(true);
+                  toast.success("Donation receipt was sent to your email!");
                 }
-              );
-              if (mailResponse.statusCode === 200) {
-                setSendMail(true);
-                toast.success("Donation receipt was sent to your email!");
+                setIsLoading(false);
+              } catch (error) {
+                setIsLoading(false);
               }
+            } else {
               setIsLoading(false);
-            } catch (error) {
-              setIsLoading(false);
+              toast.error("Can't send receipt!");
             }
           } else {
-            setIsLoading(false);
-            toast.error("Can't send receipt!");
+            toast.success("Donation success on test mode!");
           }
         }
       } else {

@@ -19,62 +19,73 @@ const ProfileCardMenu = ({ userRecord }) => {
   const [processFinished, setProcessFinished] = useState(false);
 
   const changeRole = async (role = "member", revoke = false) => {
-    const Request = async () => {
-      setIsLoading(true);
-      const token = await user?.getIdToken();
-      const response = await fetchPostJSON("/api/users/set-role", {
-        uid: userRecord.uid,
-        token: token,
-        role,
-        revoke,
+    const msg = revoke
+      ? `Are you sure you want to remove ${userRecord.displayName} from ${role}?`
+      : `Are you sure you want to promote ${userRecord.displayName} as ${role}?`;
+    const userAction = confirm(msg);
+    if (userAction) {
+      const Request = async () => {
+        setIsLoading(true);
+        const token = await user?.getIdToken();
+        const response = await fetchPostJSON("/api/users/set-role", {
+          uid: userRecord.uid,
+          token: token,
+          role,
+          revoke,
+        });
+        if (response.statusCode === 200) {
+          setIsLoading(false);
+          setProcessFinished(true);
+          return response.message;
+        } else {
+          setIsLoading(false);
+          throw new Error(response.message);
+        }
+      };
+      toast.promise(Request(), {
+        loading: <b>Please wait...</b>,
+        success: (data) => <b>{data}</b>,
+        error: (err) => <b>{err.toString()}</b>,
       });
-      if (response.statusCode === 200) {
-        setIsLoading(false);
-        setProcessFinished(true);
-        return response.message;
-      } else {
-        setIsLoading(false);
-        throw new Error(response.message);
-      }
-    };
-    toast.promise(Request(), {
-      loading: <b>Please wait...</b>,
-      success: (data) => <b>{data}</b>,
-      error: (err) => <b>{err.toString()}</b>,
-    });
+    }
   };
 
   const deleteUser = () => {
-    const Request = async () => {
-      setIsLoading(true);
-      const token = await user?.getIdToken();
-      const response = await fetchDeleteJSON("/api/users/delete", {
-        token,
-        uid: userRecord.uid,
-      });
-      if (response.statusCode === 200) {
-        const docRef = firestore.collection("users").doc(userRecord.uid);
-        const snapData = await docRef.get();
-        const userData = snapData.data();
-        if (userData.avatar) {
-          try {
-            await deleteImage(userData.avatar);
-            await docRef.delete();
-          } catch (error) {}
+    const userAction = confirm(
+      `Are you sure you want to delete ${userRecord.displayName}?`
+    );
+    if (userAction) {
+      const Request = async () => {
+        setIsLoading(true);
+        const token = await user?.getIdToken();
+        const response = await fetchDeleteJSON("/api/users/delete", {
+          token,
+          uid: userRecord.uid,
+        });
+        if (response.statusCode === 200) {
+          const docRef = firestore.collection("users").doc(userRecord.uid);
+          const snapData = await docRef.get();
+          const userData = snapData.data();
+          if (userData.avatar) {
+            try {
+              await deleteImage(userData.avatar);
+              await docRef.delete();
+            } catch (error) {}
+          }
+          setIsLoading(false);
+          setProcessFinished(true);
+          return response.message;
+        } else {
+          setIsLoading(false);
+          throw new Error(response.message);
         }
-        setIsLoading(false);
-        setProcessFinished(true);
-        return response.message;
-      } else {
-        setIsLoading(false);
-        throw new Error(response.message);
-      }
-    };
-    toast.promise(Request(), {
-      loading: <b>Please wait...</b>,
-      success: (data) => <b>{data}</b>,
-      error: (err) => <b>{err.toString()}</b>,
-    });
+      };
+      toast.promise(Request(), {
+        loading: <b>Please wait...</b>,
+        success: (data) => <b>{data}</b>,
+        error: (err) => <b>{err.toString()}</b>,
+      });
+    }
   };
 
   useEffect(() => {
@@ -109,51 +120,29 @@ const ProfileCardMenu = ({ userRecord }) => {
           {!userRecord.customClaims?.admin ? (
             <Menu.Item>
               {({ active }) => (
-                <ConfirmModal
-                  actionButtonTitle="Yes"
-                  type="warning"
-                  body={`You want to promote ${userRecord.displayName} to admin?`}
-                  buttonIcon={
-                    <button
-                      className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
-                    >
-                      Make admin
-                      <span className="ml-2" aria-hidden="true">
-                        <ImPower />
-                      </span>
-                    </button>
-                  }
-                  action={() => {
-                    changeRole("admin", false);
-                  }}
-                  isLoading={isLoading}
-                  processFinished={processFinished}
-                />
+                <button
+                  onClick={() => changeRole("admin", false)}
+                  className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
+                >
+                  Make admin
+                  <span className="ml-2" aria-hidden="true">
+                    <ImPower />
+                  </span>
+                </button>
               )}
             </Menu.Item>
           ) : (
             <Menu.Item>
               {({ active }) => (
-                <ConfirmModal
-                  actionButtonTitle="Yes"
-                  type="warning"
-                  body={`You want to remove ${userRecord.displayName} from admin?`}
-                  buttonIcon={
-                    <button
-                      className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
-                    >
-                      Revoke Adminship
-                      <span className="ml-2" aria-hidden="true">
-                        <ImPower />
-                      </span>
-                    </button>
-                  }
-                  action={() => {
-                    changeRole("admin", true);
-                  }}
-                  isLoading={isLoading}
-                  processFinished={processFinished}
-                />
+                <button
+                  onClick={() => changeRole("admin", true)}
+                  className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
+                >
+                  Revoke Adminship
+                  <span className="ml-2" aria-hidden="true">
+                    <ImPower />
+                  </span>
+                </button>
               )}
             </Menu.Item>
           )}
@@ -173,74 +162,43 @@ const ProfileCardMenu = ({ userRecord }) => {
           {userRecord.customClaims?.member ? (
             <Menu.Item>
               {({ active }) => (
-                <ConfirmModal
-                  actionButtonTitle="Yes"
-                  type="warning"
-                  body={`You want to remove ${userRecord.displayName} from member?`}
-                  buttonIcon={
-                    <button
-                      className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
-                    >
-                      Revoked Membership
-                      <span className="ml-2" aria-hidden="true">
-                        <FaUserAltSlash />
-                      </span>
-                    </button>
-                  }
-                  action={() => {
-                    changeRole("member", true);
-                  }}
-                  isLoading={isLoading}
-                  processFinished={processFinished}
-                />
+                <button
+                  onClick={() => changeRole("member", true)}
+                  className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
+                >
+                  Revoked Membership
+                  <span className="ml-2" aria-hidden="true">
+                    <FaUserAltSlash />
+                  </span>
+                </button>
               )}
             </Menu.Item>
           ) : (
             <Menu.Item>
               {({ active }) => (
-                <ConfirmModal
-                  actionButtonTitle="Yes"
-                  type="warning"
-                  body={`You want to accept ${userRecord.displayName} as member?`}
-                  buttonIcon={
-                    <button
-                      className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
-                    >
-                      Accept Membership
-                      <span className="ml-2" aria-hidden="true">
-                        <FaUser />
-                      </span>
-                    </button>
-                  }
-                  action={() => {
-                    changeRole("member", false);
-                  }}
-                  isLoading={isLoading}
-                  processFinished={processFinished}
-                />
+                <button
+                  onClick={() => changeRole("member", false)}
+                  className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
+                >
+                  Accept Membership
+                  <span className="ml-2" aria-hidden="true">
+                    <FaUser />
+                  </span>
+                </button>
               )}
             </Menu.Item>
           )}
           <Menu.Item>
             {({ active }) => (
-              <ConfirmModal
-                body={`You want to delete ${userRecord.displayName}? This process cannot be undone.`}
-                buttonIcon={
-                  <button
-                    className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
-                  >
-                    Delete user
-                    <span className="ml-2" aria-hidden="true">
-                      <IoTrashOutline />
-                    </span>
-                  </button>
-                }
-                action={() => {
-                  deleteUser();
-                }}
-                isLoading={isLoading}
-                processFinished={processFinished}
-              />
+              <button
+                onClick={() => deleteUser()}
+                className={`group truncate flex font-semibold items-center justify-end w-full px-2 py-1 text-sm hover:text-primary dark:text-gray-300 text-gray-700 transition-colors duration-300`}
+              >
+                Delete user
+                <span className="ml-2" aria-hidden="true">
+                  <IoTrashOutline />
+                </span>
+              </button>
             )}
           </Menu.Item>
         </Menu.Items>

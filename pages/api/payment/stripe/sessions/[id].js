@@ -36,51 +36,55 @@ export default async (req, res) => {
           email = checkout_session.customer_details?.email;
         }
 
-        const donationRef = db.collection("donations").doc(donationId);
-        const donationData = await donationRef.get();
+        if (process.env.NODE_ENV === "production") {
+          const donationRef = db.collection("donations").doc(donationId);
+          const donationData = await donationRef.get();
 
-        if (!donationData.exists) {
-          const batch = db.batch();
-          batch.set(donationRef, {
-            id: donationId,
-            amount: Number(amount),
-            projectId,
-            sessionId,
-            paymentMethod: "Stripe",
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
-            projectInfo: {
+          if (!donationData.exists) {
+            const batch = db.batch();
+            batch.set(donationRef, {
+              id: donationId,
+              amount: Number(amount),
               projectId,
-              projectTitle,
-            },
-            donorInfo: {
-              anonymous: anonymous === "true" ? true : false,
-              uid,
-              name,
-              email,
-              country,
-            },
-          });
-
-          const projectRef = db.collection("projects").doc(projectId);
-          batch.update(projectRef, {
-            raised: admin.firestore.FieldValue.increment(Number(amount)),
-          });
-
-          const aggregationRef = db.collection("aggregations").doc("donations");
-          batch.update(aggregationRef, {
-            total: admin.firestore.FieldValue.increment(Number(amount)),
-          });
-
-          if (uid) {
-            const userRef = db.collection("users").doc(uid);
-            batch.update(userRef, {
-              totalDonation: admin.firestore.FieldValue.increment(
-                Number(amount)
-              ),
+              sessionId,
+              paymentMethod: "Stripe",
+              createdAt: admin.firestore.FieldValue.serverTimestamp(),
+              projectInfo: {
+                projectId,
+                projectTitle,
+              },
+              donorInfo: {
+                anonymous: anonymous === "true" ? true : false,
+                uid,
+                name,
+                email,
+                country,
+              },
             });
-          }
 
-          await batch.commit();
+            const projectRef = db.collection("projects").doc(projectId);
+            batch.update(projectRef, {
+              raised: admin.firestore.FieldValue.increment(Number(amount)),
+            });
+
+            const aggregationRef = db
+              .collection("aggregations")
+              .doc("donations");
+            batch.update(aggregationRef, {
+              total: admin.firestore.FieldValue.increment(Number(amount)),
+            });
+
+            if (uid) {
+              const userRef = db.collection("users").doc(uid);
+              batch.update(userRef, {
+                totalDonation: admin.firestore.FieldValue.increment(
+                  Number(amount)
+                ),
+              });
+            }
+
+            await batch.commit();
+          }
         }
       }
 
