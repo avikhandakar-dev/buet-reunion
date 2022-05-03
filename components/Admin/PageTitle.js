@@ -38,7 +38,9 @@ const AdminPageTitle = ({ title, children, bgStyle }) => {
             <h1>{title || "Admin"}</h1>
           </div>
           <div className="flex items-center">
-            <p className="mr-3 text-white">{user.displayName}</p>
+            <p className="mr-3 text-white hidden sm:block">
+              {user.displayName}
+            </p>
             <Avatar user={user} extraClasses="bg-white dark:bg-primary" />
           </div>
         </div>
