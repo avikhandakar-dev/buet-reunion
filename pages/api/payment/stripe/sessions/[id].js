@@ -9,10 +9,21 @@ const db = admin.firestore();
 export default async (req, res) => {
   if (req.method === "GET") {
     const { id } = req.query;
+
+    if (!id) {
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Invalid request!",
+      });
+    }
+
+    if (!id.startsWith("cs_")) {
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Invalid stripe session!",
+      });
+    }
     try {
-      if (!id.startsWith("cs_")) {
-        throw Error("Incorrect CheckoutSession ID.");
-      }
       const checkout_session = await stripe.checkout.sessions.retrieve(id, {
         expand: ["payment_intent"],
       });
@@ -86,12 +97,22 @@ export default async (req, res) => {
             await batch.commit();
           }
         }
+        return res.status(200).json({
+          statusCode: 200,
+          message: "Payment success!",
+          data: checkout_session,
+        });
+      } else {
+        return res.status(500).json({
+          statusCode: 500,
+          message: "Payment failed!",
+        });
       }
-
-      res.status(200).json(checkout_session);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ statusCode: 500, message: err.message });
+      res
+        .status(500)
+        .json({ statusCode: 500, message: "Invalid checkout session!" });
     }
   } else {
     res.setHeader("Allow", "GET");

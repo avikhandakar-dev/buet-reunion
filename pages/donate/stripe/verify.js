@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import {
   BlobToBase64,
   fetchGetJSON,
@@ -18,24 +17,29 @@ const ResultPage = () => {
   const [sendMail, setSendMail] = useState(false);
   const [status, setStatus] = useState("Verifying payment...");
   const [isLoading, setIsLoading] = useState(true);
-  const { data, error } = useSWR(
-    router.query.session_id
-      ? `/api/payment/stripe/sessions/${router.query.session_id}`
-      : null,
-    fetchGetJSON
-  );
-
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
+  const [data, setData] = useState(null);
+  const SESSION_ID = router.query.session_id;
   useEffect(() => {
     const unsubs = async () => {
-      if (data?.payment_intent?.status === "succeeded") {
+      if (!SESSION_ID) return;
+      setIsLoading(true);
+      const response = await fetchGetJSON(
+        `/api/payment/stripe/sessions/${SESSION_ID}`
+      );
+      if (response.statusCode === 200) {
+        setData(response.data);
+        setIsSuccess(true);
+        toast.success("Donation success!");
         if (!sendMail) {
-          setStatus("Fetching donation data...");
+          setStatus("Preparing receipt for donation...");
           const donationRef = firestore
             .collection("donations")
             .doc(data?.metadata?.id);
           const snapshot = await donationRef.get();
           const donationData = snapshot.data();
-          setStatus("Preparing receipt...");
+          setStatus("Generating receipt...");
           if (process.env.NODE_ENV === "production") {
             const genInvoice = await fetch("/api/generate-invoice", {
               method: "POST",
@@ -73,36 +77,40 @@ const ResultPage = () => {
               toast.error("Can't send receipt!");
             }
           } else {
+            setIsLoading(false);
             toast.success("Donation success on test mode!");
           }
         }
       } else {
-        if (data) {
-          setIsLoading(false);
-        }
+        setIsFailed(true);
+        setIsSuccess(false);
+        setIsLoading(false);
+        toast.error(response.message);
       }
     };
     return unsubs();
-  }, [data]);
+  }, [SESSION_ID]);
 
-  if (error) return <div>Failed to load</div>;
-
-  if (!data || isLoading)
+  if (isSuccess)
     return (
-      <Fragment>
-        <div className="w-full mt-20 flex flex-col justify-center items-center h-[calc(100vh-80px)]">
-          <span className="text-5xl animate-spin text-primary">
-            <CgSpinner />
-          </span>
-          <p>{status}</p>
-        </div>
-      </Fragment>
+      <ThankYou
+        amount={(Number(data?.amount_total) / 100).toFixed(2)}
+        status={status}
+        loading={isLoading}
+      />
     );
 
-  return data?.payment_intent?.status === "succeeded" ? (
-    <ThankYou amount={(Number(data.amount_total) / 100).toFixed(2)} />
-  ) : (
-    <PaymentFailed />
+  if (isFailed) return <PaymentFailed />;
+
+  return (
+    <Fragment>
+      <div className="w-full mt-20 flex flex-col justify-center items-center h-[calc(100vh-80px)]">
+        <span className="text-5xl animate-spin text-primary">
+          <CgSpinner />
+        </span>
+        <p>Please wait...</p>
+      </div>
+    </Fragment>
   );
 };
 

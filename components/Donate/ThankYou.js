@@ -1,6 +1,6 @@
 import { FiCheckCircle } from "react-icons/fi";
 
-const ThankYou = ({ amount }) => {
+const ThankYou = ({ amount, status = "", loading = false }) => {
   return (
     <div className="w-full mt-20 flex justify-center px-4 items-center h-[calc(100vh-80px)]">
       <div className="max-w-2xl mx-auto text-center">
@@ -13,10 +13,14 @@ const ThankYou = ({ amount }) => {
             You
           </span>
         </h1>
-        <p className="text-xl uppercase font-bold max-w-sm mx-auto">
-          Your donation of <span className="text-green-500">${amount}</span> has
-          been processed
-        </p>
+        {!loading ? (
+          <p className="text-xl uppercase font-bold max-w-sm mx-auto">
+            Your donation of <span className="text-green-500">${amount}</span>{" "}
+            has been processed
+          </p>
+        ) : (
+          <p className="text-xl">{status}</p>
+        )}
       </div>
     </div>
   );
