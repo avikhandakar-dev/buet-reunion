@@ -16,7 +16,7 @@ const MembersArea = () => {
   const [user, userIsLoading] = useAuthState(auth);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("date");
-  const [direction, setDirection] = useState("asc");
+  const [direction, setDirection] = useState("desc");
   const [filteredByCountry, setFilteredByCountry] = useState("");
   const [filteredByDep, setFilteredByDep] = useState("");
 

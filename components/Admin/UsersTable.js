@@ -9,20 +9,28 @@ import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { CSVLink } from "react-csv";
 import { TiExportOutline } from "react-icons/ti";
 
-const orderBy = (data, value, direction) => {
+function convertToLowercase(value) {
+  if (typeof value === "string") {
+    return value.toLowerCase();
+  } else {
+    return value;
+  }
+}
+export const orderBy = (data, value, direction) => {
+  if (!value) return data;
   if (direction === "asc") {
     return [...data].sort((a, b) =>
-      a[value].toLowerCase() > b[value].toLowerCase() ? 1 : -1
+      convertToLowercase(a[value]) > convertToLowercase(b[value]) ? 1 : -1
     );
   }
   if (direction === "desc") {
     return [...data].sort((a, b) =>
-      a[value].toLowerCase() > b[value].toLowerCase() ? -1 : 1
+      convertToLowercase(a[value]) > convertToLowercase(b[value]) ? -1 : 1
     );
   }
   return data;
 };
-const SortArrow = ({ direction }) => {
+export const SortArrow = ({ direction }) => {
   if (!direction) {
     return <></>;
   }
