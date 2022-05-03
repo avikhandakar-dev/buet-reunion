@@ -1,23 +1,18 @@
-import { FaUserFriends, FaHome, FaPoll, FaRegHeart } from "react-icons/fa";
+import { FaUserFriends, FaPoll, FaRegHeart } from "react-icons/fa";
 import { AiFillSetting, AiOutlineFundProjectionScreen } from "react-icons/ai";
-import { BiCommentDetail, BiHomeAlt } from "react-icons/bi";
-import { BsFillGrid1X2Fill, BsHeartFill, BsGrid } from "react-icons/bs";
+import { BsGrid } from "react-icons/bs";
 import { GoSignOut } from "react-icons/go";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingScreen from "@components/LoadingScreen";
 import { auth } from "@lib/firebase";
 import ActiveLink from "@components/ActiveLink";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import NIcon from "@components/NIcon";
 import toast from "react-hot-toast";
-import { useContext, useEffect, useState } from "react";
-import AuthContext from "@lib/authContext";
+import { useEffect, useState } from "react";
 import { IoIosImages } from "react-icons/io";
 
-const Tabs = [
-  // { icon: <FaHome />, title: "Dashboard", href: "/admin", color: "primary" },
+export const adminSidebarTabs = [
   {
     icon: <FaUserFriends />,
     title: "Users",
@@ -48,12 +43,6 @@ const Tabs = [
     href: "/admin/media",
     color: "text-pink-600",
   },
-  // {
-  //   icon: <BiCommentDetail />,
-  //   title: "Comments",
-  //   href: "/admin/comments",
-  //   color: "text-purple-500",
-  // },
   {
     icon: <FaPoll />,
     title: "Polls",
@@ -97,7 +86,7 @@ const AdminLayout = ({ children }) => {
   }
   return (
     <div className="flex w-screen h-screen bg-adminBgLight dark:bg-gray-800">
-      <aside className="flex flex-col justify-between lg:w-64 py-6 lg:py-10 bg-white dark:bg-primaryDark shadow-xl h-full overflow-y-auto flex-shrink-0">
+      <aside className="hidden sm:flex flex-col justify-between lg:w-64 py-6 lg:py-10 bg-white dark:bg-primaryDark shadow-xl h-full overflow-y-auto flex-shrink-0">
         <div>
           <div className="flex justify-center flex-col items-center mb-8">
             <Link href="/">
@@ -115,7 +104,7 @@ const AdminLayout = ({ children }) => {
             </Link>
           </div>
           <div className="px-2 text-gray-600 dark:text-adminTextDark">
-            {Tabs.map((tab) => (
+            {adminSidebarTabs.map((tab) => (
               <ActiveLink
                 key={tab.title}
                 activeClassName="text-black dark:text-white bg-primaryDark dark:bg-white bg-opacity-10 dark:bg-opacity-10"
